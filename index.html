@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>FC Calle Munde - Football Team Balancer & Squad Admin</title>
-  <meta name="description" content="Automated weekly 7v7 football team generator, skill balancer, squad admin panel with live Cloud DB sync, reserve sub manager, and WhatsApp RSVP parser for FC Calle Munde.">
+  <meta name="description" content="Automated weekly 7v7 football team generator, skill balancer, multi-admin parameterized rating system (Speed, Accuracy, Defense, Knowledge), live Cloud DB sync, reserve sub manager, and WhatsApp RSVP parser for FC Calle Munde.">
   
   <!-- Google Fonts: Outfit & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -239,7 +239,7 @@
             </div>
             <div>
               <h2>FC Calle Munde Squad Database</h2>
-              <p class="text-muted">Manage player skill ratings, WhatsApp aliases, and primary/secondary positions.</p>
+              <p class="text-muted">Multi-admin ratings based on Speed, Accuracy, Defense, and Game Knowledge.</p>
             </div>
           </div>
           <div class="roster-banner-stats">
@@ -315,7 +315,7 @@
               <i data-lucide="shield-check" class="text-emerald"></i>
               <div>
                 <h2>Squad Storage Admin Panel</h2>
-                <p>Add team members directly to local storage & central cloud DB, assign skill ratings (1-10), positions, and WhatsApp nicknames.</p>
+                <p>Submit multi-admin player ratings across Speed, Accuracy, Defense, and Game Knowledge.</p>
               </div>
             </div>
             <div class="admin-stats-pills">
@@ -354,24 +354,25 @@
             </div>
           </div>
 
-          <!-- Quick Add Member Form -->
+          <!-- Quick Add / Submit Rating Form -->
           <div class="glass-card admin-form-card">
-            <h3><i data-lucide="user-plus" class="text-emerald"></i> Add New Team Member directly to Storage</h3>
-            
+            <h3><i data-lucide="sliders" class="text-emerald"></i> Multi-Admin Rating & Member Entry</h3>
+            <p class="text-muted">Rate player skills across 4 attributes. The player's final rating is calculated as the average of all admin rating submissions.</p>
+
             <form id="admin-add-player-form" class="admin-grid-form">
               <div class="form-group">
-                <label for="admin-name">Full Name *</label>
-                <input type="text" id="admin-name" class="form-input" required placeholder="e.g. Mateo Silva">
+                <label for="admin-reviewer-name">Admin Name / Your Name *</label>
+                <input type="text" id="admin-reviewer-name" class="form-input" required placeholder="e.g. Coach Karan, Admin Jitu" value="Admin 1">
+              </div>
+
+              <div class="form-group">
+                <label for="admin-name">Target Player Name *</label>
+                <input type="text" id="admin-name" class="form-input" required placeholder="e.g. Mateo Silva or select existing">
               </div>
 
               <div class="form-group">
                 <label for="admin-aliases">WhatsApp Nicknames / Aliases (comma separated)</label>
                 <input type="text" id="admin-aliases" class="form-input" placeholder="e.g. Mateo, Teo, Matty">
-              </div>
-
-              <div class="form-group">
-                <label for="admin-rating">Skill Rating: <span id="admin-rating-badge" class="rating-badge">7.5 ★</span></label>
-                <input type="range" id="admin-rating" class="form-range" min="1.0" max="10.0" step="0.5" value="7.5">
               </div>
 
               <div class="form-group">
@@ -382,6 +383,36 @@
                   <option value="MID">Midfielder ⚙️</option>
                   <option value="FWD">Forward ⚡</option>
                 </select>
+              </div>
+
+              <!-- 4 PARAMETER SLIDERS -->
+              <div class="form-group full-width multi-attribute-box">
+                <div class="attribute-header">
+                  <h4><i data-lucide="target"></i> 4-Component Skill Assessment</h4>
+                  <span class="rating-badge" id="admin-calc-rating-badge">Calculated Rating: 7.0 ★</span>
+                </div>
+                
+                <div class="attribute-sliders-grid">
+                  <div class="attr-control">
+                    <label for="admin-speed">⚡ Speed: <span id="val-admin-speed" class="attr-val">7.0</span></label>
+                    <input type="range" id="admin-speed" class="form-range attr-range" min="1.0" max="10.0" step="0.5" value="7.0">
+                  </div>
+
+                  <div class="attr-control">
+                    <label for="admin-accuracy">🎯 Accuracy: <span id="val-admin-accuracy" class="attr-val">7.0</span></label>
+                    <input type="range" id="admin-accuracy" class="form-range attr-range" min="1.0" max="10.0" step="0.5" value="7.0">
+                  </div>
+
+                  <div class="attr-control">
+                    <label for="admin-defense">🛡️ Defense: <span id="val-admin-defense" class="attr-val">7.0</span></label>
+                    <input type="range" id="admin-defense" class="form-range attr-range" min="1.0" max="10.0" step="0.5" value="7.0">
+                  </div>
+
+                  <div class="attr-control">
+                    <label for="admin-knowledge">🧠 Game Knowledge: <span id="val-admin-knowledge" class="attr-val">7.0</span></label>
+                    <input type="range" id="admin-knowledge" class="form-range attr-range" min="1.0" max="10.0" step="0.5" value="7.0">
+                  </div>
+                </div>
               </div>
 
               <div class="form-group full-width">
@@ -396,7 +427,7 @@
 
               <div class="form-footer full-width">
                 <button type="submit" class="btn btn-glow btn-lg">
-                  <i data-lucide="database"></i> SAVE MEMBER DIRECTLY TO STORAGE & CLOUD
+                  <i data-lucide="database"></i> SUBMIT ADMIN RATING & SYNC TO CLOUD
                 </button>
               </div>
             </form>
@@ -433,7 +464,8 @@
                     <th>Player Name</th>
                     <th>Position</th>
                     <th>WhatsApp Aliases</th>
-                    <th>Skill Rating</th>
+                    <th>Overall Rating</th>
+                    <th>Admin Reviews</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -533,13 +565,13 @@
       </div>
     </div>
 
-    <!-- MODAL 2: ADD / EDIT PLAYER -->
+    <!-- MODAL 2: ADD / EDIT PLAYER & SUBMIT RATING -->
     <div id="modal-player" class="modal-overlay hidden">
-      <div class="glass-card modal-content">
+      <div class="glass-card modal-content modal-lg">
         <div class="modal-header">
           <div class="modal-title">
             <i data-lucide="user-cog" class="text-emerald"></i>
-            <h3 id="modal-player-title">Edit Player</h3>
+            <h3 id="modal-player-title">Edit Player & Admin Rating</h3>
           </div>
           <button class="modal-close btn-icon" data-close="modal-player"><i data-lucide="x"></i></button>
         </div>
@@ -547,7 +579,12 @@
         <form id="form-player" class="modal-body form-grid">
           <input type="hidden" id="player-id">
           
-          <div class="form-group full-width">
+          <div class="form-group">
+            <label for="modal-reviewer-name">Admin Name / Your Name *</label>
+            <input type="text" id="modal-reviewer-name" class="form-input" required placeholder="e.g. Coach Karan" value="Admin 1">
+          </div>
+
+          <div class="form-group">
             <label for="player-name">Player Name *</label>
             <input type="text" id="player-name" class="form-input" required placeholder="e.g. Mateo Silva">
           </div>
@@ -557,11 +594,28 @@
             <input type="text" id="player-aliases" class="form-input" placeholder="e.g. Mateo, Teo, Matty">
           </div>
 
-          <div class="form-group">
-            <label for="player-rating">Skill Rating (1.0 - 10.0)</label>
-            <div class="rating-input-wrapper">
-              <input type="number" id="player-rating" class="form-input" min="1" max="10" step="0.5" value="7.0" required>
-              <span id="rating-star-preview" class="rating-badge">7.0 ★</span>
+          <div class="form-group full-width multi-attribute-box">
+            <div class="attribute-header">
+              <h4><i data-lucide="sliders"></i> Rate Attributes for this Player</h4>
+              <span class="rating-badge" id="modal-calc-rating-badge">Score: 7.0 ★</span>
+            </div>
+            <div class="attribute-sliders-grid">
+              <div class="attr-control">
+                <label for="modal-speed">⚡ Speed: <span id="val-modal-speed" class="attr-val">7.0</span></label>
+                <input type="range" id="modal-speed" class="form-range attr-range" min="1.0" max="10.0" step="0.5" value="7.0">
+              </div>
+              <div class="attr-control">
+                <label for="modal-accuracy">🎯 Accuracy: <span id="val-modal-accuracy" class="attr-val">7.0</span></label>
+                <input type="range" id="modal-accuracy" class="form-range attr-range" min="1.0" max="10.0" step="0.5" value="7.0">
+              </div>
+              <div class="attr-control">
+                <label for="modal-defense">🛡️ Defense: <span id="val-modal-defense" class="attr-val">7.0</span></label>
+                <input type="range" id="modal-defense" class="form-range attr-range" min="1.0" max="10.0" step="0.5" value="7.0">
+              </div>
+              <div class="attr-control">
+                <label for="modal-knowledge">🧠 Game Knowledge: <span id="val-modal-knowledge" class="attr-val">7.0</span></label>
+                <input type="range" id="modal-knowledge" class="form-range attr-range" min="1.0" max="10.0" step="0.5" value="7.0">
+              </div>
             </div>
           </div>
 
@@ -584,10 +638,16 @@
               <label class="checkbox-pill"><input type="checkbox" name="sec-pos" value="FWD"> FWD ⚡</label>
             </div>
           </div>
+
+          <!-- Past Admin Reviews List -->
+          <div id="modal-past-reviews-container" class="form-group full-width past-reviews-box hidden">
+            <h4><i data-lucide="users"></i> Admin Reviews Submitted (<span id="modal-reviews-count">0</span>)</h4>
+            <div id="modal-past-reviews-list" class="reviews-list-grid"></div>
+          </div>
           
           <div class="form-footer full-width">
             <button type="button" class="btn btn-ghost modal-close" data-close="modal-player">Cancel</button>
-            <button type="submit" class="btn btn-primary"><i data-lucide="save"></i> Save Player</button>
+            <button type="submit" class="btn btn-primary"><i data-lucide="save"></i> Submit Rating & Save</button>
           </div>
         </form>
       </div>

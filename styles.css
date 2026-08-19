@@ -1,5 +1,5 @@
 /* ==========================================================================
-   FC CALLE MUNDE - DESIGN SYSTEM & STYLESHEET WITH LIVE CLOUD SYNC (OPTION 1)
+   FC CALLE MUNDE - DESIGN SYSTEM & STYLESHEET WITH LIVE CLOUD SYNC & MULTI-ADMIN RATINGS
    ========================================================================== */
 
 :root {
@@ -919,7 +919,7 @@ h1, h2, h3, h4 {
 
 .roster-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
   gap: 16px;
 }
 
@@ -932,7 +932,6 @@ h1, h2, h3, h4 {
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-md);
   transition: var(--transition-smooth);
-
 }
 
 .player-card:hover {
@@ -946,7 +945,7 @@ h1, h2, h3, h4 {
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .player-avatar-box {
@@ -990,13 +989,61 @@ h1, h2, h3, h4 {
   border-radius: var(--radius-full);
 }
 
+/* ATTRIBUTE BREAKDOWN MINI BARS IN PLAYER CARD */
+.player-card-attributes {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 10px 0;
+  padding: 8px 10px;
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-glass);
+}
+
+.attr-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+
+}
+
+.attr-name {
+  color: var(--text-muted);
+  width: 80px;
+}
+
+.attr-bar-wrapper {
+  flex: 1;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  margin: 0 8px;
+  overflow: hidden;
+}
+
+.attr-bar-fill {
+  height: 100%;
+  background: var(--primary-emerald);
+  border-radius: var(--radius-full);
+}
+
+.attr-score-num {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--text-main);
+  width: 28px;
+  text-align: right;
+}
+
 .player-card-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 12px;
+  padding-top: 10px;
   border-top: 1px solid var(--border-glass);
-  margin-top: 12px;
+  margin-top: 6px;
 }
 
 .player-pos-pills {
@@ -1014,6 +1061,83 @@ h1, h2, h3, h4 {
   border: 1px solid rgba(245, 158, 11, 0.3);
   padding: 3px 10px;
   border-radius: var(--radius-full);
+}
+
+.admin-count-badge {
+  font-size: 0.7rem;
+  color: var(--accent-cyan);
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+}
+
+/* MULTI-ATTRIBUTE RATING BOX IN ADMIN PANEL */
+.multi-attribute-box {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid var(--border-glass-glow);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-top: 4px;
+}
+
+.attribute-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.attribute-sliders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+}
+
+.attr-control {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.attr-control label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.attr-val {
+  color: var(--accent-gold);
+  font-family: var(--font-heading);
+  font-weight: 800;
+}
+
+.past-reviews-box {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+}
+
+.reviews-list-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.review-item-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: rgba(30, 41, 59, 0.8);
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
 }
 
 /* ADMIN LOGIN GATE STYLES */

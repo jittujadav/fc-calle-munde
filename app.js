@@ -1,5 +1,5 @@
 /* ==========================================================================
-   FC CALLE MUNDE - TEAM BALANCER, ADMIN AUTHENTICATION & LIVE CLOUD SYNC
+   FC CALLE MUNDE - MULTI-ADMIN PARAMETERIZED RATING & LIVE CLOUD SYNC ENGINE
    ========================================================================== */
 
 (function () {
@@ -11,234 +11,271 @@
       "id": "p1",
       "name": "Ashiq",
       "aliases": ["Ashiq"],
-      "rating": 7.5,
       "primaryPos": "DEF",
       "secPos": ["FWD"],
       "attending": true,
       "overridePos": null,
       "isExplicitReserve": false,
       "reserveTag": null,
-      "rsvpIndex": 0
+      "rsvpIndex": 0,
+      "adminRatings": {
+        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 8.0, "knowledge": 7.0 }
+      }
     },
     {
       "id": "p2",
       "name": "Pjul",
       "aliases": ["Pjul", "pjul"],
-      "rating": 8.0,
       "primaryPos": "FWD",
       "secPos": ["MID"],
       "attending": true,
       "overridePos": null,
       "isExplicitReserve": false,
       "reserveTag": null,
-      "rsvpIndex": 1
+      "rsvpIndex": 1,
+      "adminRatings": {
+        "System Default": { "adminName": "System Default", "speed": 8.5, "accuracy": 8.0, "defense": 7.0, "knowledge": 8.5 }
+      }
     },
     {
       "id": "p3",
       "name": "Yash",
       "aliases": ["Yash", "mc"],
-      "rating": 8.0,
       "primaryPos": "GK",
       "secPos": ["DEF"],
       "attending": true,
       "overridePos": null,
       "isExplicitReserve": false,
       "reserveTag": null,
-      "rsvpIndex": 2
+      "rsvpIndex": 2,
+      "adminRatings": {
+        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 8.0, "defense": 8.5, "knowledge": 8.0 }
+      }
     },
     {
       "id": "p4",
       "name": "Vinay",
       "aliases": ["Vinay", "Vimabappe", "Vima"],
-      "rating": 7.5,
       "primaryPos": "DEF",
       "secPos": ["GK", "MID"],
       "attending": true,
       "overridePos": null,
       "isExplicitReserve": false,
       "reserveTag": null,
-      "rsvpIndex": 3
+      "rsvpIndex": 3,
+      "adminRatings": {
+        "System Default": { "adminName": "System Default", "speed": 8.0, "accuracy": 7.0, "defense": 7.5, "knowledge": 7.5 }
+      }
     },
     {
       "id": "p5",
       "name": "Karan",
       "aliases": ["Karan", "Coach"],
-      "rating": 8.0,
       "primaryPos": "MID",
       "secPos": ["DEF"],
       "attending": true,
       "overridePos": null,
       "isExplicitReserve": false,
       "reserveTag": null,
-      "rsvpIndex": 4
+      "rsvpIndex": 4,
+      "adminRatings": {
+        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 8.5, "defense": 8.0, "knowledge": 8.5 }
+      }
     },
     {
       "id": "p6",
       "name": "Jitu",
       "aliases": ["Jitu"],
-      "rating": 7.5,
       "primaryPos": "FWD",
       "secPos": [],
       "attending": true,
       "overridePos": null,
       "isExplicitReserve": false,
       "reserveTag": null,
-      "rsvpIndex": 5
+      "rsvpIndex": 5,
+      "adminRatings": {
+        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 7.0, "knowledge": 8.0 }
+      }
     },
     {
       "id": "p7",
       "name": "Girish",
       "aliases": ["Girish", "Model"],
-      "rating": 7.5,
       "primaryPos": "FWD",
       "secPos": ["MID"],
       "attending": true,
       "overridePos": null,
       "isExplicitReserve": false,
       "reserveTag": null,
-      "rsvpIndex": 6
+      "rsvpIndex": 6,
+      "adminRatings": {
+        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 7.0, "knowledge": 8.0 }
+      }
     },
     {
       "id": "p8",
       "name": "Vishnu",
       "aliases": ["Vishnu", "Krishtiano"],
-      "rating": 9.0,
       "primaryPos": "MID",
       "secPos": ["FWD"],
       "attending": true,
       "overridePos": null,
       "isExplicitReserve": false,
       "reserveTag": null,
-      "rsvpIndex": 7
+      "rsvpIndex": 7,
+      "adminRatings": {
+        "System Default": { "adminName": "System Default", "speed": 9.0, "accuracy": 9.0, "defense": 8.5, "knowledge": 9.5 }
+      }
     },
     {
       "id": "p9",
       "name": "Arpit Singh",
       "aliases": ["Arpit Singh", "original vale", "keeper"],
-      "rating": 7.5,
       "primaryPos": "GK",
       "secPos": ["MID"],
       "attending": true,
       "overridePos": "GK",
       "isExplicitReserve": false,
       "reserveTag": null,
-      "rsvpIndex": 8
+      "rsvpIndex": 8,
+      "adminRatings": {
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.5, "defense": 8.0, "knowledge": 7.5 }
+      }
     },
     {
       "id": "p10",
       "name": "Sam",
       "aliases": ["Sam", "sam", "new guy keeper only"],
-      "rating": 7.0,
       "primaryPos": "GK",
       "secPos": ["MID"],
       "attending": true,
       "overridePos": "GK",
       "isExplicitReserve": false,
       "reserveTag": null,
-      "rsvpIndex": 9
+      "rsvpIndex": 9,
+      "adminRatings": {
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
+      }
     },
     {
       "id": "p11",
       "name": "Himanshu",
       "aliases": ["Himanshu"],
-      "rating": 7.5,
       "primaryPos": "FWD",
       "secPos": ["DEF", "MID"],
       "attending": true,
       "overridePos": null,
       "isExplicitReserve": false,
       "reserveTag": null,
-      "rsvpIndex": 10
+      "rsvpIndex": 10,
+      "adminRatings": {
+        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 7.5, "knowledge": 7.5 }
+      }
     },
     {
       "id": "p12",
       "name": "Vishal",
       "aliases": ["Vishal"],
-      "rating": 7.5,
       "primaryPos": "DEF",
       "secPos": ["FWD"],
       "attending": true,
       "overridePos": null,
       "isExplicitReserve": false,
       "reserveTag": null,
-      "rsvpIndex": 11
+      "rsvpIndex": 11,
+      "adminRatings": {
+        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.0, "defense": 8.0, "knowledge": 7.5 }
+      }
     },
     {
       "id": "p13",
       "name": "Arpit new",
       "aliases": ["Arpit new", "Arpit"],
-      "rating": 7.5,
       "primaryPos": "MID",
       "secPos": ["DEF"],
       "attending": true,
       "overridePos": null,
       "isExplicitReserve": false,
       "reserveTag": null,
-      "rsvpIndex": 12
+      "rsvpIndex": 12,
+      "adminRatings": {
+        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 7.5, "knowledge": 7.5 }
+      }
     },
     {
       "id": "p14",
       "name": "Adil",
       "aliases": ["Adil"],
-      "rating": 8.0,
       "primaryPos": "FWD",
       "secPos": [],
       "attending": true,
       "overridePos": null,
       "isExplicitReserve": false,
       "reserveTag": null,
-      "rsvpIndex": 13
+      "rsvpIndex": 13,
+      "adminRatings": {
+        "System Default": { "adminName": "System Default", "speed": 8.5, "accuracy": 8.0, "defense": 7.0, "knowledge": 8.5 }
+      }
     },
     {
       "id": "p15",
       "name": "Nikhil",
       "aliases": ["Nikhil"],
-      "rating": 7.5,
       "primaryPos": "FWD",
       "secPos": [],
       "attending": true,
       "overridePos": true,
+      "isExplicitReserve": true,
       "reserveTag": "R1",
-      "rsvpIndex": 14
+      "rsvpIndex": 14,
+      "adminRatings": {
+        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 7.0, "knowledge": 7.5 }
+      }
     },
     {
       "id": "p_1786470089908y7sj",
       "name": "Anurag",
       "aliases": ["Anurag", "Tiger", "Tbhoi", "Tbhai"],
-      "rating": 7.5,
       "primaryPos": "DEF",
       "secPos": ["MID"],
       "attending": false,
       "overridePos": null,
       "isExplicitReserve": false,
       "reserveTag": null,
-      "rsvpIndex": 999
+      "rsvpIndex": 999,
+      "adminRatings": {
+        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.0, "defense": 8.0, "knowledge": 7.5 }
+      }
     },
     {
       "id": "p_17864701154902o88",
       "name": "Manthan",
       "aliases": ["Manthan"],
-      "rating": 7.5,
       "primaryPos": "DEF",
       "secPos": [],
       "attending": false,
       "overridePos": null,
       "isExplicitReserve": false,
       "reserveTag": null,
-      "rsvpIndex": 999
+      "rsvpIndex": 999,
+      "adminRatings": {
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 8.0, "knowledge": 8.0 }
+      }
     },
     {
       "id": "p_178647013665191ub",
       "name": "Anupam",
       "aliases": ["Anupam"],
-      "rating": 7.5,
       "primaryPos": "FWD",
       "secPos": ["DEF"],
       "attending": false,
       "overridePos": null,
       "isExplicitReserve": false,
       "reserveTag": null,
-      "rsvpIndex": 999
+      "rsvpIndex": 999,
+      "adminRatings": {
+        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 7.0, "knowledge": 7.5 }
+      }
     }
   ];
 
@@ -262,10 +299,76 @@
   };
 
   // --- LOCAL STORAGE KEYS ---
-  const STORAGE_KEY_ROSTER = 'fc_calle_munde_roster_v8';
-  const STORAGE_KEY_HISTORY = 'fc_calle_munde_history_v8';
+  const STORAGE_KEY_ROSTER = 'fc_calle_munde_roster_v9';
+  const STORAGE_KEY_HISTORY = 'fc_calle_munde_history_v9';
   const STORAGE_KEY_ENDPOINT = 'fc_calle_munde_cloud_endpoint';
   const STORAGE_KEY_CLOUD_KEY = 'fc_calle_munde_cloud_key';
+
+  // --- MULTI-ADMIN PARAMETERIZED RATING CALCULATION ENGINE ---
+  function getPlayerRatingStats(player) {
+    if (!player) return { rating: 7.0, speedAvg: 7.0, accuracyAvg: 7.0, defenseAvg: 7.0, knowledgeAvg: 7.0, count: 0, adminList: [] };
+
+    const ratingsMap = player.adminRatings || {};
+    const keys = Object.keys(ratingsMap);
+
+    const customKeys = keys.filter(k => k !== 'System Default');
+    const activeKeys = customKeys.length > 0 ? customKeys : (keys.length > 0 ? keys : []);
+
+    if (activeKeys.length === 0) {
+      return { rating: 7.0, speedAvg: 7.0, accuracyAvg: 7.0, defenseAvg: 7.0, knowledgeAvg: 7.0, count: 0, adminList: [] };
+    }
+
+    let totalSpeed = 0;
+    let totalAccuracy = 0;
+    let totalDefense = 0;
+    let totalKnowledge = 0;
+    let totalOverallSum = 0;
+    const adminList = [];
+
+    activeKeys.forEach(k => {
+      const entry = ratingsMap[k];
+      const speed = parseFloat(entry.speed) || 7.0;
+      const accuracy = parseFloat(entry.accuracy) || 7.0;
+      const defense = parseFloat(entry.defense) || 7.0;
+      const knowledge = parseFloat(entry.knowledge) || 7.0;
+
+      const adminScore = (speed + accuracy + defense + knowledge) / 4.0;
+
+      totalSpeed += speed;
+      totalAccuracy += accuracy;
+      totalDefense += defense;
+      totalKnowledge += knowledge;
+      totalOverallSum += adminScore;
+
+      adminList.push({
+        adminName: entry.adminName || k,
+        adminScore,
+        speed,
+        accuracy,
+        defense,
+        knowledge
+      });
+    });
+
+    const count = activeKeys.length;
+    const rating = totalOverallSum / count;
+
+    return {
+      rating: parseFloat(rating.toFixed(2)),
+      speedAvg: parseFloat((totalSpeed / count).toFixed(1)),
+      accuracyAvg: parseFloat((totalAccuracy / count).toFixed(1)),
+      defenseAvg: parseFloat((totalDefense / count).toFixed(1)),
+      knowledgeAvg: parseFloat((totalKnowledge / count).toFixed(1)),
+      count: customKeys.length > 0 ? count : 0,
+      adminList
+    };
+  }
+
+  // Get numerical rating for team balancing algorithm
+  function getRating(player) {
+    if (typeof player.rating === 'number' && !player.adminRatings) return player.rating;
+    return getPlayerRatingStats(player).rating;
+  }
 
   // --- AUTOMATIC MATCH FORMAT ENGINE ---
   function determineAutoMatchFormat(count) {
@@ -314,6 +417,9 @@
     renderAll();
     lucide.createIcons();
     fetchCloudRoster();
+
+    // Auto-poll cloud DB every 15 seconds for real-time runtime sync
+    setInterval(fetchCloudRoster, 15000);
   }
 
   function loadState() {
@@ -354,6 +460,11 @@
   }
 
   function saveRoster(pushToCloud = true) {
+    // Ensure player.rating reflects overall average score
+    state.roster.forEach(p => {
+      p.rating = getRating(p);
+    });
+
     localStorage.setItem(STORAGE_KEY_ROSTER, JSON.stringify(state.roster));
     renderAll();
     if (pushToCloud && state.cloudEndpoint) {
@@ -371,7 +482,7 @@
     if (!state.cloudEndpoint) return;
 
     const statusPill = document.getElementById('cloud-sync-status');
-    if (statusPill) statusPill.textContent = '🔄 Fetching Cloud DB...';
+    if (statusPill) statusPill.textContent = '🔄 Syncing Cloud DB...';
 
     const headers = { 'Accept': 'application/json' };
     if (state.cloudKey) headers['X-Master-Key'] = state.cloudKey;
@@ -392,24 +503,20 @@
           localStorage.setItem(STORAGE_KEY_ROSTER, JSON.stringify(state.roster));
           renderAll();
           if (statusPill) statusPill.textContent = '🟢 Live Cloud DB Synced';
-          showToast('Updated squad from central Cloud DB!');
         } else {
           if (statusPill) statusPill.textContent = '🟡 Cloud DB Ready';
         }
       })
       .catch(err => {
-        if (statusPill) statusPill.textContent = '🔴 Offline / Cloud Sync Standby';
+        if (statusPill) statusPill.textContent = '🔴 Offline / Standby';
       });
   }
 
   function pushCloudRoster() {
-    if (!state.cloudEndpoint) {
-      showToast('Please enter a Cloud Storage Endpoint URL in Admin Panel!', 'error');
-      return;
-    }
+    if (!state.cloudEndpoint) return;
 
     const statusPill = document.getElementById('cloud-sync-status');
-    if (statusPill) statusPill.textContent = '⏳ Syncing to Cloud...';
+    if (statusPill) statusPill.textContent = '⏳ Pushing to Cloud...';
 
     const headers = { 'Content-Type': 'application/json' };
     if (state.cloudKey) headers['X-Master-Key'] = state.cloudKey;
@@ -426,11 +533,10 @@
       .then(res => res.json())
       .then(data => {
         if (statusPill) statusPill.textContent = '🟢 Live Cloud DB Synced';
-        showToast('Successfully synced squad to central Cloud DB!');
+        showToast('Synced rating updates to central Cloud DB!');
       })
       .catch(err => {
         if (statusPill) statusPill.textContent = '🔴 Push Failed';
-        showToast('Cloud sync failed. Check URL/Network.', 'error');
       });
   }
 
@@ -480,10 +586,17 @@
 
     // ADMIN PANEL & CLOUD SYNC LISTENERS
     document.getElementById('admin-add-player-form')?.addEventListener('submit', handleAdminAddPlayer);
-    document.getElementById('admin-rating')?.addEventListener('input', (e) => {
-      const val = parseFloat(e.target.value) || 7.5;
-      document.getElementById('admin-rating-badge').textContent = `${val.toFixed(1)} ★`;
+    
+    // Sliders live preview setup for Admin Panel
+    ['admin-speed', 'admin-accuracy', 'admin-defense', 'admin-knowledge'].forEach(id => {
+      document.getElementById(id)?.addEventListener('input', updateAdminFormCalculatedPreview);
     });
+
+    // Sliders live preview setup for Edit Modal
+    ['modal-speed', 'modal-accuracy', 'modal-defense', 'modal-knowledge'].forEach(id => {
+      document.getElementById(id)?.addEventListener('input', updateModalFormCalculatedPreview);
+    });
+
     document.getElementById('btn-admin-batch-import')?.addEventListener('click', handleAdminBatchImport);
     document.getElementById('btn-admin-clear-all')?.addEventListener('click', clearAllStorageDatabase);
 
@@ -536,12 +649,36 @@
     // JSON Export / Import
     document.getElementById('btn-export-json')?.addEventListener('click', exportRosterJson);
     document.getElementById('input-import-json')?.addEventListener('change', importRosterJson);
+  }
 
-    // Rating star preview
-    document.getElementById('player-rating')?.addEventListener('input', (e) => {
-      const val = parseFloat(e.target.value) || 7.0;
-      document.getElementById('rating-star-preview').textContent = `${val.toFixed(1)} ★`;
-    });
+  function updateAdminFormCalculatedPreview() {
+    const sp = parseFloat(document.getElementById('admin-speed').value) || 7.0;
+    const ac = parseFloat(document.getElementById('admin-accuracy').value) || 7.0;
+    const df = parseFloat(document.getElementById('admin-defense').value) || 7.0;
+    const kn = parseFloat(document.getElementById('admin-knowledge').value) || 7.0;
+
+    document.getElementById('val-admin-speed').textContent = sp.toFixed(1);
+    document.getElementById('val-admin-accuracy').textContent = ac.toFixed(1);
+    document.getElementById('val-admin-defense').textContent = df.toFixed(1);
+    document.getElementById('val-admin-knowledge').textContent = kn.toFixed(1);
+
+    const calc = (sp + ac + df + kn) / 4.0;
+    document.getElementById('admin-calc-rating-badge').textContent = `Calculated Rating: ${calc.toFixed(1)} ★`;
+  }
+
+  function updateModalFormCalculatedPreview() {
+    const sp = parseFloat(document.getElementById('modal-speed').value) || 7.0;
+    const ac = parseFloat(document.getElementById('modal-accuracy').value) || 7.0;
+    const df = parseFloat(document.getElementById('modal-defense').value) || 7.0;
+    const kn = parseFloat(document.getElementById('modal-knowledge').value) || 7.0;
+
+    document.getElementById('val-modal-speed').textContent = sp.toFixed(1);
+    document.getElementById('val-modal-accuracy').textContent = ac.toFixed(1);
+    document.getElementById('val-modal-defense').textContent = df.toFixed(1);
+    document.getElementById('val-modal-knowledge').textContent = kn.toFixed(1);
+
+    const calc = (sp + ac + df + kn) / 4.0;
+    document.getElementById('modal-calc-rating-badge').textContent = `Score: ${calc.toFixed(1)} ★`;
   }
 
   // --- ADMIN AUTHENTICATION HANDLERS ---
@@ -664,7 +801,6 @@
     const cleanLower = namePart.toLowerCase();
 
     let matched = null;
-    // Pass 1: Exact full name or alias match
     for (let i = 0; i < state.roster.length; i++) {
       const p = state.roster[i];
       if (p.name.toLowerCase() === cleanLower) {
@@ -677,7 +813,6 @@
       }
     }
 
-    // Pass 2: Partial startswith / includes match
     if (!matched) {
       for (let i = 0; i < state.roster.length; i++) {
         const p = state.roster[i];
@@ -744,14 +879,16 @@
             id: 'p_' + Date.now() + Math.random().toString(36).substr(2, 4),
             name: parsed.name,
             aliases: [parsed.name],
-            rating: 7.5,
             primaryPos: parsed.positionTag || 'MID',
             secPos: [],
             attending: true,
             overridePos: parsed.positionTag || null,
             isExplicitReserve: parsed.isReserve,
             reserveTag: parsed.reserveTag || 'R1',
-            rsvpIndex: idx
+            rsvpIndex: idx,
+            adminRatings: {
+              "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
+            }
           };
           state.roster.push(newP);
           attendingOrder.push(newP);
@@ -780,10 +917,15 @@
   // --- SQUAD ADMIN PANEL HANDLERS ---
   function handleAdminAddPlayer(e) {
     e.preventDefault();
+    const adminName = document.getElementById('admin-reviewer-name').value.trim() || 'Admin 1';
     const name = document.getElementById('admin-name').value.trim();
     const aliasesRaw = document.getElementById('admin-aliases').value;
-    const rating = parseFloat(document.getElementById('admin-rating').value) || 7.5;
     const primaryPos = document.getElementById('admin-primary-pos').value;
+
+    const speed = parseFloat(document.getElementById('admin-speed').value) || 7.0;
+    const accuracy = parseFloat(document.getElementById('admin-accuracy').value) || 7.0;
+    const defense = parseFloat(document.getElementById('admin-defense').value) || 7.0;
+    const knowledge = parseFloat(document.getElementById('admin-knowledge').value) || 7.0;
 
     if (!name) return;
 
@@ -795,23 +937,44 @@
       if (cb.value !== primaryPos) secPos.push(cb.value);
     });
 
-    const newP = {
-      id: 'p_' + Date.now() + Math.random().toString(36).substr(2, 4),
-      name,
-      aliases,
-      rating,
-      primaryPos,
-      secPos,
-      attending: true,
-      overridePos: null
+    let existingP = state.roster.find(p => p.name.toLowerCase() === name.toLowerCase());
+
+    if (!existingP) {
+      existingP = {
+        id: 'p_' + Date.now() + Math.random().toString(36).substr(2, 4),
+        name,
+        aliases,
+        primaryPos,
+        secPos,
+        attending: true,
+        overridePos: null,
+        adminRatings: {}
+      };
+      state.roster.push(existingP);
+    } else {
+      existingP.primaryPos = primaryPos;
+      existingP.secPos = secPos;
+      if (aliases.length > 0) existingP.aliases = aliases;
+    }
+
+    if (!existingP.adminRatings) existingP.adminRatings = {};
+    existingP.adminRatings[adminName] = {
+      adminName,
+      speed,
+      accuracy,
+      defense,
+      knowledge,
+      timestamp: Date.now()
     };
 
-    state.roster.push(newP);
     saveRoster();
 
     document.getElementById('admin-add-player-form').reset();
-    document.getElementById('admin-rating-badge').textContent = '7.5 ★';
-    showToast(`Added ${name} directly to storage & cloud database!`);
+    document.getElementById('admin-reviewer-name').value = adminName;
+    updateAdminFormCalculatedPreview();
+
+    const stats = getPlayerRatingStats(existingP);
+    showToast(`Saved rating for ${name} by ${adminName}! New Average: ${stats.rating.toFixed(1)} ★`);
   }
 
   function handleAdminBatchImport() {
@@ -835,11 +998,13 @@
           id: 'p_' + Date.now() + Math.random().toString(36).substr(2, 4),
           name,
           aliases,
-          rating,
           primaryPos,
           secPos,
           attending: true,
-          overridePos: null
+          overridePos: null,
+          adminRatings: {
+            "System Default": { "adminName": "System Default", "speed": rating, "accuracy": rating, "defense": rating, "knowledge": rating }
+          }
         };
         state.roster.push(newP);
         importedCount++;
@@ -869,25 +1034,29 @@
 
     const total = state.roster.length;
     const gks = state.roster.filter(p => p.primaryPos === 'GK').length;
-    const avgRating = total > 0 ? (state.roster.reduce((s, p) => s + p.rating, 0) / total).toFixed(1) : '0.0';
+    const avgRating = total > 0 ? (state.roster.reduce((s, p) => s + getRating(p), 0) / total).toFixed(1) : '0.0';
 
     if (tableCount) tableCount.textContent = total;
     if (statTotal) statTotal.textContent = total;
     if (statGk) statGk.textContent = gks;
     if (statAvg) statAvg.textContent = `${avgRating}★`;
 
-    tbody.innerHTML = state.roster.map(p => `
-      <tr>
-        <td><strong>${p.name}</strong></td>
-        <td><span class="pos-badge pos-${p.primaryPos.toLowerCase()}">${p.primaryPos}</span></td>
-        <td><span class="text-muted">${p.aliases ? p.aliases.join(', ') : '-'}</span></td>
-        <td><span class="rating-badge">${p.rating.toFixed(1)} ★</span></td>
-        <td>
-          <button class="btn-icon btn-edit-player" data-id="${p.id}" title="Edit"><i data-lucide="edit-3"></i></button>
-          <button class="btn-icon btn-delete-player" data-id="${p.id}" title="Delete"><i data-lucide="trash-2"></i></button>
-        </td>
-      </tr>
-    `).join('');
+    tbody.innerHTML = state.roster.map(p => {
+      const stats = getPlayerRatingStats(p);
+      return `
+        <tr>
+          <td><strong>${p.name}</strong></td>
+          <td><span class="pos-badge pos-${p.primaryPos.toLowerCase()}">${p.primaryPos}</span></td>
+          <td><span class="text-muted">${p.aliases ? p.aliases.join(', ') : '-'}</span></td>
+          <td><span class="rating-badge">${stats.rating.toFixed(1)} ★</span></td>
+          <td><span class="admin-count-badge">${stats.count > 0 ? `${stats.count} Admins` : 'Default'}</span></td>
+          <td>
+            <button class="btn-icon btn-edit-player" data-id="${p.id}" title="Edit / Rate"><i data-lucide="edit-3"></i></button>
+            <button class="btn-icon btn-delete-player" data-id="${p.id}" title="Delete"><i data-lucide="trash-2"></i></button>
+          </td>
+        </tr>
+      `;
+    }).join('');
 
     lucide.createIcons();
 
@@ -966,10 +1135,6 @@
     showToast(`Balanced teams generated for ${config.label}!`);
   }
 
-  function avg(team) {
-    return team.reduce((s, p) => s + p.rating, 0) / (team.length || 1);
-  }
-
   function rerollCombo() {
     if (!state.currentCombos || state.currentCombos.length <= 1) return;
     state.comboIndex = (state.comboIndex + 1) % Math.min(state.currentCombos.length, 10);
@@ -981,8 +1146,8 @@
   function evaluateTeamSplit(teamA, teamB) {
     const getPos = p => p.overridePos || p.primaryPos;
 
-    const teamARating = teamA.reduce((sum, p) => sum + p.rating, 0);
-    const teamBRating = teamB.reduce((sum, p) => sum + p.rating, 0);
+    const teamARating = teamA.reduce((sum, p) => sum + getRating(p), 0);
+    const teamBRating = teamB.reduce((sum, p) => sum + getRating(p), 0);
     const teamAAvg = teamARating / (teamA.length || 1);
     const teamBAvg = teamBRating / (teamB.length || 1);
     const ratingDiff = Math.abs(teamAAvg - teamBAvg);
@@ -992,8 +1157,8 @@
     const gkDiff = Math.abs(teamAGKs - teamBGKs);
     const gkBalanced = (teamAGKs === teamBGKs);
 
-    const teamAOffense = teamA.filter(p => ['FWD', 'MID'].includes(getPos(p))).reduce((sum, p) => sum + p.rating, 0) / (teamA.length || 1);
-    const teamBOffense = teamB.filter(p => ['FWD', 'MID'].includes(getPos(p))).reduce((sum, p) => sum + p.rating, 0) / (teamB.length || 1);
+    const teamAOffense = teamA.filter(p => ['FWD', 'MID'].includes(getPos(p))).reduce((sum, p) => sum + getRating(p), 0) / (teamA.length || 1);
+    const teamBOffense = teamB.filter(p => ['FWD', 'MID'].includes(getPos(p))).reduce((sum, p) => sum + getRating(p), 0) / (teamB.length || 1);
     const offenseDiff = Math.abs(teamAOffense - teamBOffense);
 
     let penalty = (ratingDiff * 25) + (gkDiff * 30) + (offenseDiff * 10);
@@ -1067,7 +1232,7 @@
         <li class="reserve-item-pill">
           <span class="reserve-tag">${r.tag}</span>
           <span class="player-name-text"><strong>${r.player.name}</strong> (${r.player.overridePos || r.player.primaryPos})</span>
-          <span class="player-rating-pill">${r.player.rating.toFixed(1)} ★</span>
+          <span class="player-rating-pill">${getRating(r.player).toFixed(1)} ★</span>
           <span class="text-muted">(${r.label})</span>
         </li>
       `).join('');
@@ -1096,7 +1261,7 @@
             <span class="player-name-text">${p.name}</span>
             ${p.overridePos ? `<span class="sec-pos-tags">(${pos} today)</span>` : ''}
           </div>
-          <span class="player-rating-pill">${p.rating.toFixed(1)} ★</span>
+          <span class="player-rating-pill">${getRating(p).toFixed(1)} ★</span>
         </li>
       `;
     }).join('');
@@ -1221,14 +1386,17 @@
     const total = state.roster.length;
     if (totalCount) totalCount.textContent = total;
 
-    // Calculate Banner Stats
     const gksCount = state.roster.filter(p => p.primaryPos === 'GK').length;
     const defsCount = state.roster.filter(p => p.primaryPos === 'DEF').length;
     const midsCount = state.roster.filter(p => p.primaryPos === 'MID').length;
     const fwdsCount = state.roster.filter(p => p.primaryPos === 'FWD').length;
-    const avgRating = total > 0 ? (state.roster.reduce((sum, p) => sum + p.rating, 0) / total).toFixed(1) : '0.0';
 
-    const highestRated = [...state.roster].sort((a, b) => b.rating - a.rating)[0];
+    const rosterStatsList = state.roster.map(p => getPlayerRatingStats(p));
+    const avgRating = total > 0 ? (rosterStatsList.reduce((sum, s) => sum + s.rating, 0) / total).toFixed(1) : '0.0';
+
+    const highestRatedIndex = rosterStatsList.reduce((maxIdx, s, idx, arr) => s.rating > arr[maxIdx].rating ? idx : maxIdx, 0);
+    const highestPlayer = state.roster[highestRatedIndex];
+    const highestStats = rosterStatsList[highestRatedIndex];
 
     const rStatTotal = document.getElementById('roster-stat-total');
     const rStatAvg = document.getElementById('roster-stat-avg');
@@ -1236,9 +1404,8 @@
 
     if (rStatTotal) rStatTotal.textContent = total;
     if (rStatAvg) rStatAvg.textContent = `${avgRating}★`;
-    if (rStatStar) rStatStar.textContent = highestRated ? `${highestRated.name} (${highestRated.rating.toFixed(1)}★)` : '-';
+    if (rStatStar) rStatStar.textContent = highestPlayer ? `${highestPlayer.name} (${highestStats ? highestStats.rating.toFixed(1) : 7.0}★)` : '-';
 
-    // Update Filter Pill Counts
     const cAll = document.getElementById('filter-count-all');
     const cGk = document.getElementById('filter-count-gk');
     const cDef = document.getElementById('filter-count-def');
@@ -1251,7 +1418,6 @@
     if (cMid) cMid.textContent = midsCount;
     if (cFwd) cFwd.textContent = fwdsCount;
 
-    // Filter Logic
     let filtered = state.roster;
 
     if (state.posFilter && state.posFilter !== 'ALL') {
@@ -1276,6 +1442,7 @@
     }
 
     container.innerHTML = filtered.map(p => {
+      const stats = getPlayerRatingStats(p);
       const posClass = `pos-${p.primaryPos.toLowerCase()}`;
       const initials = p.name.split(' ').map(n => n[0]).join('').substr(0, 2).toUpperCase();
 
@@ -1293,7 +1460,34 @@
                 ` : ''}
               </div>
             </div>
-            <span class="rating-star-tag">${p.rating.toFixed(1)} ★</span>
+            <div class="rating-box-stack text-right">
+              <span class="rating-star-tag">${stats.rating.toFixed(1)} ★</span>
+              ${stats.count > 0 ? `<span class="admin-count-badge">${stats.count} Admins</span>` : ''}
+            </div>
+          </div>
+
+          <!-- 4 ATTRIBUTE PROGRESS METERS -->
+          <div class="player-card-attributes">
+            <div class="attr-row">
+              <span class="attr-name">⚡ Speed</span>
+              <div class="attr-bar-wrapper"><div class="attr-bar-fill" style="width: ${stats.speedAvg * 10}%"></div></div>
+              <span class="attr-score-num">${stats.speedAvg}</span>
+            </div>
+            <div class="attr-row">
+              <span class="attr-name">🎯 Accuracy</span>
+              <div class="attr-bar-wrapper"><div class="attr-bar-fill" style="width: ${stats.accuracyAvg * 10}%"></div></div>
+              <span class="attr-score-num">${stats.accuracyAvg}</span>
+            </div>
+            <div class="attr-row">
+              <span class="attr-name">🛡️ Defense</span>
+              <div class="attr-bar-wrapper"><div class="attr-bar-fill" style="width: ${stats.defenseAvg * 10}%"></div></div>
+              <span class="attr-score-num">${stats.defenseAvg}</span>
+            </div>
+            <div class="attr-row">
+              <span class="attr-name">🧠 Knowledge</span>
+              <div class="attr-bar-wrapper"><div class="attr-bar-fill" style="width: ${stats.knowledgeAvg * 10}%"></div></div>
+              <span class="attr-score-num">${stats.knowledgeAvg}</span>
+            </div>
           </div>
 
           <div class="player-card-footer">
@@ -1302,8 +1496,8 @@
               ${p.secPos && p.secPos.length > 0 ? p.secPos.map(sp => `<span class="sec-pos-tags">(${sp})</span>`).join('') : ''}
             </div>
             <div class="btn-group">
-              <button class="btn-icon btn-edit-player" data-id="${p.id}" title="Edit Player"><i data-lucide="edit-3"></i></button>
-              <button class="btn-icon btn-delete-player" data-id="${p.id}" title="Delete Player"><i data-lucide="trash-2"></i></button>
+              <button class="btn-icon btn-edit-player" data-id="${p.id}" title="Edit / Rate"><i data-lucide="edit-3"></i></button>
+              <button class="btn-icon btn-delete-player" data-id="${p.id}" title="Delete"><i data-lucide="trash-2"></i></button>
             </div>
           </div>
         </div>
@@ -1327,24 +1521,55 @@
 
     form.reset();
     document.getElementById('player-id').value = '';
+    document.getElementById('modal-reviewer-name').value = 'Admin 1';
+
+    const pastReviewsBox = document.getElementById('modal-past-reviews-container');
+    const pastReviewsList = document.getElementById('modal-past-reviews-list');
+    const pastReviewsCount = document.getElementById('modal-reviews-count');
 
     if (playerId) {
       const p = state.roster.find(item => item.id === playerId);
       if (p) {
-        modalTitle.textContent = 'Edit Player';
+        modalTitle.textContent = `Edit & Rate: ${p.name}`;
         document.getElementById('player-id').value = p.id;
         document.getElementById('player-name').value = p.name;
         document.getElementById('player-aliases').value = p.aliases ? p.aliases.join(', ') : '';
-        document.getElementById('player-rating').value = p.rating;
         document.getElementById('player-primary-pos').value = p.primaryPos;
-        document.getElementById('rating-star-preview').textContent = `${p.rating.toFixed(1)} ★`;
+
+        const stats = getPlayerRatingStats(p);
+        document.getElementById('modal-speed').value = stats.speedAvg;
+        document.getElementById('modal-accuracy').value = stats.accuracyAvg;
+        document.getElementById('modal-defense').value = stats.defenseAvg;
+        document.getElementById('modal-knowledge').value = stats.knowledgeAvg;
+
+        updateModalFormCalculatedPreview();
 
         document.querySelectorAll('input[name="sec-pos"]').forEach(cb => {
-          cb.checked = p.secPos.includes(cb.value);
+          cb.checked = p.secPos ? p.secPos.includes(cb.value) : false;
         });
+
+        // Render past admin reviews list
+        if (stats.adminList && stats.adminList.length > 0) {
+          pastReviewsCount.textContent = stats.adminList.length;
+          pastReviewsList.innerHTML = stats.adminList.map(a => `
+            <div class="review-item-pill">
+              <span><strong>${a.adminName}</strong> rated:</span>
+              <span class="rating-badge">${a.adminScore.toFixed(1)} ★ (Spd:${a.speed} Acc:${a.accuracy} Def:${a.defense} Knw:${a.knowledge})</span>
+            </div>
+          `).join('');
+          pastReviewsBox.classList.remove('hidden');
+        } else {
+          pastReviewsBox.classList.add('hidden');
+        }
       }
     } else {
       modalTitle.textContent = 'Add New Player';
+      document.getElementById('modal-speed').value = 7.0;
+      document.getElementById('modal-accuracy').value = 7.0;
+      document.getElementById('modal-defense').value = 7.0;
+      document.getElementById('modal-knowledge').value = 7.0;
+      updateModalFormCalculatedPreview();
+      pastReviewsBox.classList.add('hidden');
     }
 
     openModal('modal-player');
@@ -1353,10 +1578,15 @@
   function handlePlayerSave(e) {
     e.preventDefault();
     const id = document.getElementById('player-id').value;
+    const adminName = document.getElementById('modal-reviewer-name').value.trim() || 'Admin 1';
     const name = document.getElementById('player-name').value.trim();
     const aliasesRaw = document.getElementById('player-aliases').value;
-    const rating = parseFloat(document.getElementById('player-rating').value) || 7.0;
     const primaryPos = document.getElementById('player-primary-pos').value;
+
+    const speed = parseFloat(document.getElementById('modal-speed').value) || 7.0;
+    const accuracy = parseFloat(document.getElementById('modal-accuracy').value) || 7.0;
+    const defense = parseFloat(document.getElementById('modal-defense').value) || 7.0;
+    const knowledge = parseFloat(document.getElementById('modal-knowledge').value) || 7.0;
 
     const aliases = aliasesRaw ? aliasesRaw.split(',').map(s => s.trim()).filter(Boolean) : [name];
     if (!aliases.includes(name)) aliases.unshift(name);
@@ -1368,33 +1598,44 @@
 
     if (!name) return;
 
+    let p = null;
     if (id) {
-      const p = state.roster.find(item => item.id === id);
-      if (p) {
-        p.name = name;
-        p.aliases = aliases;
-        p.rating = rating;
-        p.primaryPos = primaryPos;
-        p.secPos = secPos;
-      }
-      showToast(`Updated player ${name}`);
-    } else {
-      const newP = {
+      p = state.roster.find(item => item.id === id);
+    }
+    if (!p) {
+      p = {
         id: 'p_' + Date.now(),
         name,
         aliases,
-        rating,
         primaryPos,
         secPos,
         attending: true,
-        overridePos: null
+        overridePos: null,
+        adminRatings: {}
       };
-      state.roster.push(newP);
-      showToast(`Added new player ${name}`);
+      state.roster.push(p);
+    } else {
+      p.name = name;
+      p.aliases = aliases;
+      p.primaryPos = primaryPos;
+      p.secPos = secPos;
     }
+
+    if (!p.adminRatings) p.adminRatings = {};
+    p.adminRatings[adminName] = {
+      adminName,
+      speed,
+      accuracy,
+      defense,
+      knowledge,
+      timestamp: Date.now()
+    };
 
     saveRoster();
     closeModal('modal-player');
+
+    const stats = getPlayerRatingStats(p);
+    showToast(`Saved rating for ${name} by ${adminName}! Average: ${stats.rating.toFixed(1)} ★`);
   }
 
   function deletePlayer(playerId) {
@@ -1454,7 +1695,7 @@
         <input type="checkbox" class="att-checkbox" ${p.attending ? 'checked' : ''}>
         <span class="pos-badge pos-${(p.overridePos || p.primaryPos).toLowerCase()}">${p.overridePos || p.primaryPos}</span>
         <span class="player-name-text">${p.name}</span>
-        <span class="player-rating-pill">${p.rating.toFixed(1)}</span>
+        <span class="player-rating-pill">${getRating(p).toFixed(1)}</span>
       </div>
     `).join('');
 
