@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>FC Calle Munde - Football Team Balancer & Squad Admin</title>
+  <meta name="description" content="Automated weekly 7v7 football team generator, skill balancer, squad admin panel with live Cloud DB sync, reserve sub manager, and WhatsApp RSVP parser for FC Calle Munde.">
+  
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app" class="app-container">
+    <!-- Navigation Header -->
+    <header class="app-header">
+      <div class="brand-container">
+        <div class="brand-badge">
+          <i data-lucide="shield-half"></i>
+        </div>
+        <div class="brand-text">
+          <h1>FC CALLE MUNDE</h1>
+          <span class="brand-subtitle">7v7 Team Balancer & Squad Admin</span>
+        </div>
+      </div>
+      
+      <div class="header-actions">
+        <button id="btn-quick-rsvp" class="btn btn-primary btn-sm">
+          <i data-lucide="clipboard-paste"></i>
+          <span>Paste WhatsApp RSVP</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="nav-tab active" data-tab="tab-balancer">
+        <i data-lucide="zap"></i>
+        <span>Generator</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-roster">
+        <i data-lucide="users"></i>
+        <span>Players (<span id="count-total-players">0</span>)</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-admin">
+        <i data-lucide="shield-alert"></i>
+        <span>Admin Panel</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-history">
+        <i data-lucide="history"></i>
+        <span>Match Log</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-settings">
+        <i data-lucide="settings"></i>
+        <span>Settings</span>
+      </button>
+    </nav>
+
+    <!-- App Content Area -->
+    <main class="main-content">
+      
+      <!-- TAB 1: TEAM BALANCER & GENERATOR -->
+      <section id="tab-balancer" class="tab-page active">
+        <!-- Match Setup Control Bar -->
+        <div class="glass-card match-controls">
+          <div class="control-group">
+            <label for="match-date"><i data-lucide="calendar"></i> Match Date</label>
+            <input type="date" id="match-date" class="form-input">
+          </div>
+
+          <div class="control-group">
+            <label for="match-venue"><i data-lucide="map-pin"></i> Pitch / Venue</label>
+            <input type="text" id="match-venue" class="form-input" value="Calle Munde Turf">
+          </div>
+          
+          <div class="control-group">
+            <label><i data-lucide="cpu"></i> Game Format</label>
+            <div class="auto-format-pill">
+              <i data-lucide="sparkles" class="text-emerald"></i>
+              <span id="auto-format-text">7v7 (14 players)</span>
+            </div>
+          </div>
+
+          <div class="attendance-summary">
+            <div class="summary-badge">
+              <span class="summary-label">Attending</span>
+              <span id="count-attending" class="summary-value">0</span>
+              <span class="summary-target">/ <span id="count-target">14</span></span>
+            </div>
+            <button id="btn-select-attending" class="btn btn-secondary btn-sm">
+              <i data-lucide="check-square"></i> Select Players
+            </button>
+          </div>
+        </div>
+
+        <!-- Action Bar: Generate Teams -->
+        <div class="generate-actions-bar">
+          <button id="btn-generate-teams" class="btn btn-glow btn-lg">
+            <i data-lucide="shuffle"></i>
+            <span>BALANCER ENGINE: GENERATE TEAMS</span>
+          </button>
+        </div>
+
+        <!-- Generated Teams Output View -->
+        <div id="teams-output-container" class="teams-container hidden">
+          
+          <!-- Balance Summary Banner -->
+          <div class="glass-card balance-summary-card">
+            <div class="balance-score-box">
+              <div class="score-ring">
+                <svg viewBox="0 0 36 36" class="circular-chart">
+                  <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path id="score-circle-path" class="circle" stroke-dasharray="98, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                </svg>
+                <span id="balance-score-val" class="score-num">98%</span>
+              </div>
+              <div class="score-details">
+                <h3>Balance Index</h3>
+                <p id="balance-score-desc">Exceptional rating & position parity!</p>
+              </div>
+            </div>
+
+            <div class="rating-gap-box">
+              <div class="gap-stat">
+                <span class="stat-label">Rating Difference</span>
+                <span id="rating-gap-val" class="stat-value text-emerald">0.1 pts</span>
+              </div>
+              <div class="gap-stat">
+                <span class="stat-label">GKs Balanced</span>
+                <span id="gk-balance-val" class="stat-value text-emerald">Yes (1 vs 1)</span>
+              </div>
+            </div>
+
+            <div class="output-actions">
+              <button id="btn-reroll" class="btn btn-outline btn-sm" title="Generate another balanced combination">
+                <i data-lucide="refresh-cw"></i> Re-roll Combo
+              </button>
+              <button id="btn-copy-whatsapp" class="btn btn-whatsapp btn-sm">
+                <i data-lucide="send"></i> Copy WhatsApp Message
+              </button>
+            </div>
+          </div>
+
+          <!-- Teams Grid (Bibs vs No-Bibs) -->
+          <div class="teams-grid">
+            
+            <!-- TEAM A (BIBS / LIGHT) -->
+            <div class="glass-card team-card team-a">
+              <div class="team-header">
+                <div class="team-badge bibs-badge">
+                  <i data-lucide="shirt"></i>
+                  <span>TEAM A (BIBS)</span>
+                </div>
+                <div class="team-stats">
+                  <span class="stat-pill">Avg Rating: <strong id="team-a-avg">0.0</strong></span>
+                  <span class="stat-pill">Offense: <strong id="team-a-offense">0.0</strong></span>
+                </div>
+              </div>
+              <ul id="team-a-list" class="player-team-list">
+                <!-- Injected via JS -->
+              </ul>
+            </div>
+
+            <!-- VS DIVIDER -->
+            <div class="vs-divider">
+              <div class="vs-circle">VS</div>
+            </div>
+
+            <!-- TEAM B (DARK / NO BIBS) -->
+            <div class="glass-card team-card team-b">
+              <div class="team-header">
+                <div class="team-badge no-bibs-badge">
+                  <i data-lucide="shirt"></i>
+                  <span>TEAM B (DARK)</span>
+                </div>
+                <div class="team-stats">
+                  <span class="stat-pill">Avg Rating: <strong id="team-b-avg">0.0</strong></span>
+                  <span class="stat-pill">Offense: <strong id="team-b-offense">0.0</strong></span>
+                </div>
+              </div>
+              <ul id="team-b-list" class="player-team-list">
+                <!-- Injected via JS -->
+              </ul>
+            </div>
+          </div>
+
+          <!-- RESERVES / SUBS CARD SECTION -->
+          <div id="reserves-card" class="glass-card reserves-card hidden">
+            <div class="reserves-header">
+              <h3><i data-lucide="user-plus" class="text-accent-gold"></i> Designated Reserve Players (R1 / R2)</h3>
+              <span class="pitch-subtitle">Floating / Sideline Rotation Subs</span>
+            </div>
+            <ul id="reserves-list" class="reserves-list-grid">
+              <!-- Injected via JS -->
+            </ul>
+          </div>
+
+          <!-- PITCH FORMATION VISUALIZER -->
+          <div class="glass-card pitch-container">
+            <div class="pitch-header">
+              <h3><i data-lucide="grid"></i> Tactical Pitch Lineup</h3>
+              <span id="pitch-formation-title" class="pitch-subtitle">7v7 Formation View</span>
+            </div>
+            
+            <div id="football-pitch" class="football-pitch">
+              <div class="pitch-center-circle"></div>
+              <div class="pitch-half-line"></div>
+              <div class="pitch-box pitch-box-top"></div>
+              <div class="pitch-box pitch-box-bottom"></div>
+              
+              <!-- Team A Half (Top) -->
+              <div id="pitch-team-a" class="pitch-half pitch-top">
+                <!-- Injected via JS -->
+              </div>
+              
+              <!-- Team B Half (Bottom) -->
+              <div id="pitch-team-b" class="pitch-half pitch-bottom">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- TAB 2: PLAYER ROSTER DATABASE -->
+      <section id="tab-roster" class="tab-page">
+        <!-- Squad Summary Banner -->
+        <div class="glass-card roster-banner">
+          <div class="roster-banner-info">
+            <div class="roster-banner-icon">
+              <i data-lucide="users"></i>
+            </div>
+            <div>
+              <h2>FC Calle Munde Squad Database</h2>
+              <p class="text-muted">Manage player skill ratings, WhatsApp aliases, and primary/secondary positions.</p>
+            </div>
+          </div>
+          <div class="roster-banner-stats">
+            <span class="stat-pill">Total: <strong id="roster-stat-total">18</strong></span>
+            <span class="stat-pill">Avg Skill: <strong id="roster-stat-avg">7.7★</strong></span>
+            <span class="stat-pill">Star Player: <strong id="roster-stat-star">Vishnu (9.0★)</strong></span>
+          </div>
+        </div>
+
+        <!-- Roster Controls & Filters Bar -->
+        <div class="glass-card roster-toolbar">
+          <div class="search-box">
+            <i data-lucide="search"></i>
+            <input type="text" id="roster-search" class="form-input" placeholder="Search player name, nickname, or position...">
+          </div>
+          
+          <div class="position-filter-pills" id="roster-pos-filters">
+            <button class="pos-filter-btn active" data-pos="ALL">ALL (<span id="filter-count-all">18</span>)</button>
+            <button class="pos-filter-btn" data-pos="GK">GK 🧤 (<span id="filter-count-gk">3</span>)</button>
+            <button class="pos-filter-btn" data-pos="DEF">DEF 🛡️ (<span id="filter-count-def">6</span>)</button>
+            <button class="pos-filter-btn" data-pos="MID">MID ⚙️ (<span id="filter-count-mid">4</span>)</button>
+            <button class="pos-filter-btn" data-pos="FWD">FWD ⚡ (<span id="filter-count-fwd">5</span>)</button>
+          </div>
+
+          <div class="roster-actions">
+            <button id="btn-add-player" class="btn btn-primary btn-sm">
+              <i data-lucide="user-plus"></i> Add Member
+            </button>
+            <button id="btn-reset-roster" class="btn btn-ghost btn-sm" title="Reload default FC Calle Munde squad">
+              <i data-lucide="rotate-ccw"></i> Reset
+            </button>
+          </div>
+        </div>
+
+        <!-- Roster Grid View -->
+        <div id="roster-list-container" class="roster-grid">
+          <!-- Injected via JS -->
+        </div>
+      </section>
+
+      <!-- TAB 3: SQUAD ADMIN PANEL -->
+      <section id="tab-admin" class="tab-page">
+        
+        <!-- ADMIN LOGIN GATE CARD -->
+        <div id="admin-login-card" class="glass-card admin-login-card">
+          <div class="login-header">
+            <div class="login-badge">
+              <i data-lucide="lock"></i>
+            </div>
+            <h2>Admin Authentication Required</h2>
+            <p class="text-muted">Enter admin credentials to manage squad database and player skills.</p>
+          </div>
+          
+          <form id="admin-login-form" class="login-form">
+            <div class="form-group">
+              <label for="admin-user-input">Username</label>
+              <input type="text" id="admin-user-input" class="form-input" placeholder="admin" required value="admin">
+            </div>
+            <div class="form-group">
+              <label for="admin-pass-input">Password</label>
+              <input type="password" id="admin-pass-input" class="form-input" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg full-width">
+              <i data-lucide="key-round"></i> LOG IN TO ADMIN PANEL
+            </button>
+          </form>
+        </div>
+
+        <!-- AUTHENTICATED ADMIN CONTENT -->
+        <div id="admin-authenticated-content" class="hidden">
+          <div class="glass-card admin-banner">
+            <div class="admin-header-title">
+              <i data-lucide="shield-check" class="text-emerald"></i>
+              <div>
+                <h2>Squad Storage Admin Panel</h2>
+                <p>Add team members directly to local storage & central cloud DB, assign skill ratings (1-10), positions, and WhatsApp nicknames.</p>
+              </div>
+            </div>
+            <div class="admin-stats-pills">
+              <span class="admin-stat"><strong id="admin-stat-total">0</strong> Total Members</span>
+              <span class="admin-stat"><strong id="admin-stat-gk">0</strong> GKs</span>
+              <span class="admin-stat"><strong id="admin-stat-avg">0.0★</strong> Avg Skill</span>
+              <button id="btn-admin-logout" class="btn btn-ghost btn-sm text-accent-pink">
+                <i data-lucide="log-out"></i> Log Out
+              </button>
+            </div>
+          </div>
+
+          <!-- LIVE CLOUD DATABASE SYNC MANAGER (OPTION 1) -->
+          <div class="glass-card admin-form-card cloud-sync-card">
+            <div class="cloud-sync-header">
+              <h3><i data-lucide="cloud-lightning" class="text-emerald"></i> Live Cloud Database Sync (Option 1)</h3>
+              <span id="cloud-sync-status" class="status-pill status-online">🟢 Cloud Sync Ready</span>
+            </div>
+            <p class="text-muted">Changes in Admin Panel automatically sync to the central cloud <code>players.json</code> so all group members see live updates instantly.</p>
+            
+            <div class="admin-grid-form">
+              <div class="form-group full-width">
+                <label for="cloud-endpoint-input">Cloud Storage API Endpoint (REST Bin / JSONBin / Firebase)</label>
+                <input type="url" id="cloud-endpoint-input" class="form-input" placeholder="e.g. https://api.npoint.io/YOUR_BIN_ID or https://api.jsonbin.io/v3/b/YOUR_BIN_ID">
+              </div>
+              <div class="form-group">
+                <label for="cloud-key-input">API Master Key (Optional for private bins)</label>
+                <input type="password" id="cloud-key-input" class="form-input" placeholder="Optional API Key">
+              </div>
+              <div class="form-group flex-end">
+                <div class="btn-group">
+                  <button id="btn-push-cloud" class="btn btn-primary btn-sm"><i data-lucide="upload-cloud"></i> Push to Cloud</button>
+                  <button id="btn-fetch-cloud" class="btn btn-secondary btn-sm"><i data-lucide="download-cloud"></i> Fetch from Cloud</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Add Member Form -->
+          <div class="glass-card admin-form-card">
+            <h3><i data-lucide="user-plus" class="text-emerald"></i> Add New Team Member directly to Storage</h3>
+            
+            <form id="admin-add-player-form" class="admin-grid-form">
+              <div class="form-group">
+                <label for="admin-name">Full Name *</label>
+                <input type="text" id="admin-name" class="form-input" required placeholder="e.g. Mateo Silva">
+              </div>
+
+              <div class="form-group">
+                <label for="admin-aliases">WhatsApp Nicknames / Aliases (comma separated)</label>
+                <input type="text" id="admin-aliases" class="form-input" placeholder="e.g. Mateo, Teo, Matty">
+              </div>
+
+              <div class="form-group">
+                <label for="admin-rating">Skill Rating: <span id="admin-rating-badge" class="rating-badge">7.5 ★</span></label>
+                <input type="range" id="admin-rating" class="form-range" min="1.0" max="10.0" step="0.5" value="7.5">
+              </div>
+
+              <div class="form-group">
+                <label for="admin-primary-pos">Primary Position</label>
+                <select id="admin-primary-pos" class="form-select">
+                  <option value="GK">Goalkeeper 🧤</option>
+                  <option value="DEF" selected>Defender 🛡️</option>
+                  <option value="MID">Midfielder ⚙️</option>
+                  <option value="FWD">Forward ⚡</option>
+                </select>
+              </div>
+
+              <div class="form-group full-width">
+                <label>Secondary Positions (Optional)</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-pill"><input type="checkbox" name="admin-sec-pos" value="GK"> GK 🧤</label>
+                  <label class="checkbox-pill"><input type="checkbox" name="admin-sec-pos" value="DEF"> DEF 🛡️</label>
+                  <label class="checkbox-pill"><input type="checkbox" name="admin-sec-pos" value="MID"> MID ⚙️</label>
+                  <label class="checkbox-pill"><input type="checkbox" name="admin-sec-pos" value="FWD"> FWD ⚡</label>
+                </div>
+              </div>
+
+              <div class="form-footer full-width">
+                <button type="submit" class="btn btn-glow btn-lg">
+                  <i data-lucide="database"></i> SAVE MEMBER DIRECTLY TO STORAGE & CLOUD
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Bulk Batch Import Card -->
+          <div class="glass-card admin-form-card">
+            <h3><i data-lucide="file-spreadsheet" class="text-emerald"></i> Batch Import Team Members</h3>
+            <p class="text-muted">Paste multiple players (1 per line). Format: <code>Name, Skill (1-10), PrimaryPos, SecondaryPos, Aliases</code></p>
+            <textarea id="admin-batch-textarea" class="form-textarea" rows="4" placeholder="e.g.
+  Michael Scott, 8.5, MID, FWD, Mike
+  David Beckham, 9.5, MID, DEF, Becks
+  Peter Schmeichel, 9.0, GK, DEF, Pete"></textarea>
+            <div class="batch-action-bar">
+              <button id="btn-admin-batch-import" class="btn btn-secondary">
+                <i data-lucide="upload-cloud"></i> Process Batch Import
+              </button>
+            </div>
+          </div>
+
+          <!-- Stored Roster Table -->
+          <div class="glass-card admin-table-card">
+            <div class="admin-table-header">
+              <h3><i data-lucide="database"></i> Stored Members Database (<span id="admin-table-count">0</span>)</h3>
+              <button id="btn-admin-clear-all" class="btn btn-ghost text-accent-pink btn-sm">
+                <i data-lucide="trash-2"></i> Clear Storage Database
+              </button>
+            </div>
+            
+            <div class="admin-table-wrapper">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Player Name</th>
+                    <th>Position</th>
+                    <th>WhatsApp Aliases</th>
+                    <th>Skill Rating</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-table-body">
+                  <!-- Injected via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- TAB 4: MATCH HISTORY -->
+      <section id="tab-history" class="tab-page">
+        <div class="glass-card history-header-card">
+          <h2><i data-lucide="history"></i> Match History</h2>
+          <p>View past generated matches and scores for FC Calle Munde.</p>
+        </div>
+        
+        <div id="history-list" class="history-list">
+          <!-- Injected via JS -->
+        </div>
+      </section>
+
+      <!-- TAB 5: SETTINGS & BACKUP -->
+      <section id="tab-settings" class="tab-page">
+        <div class="glass-card settings-card">
+          <h2><i data-lucide="database"></i> Data & Squad Management</h2>
+          <p class="settings-desc">Export your FC Calle Munde player ratings & settings to back them up or transfer to another device.</p>
+          
+          <div class="settings-buttons">
+            <button id="btn-export-json" class="btn btn-secondary">
+              <i data-lucide="download"></i> Export Roster JSON
+            </button>
+            
+            <label for="input-import-json" class="btn btn-outline">
+              <i data-lucide="upload"></i> Import Roster JSON
+            </label>
+            <input type="file" id="input-import-json" accept=".json" class="hidden">
+          </div>
+        </div>
+
+        <div class="glass-card settings-card">
+          <h2><i data-lucide="sliders"></i> Balancer Algorithm Weights</h2>
+          <div class="setting-item">
+            <label>Skill Balance Importance</label>
+            <input type="range" id="weight-skill" min="1" max="10" value="8">
+          </div>
+          <div class="setting-item">
+            <label>Goalkeeper Distribution Strictness</label>
+            <input type="range" id="weight-gk" min="1" max="10" value="10">
+          </div>
+          <div class="setting-item">
+            <label>Outfield Position Parity</label>
+            <input type="range" id="weight-positions" min="1" max="10" value="7">
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- MODAL 1: WHATSAPP RSVP PARSER -->
+    <div id="modal-rsvp" class="modal-overlay hidden">
+      <div class="glass-card modal-content">
+        <div class="modal-header">
+          <div class="modal-title">
+            <i data-lucide="clipboard-paste" class="text-emerald"></i>
+            <h3>Paste WhatsApp Group RSVP</h3>
+          </div>
+          <button class="modal-close btn-icon" data-close="modal-rsvp"><i data-lucide="x"></i></button>
+        </div>
+        
+        <div class="modal-body">
+          <p class="text-muted">Paste your WhatsApp group message list below (numbered or plain names). The system will automatically detect player names and position notes like <code>(GK)</code> or <code>(DEF)</code>.</p>
+
+          <textarea id="rsvp-textarea" class="form-textarea" rows="8" placeholder="Paste WhatsApp RSVP text here, e.g.:
+1. Alex (GK)
+2. Carlos
+3. Matteo (DEF)
+4. John
+5. Lucas
+..."></textarea>
+          
+          <div id="rsvp-preview-results" class="rsvp-preview hidden">
+            <h4>Detected Players (<span id="rsvp-detected-count">0</span>)</h4>
+            <div id="rsvp-detected-tags" class="detected-tags-grid"></div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-ghost modal-close" data-close="modal-rsvp">Cancel</button>
+          <button id="btn-apply-rsvp" class="btn btn-primary">
+            <i data-lucide="check"></i> Apply Attendance & Positions
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 2: ADD / EDIT PLAYER -->
+    <div id="modal-player" class="modal-overlay hidden">
+      <div class="glass-card modal-content">
+        <div class="modal-header">
+          <div class="modal-title">
+            <i data-lucide="user-cog" class="text-emerald"></i>
+            <h3 id="modal-player-title">Edit Player</h3>
+          </div>
+          <button class="modal-close btn-icon" data-close="modal-player"><i data-lucide="x"></i></button>
+        </div>
+        
+        <form id="form-player" class="modal-body form-grid">
+          <input type="hidden" id="player-id">
+          
+          <div class="form-group full-width">
+            <label for="player-name">Player Name *</label>
+            <input type="text" id="player-name" class="form-input" required placeholder="e.g. Mateo Silva">
+          </div>
+
+          <div class="form-group full-width">
+            <label for="player-aliases">Aliases / Nicknames (comma separated)</label>
+            <input type="text" id="player-aliases" class="form-input" placeholder="e.g. Mateo, Teo, Matty">
+          </div>
+
+          <div class="form-group">
+            <label for="player-rating">Skill Rating (1.0 - 10.0)</label>
+            <div class="rating-input-wrapper">
+              <input type="number" id="player-rating" class="form-input" min="1" max="10" step="0.5" value="7.0" required>
+              <span id="rating-star-preview" class="rating-badge">7.0 ★</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="player-primary-pos">Primary Position</label>
+            <select id="player-primary-pos" class="form-select">
+              <option value="GK">Goalkeeper 🧤</option>
+              <option value="DEF" selected>Defender 🛡️</option>
+              <option value="MID">Midfielder ⚙️</option>
+              <option value="FWD">Forward ⚡</option>
+            </select>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Secondary Positions (Can also play as)</label>
+            <div class="checkbox-group">
+              <label class="checkbox-pill"><input type="checkbox" name="sec-pos" value="GK"> GK 🧤</label>
+              <label class="checkbox-pill"><input type="checkbox" name="sec-pos" value="DEF"> DEF 🛡️</label>
+              <label class="checkbox-pill"><input type="checkbox" name="sec-pos" value="MID"> MID ⚙️</label>
+              <label class="checkbox-pill"><input type="checkbox" name="sec-pos" value="FWD"> FWD ⚡</label>
+            </div>
+          </div>
+          
+          <div class="form-footer full-width">
+            <button type="button" class="btn btn-ghost modal-close" data-close="modal-player">Cancel</button>
+            <button type="submit" class="btn btn-primary"><i data-lucide="save"></i> Save Player</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL 3: ATTENDANCE SELECTION MODAL -->
+    <div id="modal-attendance" class="modal-overlay hidden">
+      <div class="glass-card modal-content modal-lg">
+        <div class="modal-header">
+          <div class="modal-title">
+            <i data-lucide="check-square" class="text-emerald"></i>
+            <h3>Select Attending Players (<span id="modal-attending-count">0</span> / <span id="modal-target-count">14</span>)</h3>
+          </div>
+          <button class="modal-close btn-icon" data-close="modal-attendance"><i data-lucide="x"></i></button>
+        </div>
+        
+        <div class="modal-body">
+          <div class="attendance-filter-bar">
+            <input type="text" id="attendance-search" class="form-input" placeholder="Quick filter players...">
+            <button id="btn-select-all" class="btn btn-ghost btn-sm">Select Target Count</button>
+            <button id="btn-clear-all" class="btn btn-ghost btn-sm">Clear All</button>
+          </div>
+
+          <div id="attendance-list-grid" class="attendance-selection-grid">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-ghost modal-close" data-close="modal-attendance">Close</button>
+          <button id="btn-confirm-attendance" class="btn btn-primary">
+            <i data-lucide="check-circle-2"></i> Confirm Squad Selection
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="toast-container"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
