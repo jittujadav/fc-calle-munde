@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  // --- DEFAULT ACCURATE SQUAD DATA FOR FC CALLE MUNDE (18 PLAYERS) WITH DPS ---
+  // --- DEFAULT ACCURATE SQUAD DATA FOR FC CALLE MUNDE (ALL PLAYERS DEFAULT TO 7.0 ★) ---
   const DEFAULT_ROSTER = [
     {
       "id": "p1",
@@ -20,7 +20,7 @@
       "rsvpIndex": 0,
       "avatarUrl": "",
       "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 8.0, "knowledge": 7.0 }
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
       }
     },
     {
@@ -36,7 +36,7 @@
       "rsvpIndex": 1,
       "avatarUrl": "",
       "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 8.5, "accuracy": 8.0, "defense": 7.0, "knowledge": 8.5 }
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
       }
     },
     {
@@ -52,7 +52,7 @@
       "rsvpIndex": 2,
       "avatarUrl": "",
       "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 8.0, "defense": 8.5, "knowledge": 8.0 }
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
       }
     },
     {
@@ -68,7 +68,7 @@
       "rsvpIndex": 3,
       "avatarUrl": "",
       "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 8.0, "accuracy": 7.0, "defense": 7.5, "knowledge": 7.5 }
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
       }
     },
     {
@@ -84,7 +84,7 @@
       "rsvpIndex": 4,
       "avatarUrl": "",
       "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 8.5, "defense": 8.0, "knowledge": 8.5 }
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
       }
     },
     {
@@ -100,7 +100,7 @@
       "rsvpIndex": 5,
       "avatarUrl": "",
       "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 7.0, "knowledge": 8.0 }
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
       }
     },
     {
@@ -116,7 +116,7 @@
       "rsvpIndex": 6,
       "avatarUrl": "",
       "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 7.0, "knowledge": 8.0 }
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
       }
     },
     {
@@ -132,7 +132,7 @@
       "rsvpIndex": 7,
       "avatarUrl": "",
       "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 9.0, "accuracy": 9.0, "defense": 8.5, "knowledge": 9.5 }
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
       }
     },
     {
@@ -148,7 +148,7 @@
       "rsvpIndex": 8,
       "avatarUrl": "",
       "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.5, "defense": 8.0, "knowledge": 7.5 }
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
       }
     },
     {
@@ -180,7 +180,7 @@
       "rsvpIndex": 10,
       "avatarUrl": "",
       "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 7.5, "knowledge": 7.5 }
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
       }
     },
     {
@@ -196,7 +196,7 @@
       "rsvpIndex": 11,
       "avatarUrl": "",
       "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.0, "defense": 8.0, "knowledge": 7.5 }
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
       }
     },
     {
@@ -212,7 +212,7 @@
       "rsvpIndex": 12,
       "avatarUrl": "",
       "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 7.5, "knowledge": 7.5 }
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
       }
     },
     {
@@ -228,7 +228,7 @@
       "rsvpIndex": 13,
       "avatarUrl": "",
       "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 8.5, "accuracy": 8.0, "defense": 7.0, "knowledge": 8.5 }
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
       }
     },
     {
@@ -244,7 +244,7 @@
       "rsvpIndex": 14,
       "avatarUrl": "",
       "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 7.0, "knowledge": 7.5 }
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
       }
     },
     {
@@ -260,7 +260,7 @@
       "rsvpIndex": 999,
       "avatarUrl": "",
       "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.0, "defense": 8.0, "knowledge": 7.5 }
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
       }
     },
     {
@@ -276,7 +276,7 @@
       "rsvpIndex": 999,
       "avatarUrl": "",
       "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 8.0, "knowledge": 8.0 }
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
       }
     },
     {
@@ -292,7 +292,7 @@
       "rsvpIndex": 999,
       "avatarUrl": "",
       "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 7.0, "knowledge": 7.5 }
+        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
       }
     }
   ];
@@ -317,8 +317,8 @@
   };
 
   // --- LOCAL STORAGE KEYS ---
-  const STORAGE_KEY_ROSTER = 'fc_calle_munde_roster_v10';
-  const STORAGE_KEY_HISTORY = 'fc_calle_munde_history_v10';
+  const STORAGE_KEY_ROSTER = 'fc_calle_munde_roster_v11';
+  const STORAGE_KEY_HISTORY = 'fc_calle_munde_history_v11';
   const STORAGE_KEY_ENDPOINT = 'fc_calle_munde_cloud_endpoint';
   const STORAGE_KEY_CLOUD_KEY = 'fc_calle_munde_cloud_key';
 
@@ -383,7 +383,6 @@
   }
 
   function getRating(player) {
-    if (typeof player.rating === 'number' && !player.adminRatings) return player.rating;
     return getPlayerRatingStats(player).rating;
   }
 
@@ -957,7 +956,7 @@
     updateAdminFormCalculatedPreview();
 
     const stats = getPlayerRatingStats(existingP);
-    showToast(`Saved rating & profile DP for ${name} by ${adminName}! Average: ${stats.rating.toFixed(1)} ★`);
+    showToast(`Saved rating & DP for ${name} by ${adminName}! Average: ${stats.rating.toFixed(1)} ★`);
   }
 
   function handleAdminBatchImport() {
@@ -971,7 +970,7 @@
       const parts = line.split(',').map(s => s.trim()).filter(Boolean);
       if (parts.length >= 1) {
         const name = parts[0];
-        const rating = parts[1] ? parseFloat(parts[1]) || 7.5 : 7.5;
+        const rating = parts[1] ? parseFloat(parts[1]) || 7.0 : 7.0;
         const primaryPos = parts[2] && ['GK', 'DEF', 'MID', 'FWD'].includes(parts[2].toUpperCase()) ? parts[2].toUpperCase() : 'MID';
         const secPos = parts[3] ? [parts[3].toUpperCase()] : [];
         const aliases = parts[4] ? parts[4].split('/').map(a => a.trim()) : [name];
