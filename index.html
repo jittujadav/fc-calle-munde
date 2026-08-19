@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>FC Calle Munde - Football Team Balancer & Squad Admin</title>
-  <meta name="description" content="Automated weekly 7v7 football team generator, skill balancer, multi-admin parameterized rating system (Speed, Accuracy, Defense, Knowledge), live Cloud DB sync, reserve sub manager, and WhatsApp RSVP parser for FC Calle Munde.">
+  <title>FC Calle Munde - Football Team Balancer & Squad Hub</title>
+  <meta name="description" content="Automated weekly 7v7 football team generator, skill balancer, multi-admin parameterized rating system (Speed, Accuracy, Defense, Knowledge), individual player DPs, and Instagram channel hub for FC Calle Munde.">
   
   <!-- Google Fonts: Outfit & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,7 +26,7 @@
         </div>
         <div class="brand-text">
           <h1>FC CALLE MUNDE</h1>
-          <span class="brand-subtitle">7v7 Team Balancer & Squad Admin</span>
+          <span class="brand-subtitle">7v7 Team Balancer & Squad Hub</span>
         </div>
       </div>
       
@@ -52,9 +52,9 @@
         <i data-lucide="shield-alert"></i>
         <span>Admin Panel</span>
       </button>
-      <button class="nav-tab" data-tab="tab-history">
-        <i data-lucide="history"></i>
-        <span>Match Log</span>
+      <button class="nav-tab" data-tab="tab-instagram">
+        <i data-lucide="instagram"></i>
+        <span>Instagram</span>
       </button>
       <button class="nav-tab" data-tab="tab-settings">
         <i data-lucide="settings"></i>
@@ -229,7 +229,7 @@
         </div>
       </section>
 
-      <!-- TAB 2: PLAYER ROSTER DATABASE -->
+      <!-- TAB 2: PLAYER ROSTER DATABASE (READ-ONLY SQUAD VIEW) -->
       <section id="tab-roster" class="tab-page">
         <!-- Squad Summary Banner -->
         <div class="glass-card roster-banner">
@@ -239,7 +239,7 @@
             </div>
             <div>
               <h2>FC Calle Munde Squad Database</h2>
-              <p class="text-muted">Multi-admin ratings based on Speed, Accuracy, Defense, and Game Knowledge.</p>
+              <p class="text-muted">Squad ratings & 4-attribute breakdown (Speed, Accuracy, Defense, Knowledge).</p>
             </div>
           </div>
           <div class="roster-banner-stats">
@@ -263,18 +263,9 @@
             <button class="pos-filter-btn" data-pos="MID">MID ⚙️ (<span id="filter-count-mid">4</span>)</button>
             <button class="pos-filter-btn" data-pos="FWD">FWD ⚡ (<span id="filter-count-fwd">5</span>)</button>
           </div>
-
-          <div class="roster-actions">
-            <button id="btn-add-player" class="btn btn-primary btn-sm">
-              <i data-lucide="user-plus"></i> Add Member
-            </button>
-            <button id="btn-reset-roster" class="btn btn-ghost btn-sm" title="Reload default FC Calle Munde squad">
-              <i data-lucide="rotate-ccw"></i> Reset
-            </button>
-          </div>
         </div>
 
-        <!-- Roster Grid View -->
+        <!-- Roster Grid View (Read-Only) -->
         <div id="roster-list-container" class="roster-grid">
           <!-- Injected via JS -->
         </div>
@@ -290,7 +281,7 @@
               <i data-lucide="lock"></i>
             </div>
             <h2>Admin Authentication Required</h2>
-            <p class="text-muted">Enter admin credentials to manage squad database and player skills.</p>
+            <p class="text-muted">Enter admin credentials to manage squad database, ratings, and profile pictures.</p>
           </div>
           
           <form id="admin-login-form" class="login-form">
@@ -315,7 +306,7 @@
               <i data-lucide="shield-check" class="text-emerald"></i>
               <div>
                 <h2>Squad Storage Admin Panel</h2>
-                <p>Submit multi-admin player ratings across Speed, Accuracy, Defense, and Game Knowledge.</p>
+                <p>Submit multi-admin player ratings across Speed, Accuracy, Defense, Knowledge, and update Profile DPs.</p>
               </div>
             </div>
             <div class="admin-stats-pills">
@@ -328,33 +319,7 @@
             </div>
           </div>
 
-          <!-- LIVE CLOUD DATABASE SYNC MANAGER (OPTION 1) -->
-          <div class="glass-card admin-form-card cloud-sync-card">
-            <div class="cloud-sync-header">
-              <h3><i data-lucide="cloud-lightning" class="text-emerald"></i> Live Cloud Database Sync (Option 1)</h3>
-              <span id="cloud-sync-status" class="status-pill status-online">🟢 Cloud Sync Ready</span>
-            </div>
-            <p class="text-muted">Changes in Admin Panel automatically sync to the central cloud <code>players.json</code> so all group members see live updates instantly.</p>
-            
-            <div class="admin-grid-form">
-              <div class="form-group full-width">
-                <label for="cloud-endpoint-input">Cloud Storage API Endpoint (REST Bin / JSONBin / Firebase)</label>
-                <input type="url" id="cloud-endpoint-input" class="form-input" placeholder="e.g. https://api.npoint.io/YOUR_BIN_ID or https://api.jsonbin.io/v3/b/YOUR_BIN_ID">
-              </div>
-              <div class="form-group">
-                <label for="cloud-key-input">API Master Key (Optional for private bins)</label>
-                <input type="password" id="cloud-key-input" class="form-input" placeholder="Optional API Key">
-              </div>
-              <div class="form-group flex-end">
-                <div class="btn-group">
-                  <button id="btn-push-cloud" class="btn btn-primary btn-sm"><i data-lucide="upload-cloud"></i> Push to Cloud</button>
-                  <button id="btn-fetch-cloud" class="btn btn-secondary btn-sm"><i data-lucide="download-cloud"></i> Fetch from Cloud</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Quick Add / Submit Rating Form -->
+          <!-- Quick Add / Submit Rating & DP Form -->
           <div class="glass-card admin-form-card">
             <h3><i data-lucide="sliders" class="text-emerald"></i> Multi-Admin Rating & Member Entry</h3>
             <p class="text-muted">Rate player skills across 4 attributes. The player's final rating is calculated as the average of all admin rating submissions.</p>
@@ -373,6 +338,11 @@
               <div class="form-group">
                 <label for="admin-aliases">WhatsApp Nicknames / Aliases (comma separated)</label>
                 <input type="text" id="admin-aliases" class="form-input" placeholder="e.g. Mateo, Teo, Matty">
+              </div>
+
+              <div class="form-group">
+                <label for="admin-avatar-url">Profile Photo (DP) Image URL (Optional)</label>
+                <input type="url" id="admin-avatar-url" class="form-input" placeholder="https://example.com/photo.jpg">
               </div>
 
               <div class="form-group">
@@ -427,7 +397,7 @@
 
               <div class="form-footer full-width">
                 <button type="submit" class="btn btn-glow btn-lg">
-                  <i data-lucide="database"></i> SUBMIT ADMIN RATING & SYNC TO CLOUD
+                  <i data-lucide="database"></i> SUBMIT ADMIN RATING & SAVE MEMBER
                 </button>
               </div>
             </form>
@@ -461,6 +431,7 @@
               <table class="admin-table">
                 <thead>
                   <tr>
+                    <th>DP</th>
                     <th>Player Name</th>
                     <th>Position</th>
                     <th>WhatsApp Aliases</th>
@@ -479,15 +450,48 @@
 
       </section>
 
-      <!-- TAB 4: MATCH HISTORY -->
-      <section id="tab-history" class="tab-page">
-        <div class="glass-card history-header-card">
-          <h2><i data-lucide="history"></i> Match History</h2>
-          <p>View past generated matches and scores for FC Calle Munde.</p>
+      <!-- TAB 4: INSTAGRAM COMMUNITY CHANNEL -->
+      <section id="tab-instagram" class="tab-page">
+        <div class="glass-card instagram-banner-card">
+          <div class="instagram-brand-box">
+            <div class="instagram-icon-badge">
+              <i data-lucide="instagram"></i>
+            </div>
+            <div>
+              <h2>FC Calle Munde Official Instagram</h2>
+              <p class="text-muted">Follow @callemunde for official match highlights, reels, weekly MOTM awards, and turf announcements!</p>
+            </div>
+          </div>
+          <a href="https://www.instagram.com/callemunde?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="btn btn-instagram btn-lg">
+            <i data-lucide="external-link"></i> Follow @callemunde
+          </a>
         </div>
-        
-        <div id="history-list" class="history-list">
-          <!-- Injected via JS -->
+
+        <!-- INSTAGRAM GRID HIGHLIGHTS -->
+        <div class="instagram-grid-cards">
+          <div class="glass-card insta-card">
+            <div class="insta-header">
+              <i data-lucide="video" class="text-emerald"></i>
+              <h4>Match Highlights & Reels</h4>
+            </div>
+            <p class="text-muted">Watch top goals, goalkeeper saves, and 7v7 match moments posted weekly on @callemunde.</p>
+          </div>
+
+          <div class="glass-card insta-card">
+            <div class="insta-header">
+              <i data-lucide="trophy" class="text-accent-gold"></i>
+              <h4>Man of the Match Awards</h4>
+            </div>
+            <p class="text-muted">Weekly MOTM poll voting and top performer shoutouts in group stories.</p>
+          </div>
+
+          <div class="glass-card insta-card">
+            <div class="insta-header">
+              <i data-lucide="calendar" class="text-accent-cyan"></i>
+              <h4>Turf Booking & Match Schedules</h4>
+            </div>
+            <p class="text-muted">Stay updated on weekly match slots, turf venue updates, and RSVP deadlines.</p>
+          </div>
         </div>
       </section>
 
@@ -592,6 +596,11 @@
           <div class="form-group full-width">
             <label for="player-aliases">Aliases / Nicknames (comma separated)</label>
             <input type="text" id="player-aliases" class="form-input" placeholder="e.g. Mateo, Teo, Matty">
+          </div>
+
+          <div class="form-group full-width">
+            <label for="player-avatar-url">Profile Photo (DP) Image URL (Optional)</label>
+            <input type="url" id="player-avatar-url" class="form-input" placeholder="https://example.com/photo.jpg">
           </div>
 
           <div class="form-group full-width multi-attribute-box">

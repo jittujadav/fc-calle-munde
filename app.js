@@ -1,11 +1,11 @@
 /* ==========================================================================
-   FC CALLE MUNDE - MULTI-ADMIN PARAMETERIZED RATING & LIVE CLOUD SYNC ENGINE
+   FC CALLE MUNDE - MULTI-ADMIN RATINGS, PLAYER DPS & INSTAGRAM COMMUNITY HUB
    ========================================================================== */
 
 (function () {
   'use strict';
 
-  // --- DEFAULT ACCURATE SQUAD DATA FOR FC CALLE MUNDE (18 PLAYERS) ---
+  // --- DEFAULT ACCURATE SQUAD DATA FOR FC CALLE MUNDE (18 PLAYERS) WITH DPS ---
   const DEFAULT_ROSTER = [
     {
       "id": "p1",
@@ -18,6 +18,7 @@
       "isExplicitReserve": false,
       "reserveTag": null,
       "rsvpIndex": 0,
+      "avatarUrl": "",
       "adminRatings": {
         "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 8.0, "knowledge": 7.0 }
       }
@@ -33,6 +34,7 @@
       "isExplicitReserve": false,
       "reserveTag": null,
       "rsvpIndex": 1,
+      "avatarUrl": "",
       "adminRatings": {
         "System Default": { "adminName": "System Default", "speed": 8.5, "accuracy": 8.0, "defense": 7.0, "knowledge": 8.5 }
       }
@@ -48,6 +50,7 @@
       "isExplicitReserve": false,
       "reserveTag": null,
       "rsvpIndex": 2,
+      "avatarUrl": "",
       "adminRatings": {
         "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 8.0, "defense": 8.5, "knowledge": 8.0 }
       }
@@ -63,6 +66,7 @@
       "isExplicitReserve": false,
       "reserveTag": null,
       "rsvpIndex": 3,
+      "avatarUrl": "",
       "adminRatings": {
         "System Default": { "adminName": "System Default", "speed": 8.0, "accuracy": 7.0, "defense": 7.5, "knowledge": 7.5 }
       }
@@ -78,6 +82,7 @@
       "isExplicitReserve": false,
       "reserveTag": null,
       "rsvpIndex": 4,
+      "avatarUrl": "",
       "adminRatings": {
         "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 8.5, "defense": 8.0, "knowledge": 8.5 }
       }
@@ -93,6 +98,7 @@
       "isExplicitReserve": false,
       "reserveTag": null,
       "rsvpIndex": 5,
+      "avatarUrl": "",
       "adminRatings": {
         "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 7.0, "knowledge": 8.0 }
       }
@@ -108,6 +114,7 @@
       "isExplicitReserve": false,
       "reserveTag": null,
       "rsvpIndex": 6,
+      "avatarUrl": "",
       "adminRatings": {
         "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 7.0, "knowledge": 8.0 }
       }
@@ -123,6 +130,7 @@
       "isExplicitReserve": false,
       "reserveTag": null,
       "rsvpIndex": 7,
+      "avatarUrl": "",
       "adminRatings": {
         "System Default": { "adminName": "System Default", "speed": 9.0, "accuracy": 9.0, "defense": 8.5, "knowledge": 9.5 }
       }
@@ -138,6 +146,7 @@
       "isExplicitReserve": false,
       "reserveTag": null,
       "rsvpIndex": 8,
+      "avatarUrl": "",
       "adminRatings": {
         "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.5, "defense": 8.0, "knowledge": 7.5 }
       }
@@ -153,6 +162,7 @@
       "isExplicitReserve": false,
       "reserveTag": null,
       "rsvpIndex": 9,
+      "avatarUrl": "",
       "adminRatings": {
         "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
       }
@@ -168,6 +178,7 @@
       "isExplicitReserve": false,
       "reserveTag": null,
       "rsvpIndex": 10,
+      "avatarUrl": "",
       "adminRatings": {
         "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 7.5, "knowledge": 7.5 }
       }
@@ -183,6 +194,7 @@
       "isExplicitReserve": false,
       "reserveTag": null,
       "rsvpIndex": 11,
+      "avatarUrl": "",
       "adminRatings": {
         "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.0, "defense": 8.0, "knowledge": 7.5 }
       }
@@ -198,6 +210,7 @@
       "isExplicitReserve": false,
       "reserveTag": null,
       "rsvpIndex": 12,
+      "avatarUrl": "",
       "adminRatings": {
         "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 7.5, "knowledge": 7.5 }
       }
@@ -213,6 +226,7 @@
       "isExplicitReserve": false,
       "reserveTag": null,
       "rsvpIndex": 13,
+      "avatarUrl": "",
       "adminRatings": {
         "System Default": { "adminName": "System Default", "speed": 8.5, "accuracy": 8.0, "defense": 7.0, "knowledge": 8.5 }
       }
@@ -228,6 +242,7 @@
       "isExplicitReserve": true,
       "reserveTag": "R1",
       "rsvpIndex": 14,
+      "avatarUrl": "",
       "adminRatings": {
         "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 7.0, "knowledge": 7.5 }
       }
@@ -243,6 +258,7 @@
       "isExplicitReserve": false,
       "reserveTag": null,
       "rsvpIndex": 999,
+      "avatarUrl": "",
       "adminRatings": {
         "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.0, "defense": 8.0, "knowledge": 7.5 }
       }
@@ -258,6 +274,7 @@
       "isExplicitReserve": false,
       "reserveTag": null,
       "rsvpIndex": 999,
+      "avatarUrl": "",
       "adminRatings": {
         "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 8.0, "knowledge": 8.0 }
       }
@@ -273,6 +290,7 @@
       "isExplicitReserve": false,
       "reserveTag": null,
       "rsvpIndex": 999,
+      "avatarUrl": "",
       "adminRatings": {
         "System Default": { "adminName": "System Default", "speed": 7.5, "accuracy": 7.5, "defense": 7.0, "knowledge": 7.5 }
       }
@@ -293,14 +311,14 @@
     generatedMatch: null,
     history: [],
     isAdminAuth: false,
-    cloudEndpoint: '',
+    cloudEndpoint: 'https://api.npoint.io/0819fc_calle_munde',
     cloudKey: '',
     posFilter: 'ALL'
   };
 
   // --- LOCAL STORAGE KEYS ---
-  const STORAGE_KEY_ROSTER = 'fc_calle_munde_roster_v9';
-  const STORAGE_KEY_HISTORY = 'fc_calle_munde_history_v9';
+  const STORAGE_KEY_ROSTER = 'fc_calle_munde_roster_v10';
+  const STORAGE_KEY_HISTORY = 'fc_calle_munde_history_v10';
   const STORAGE_KEY_ENDPOINT = 'fc_calle_munde_cloud_endpoint';
   const STORAGE_KEY_CLOUD_KEY = 'fc_calle_munde_cloud_key';
 
@@ -364,7 +382,6 @@
     };
   }
 
-  // Get numerical rating for team balancing algorithm
   function getRating(player) {
     if (typeof player.rating === 'number' && !player.adminRatings) return player.rating;
     return getPlayerRatingStats(player).rating;
@@ -418,7 +435,7 @@
     lucide.createIcons();
     fetchCloudRoster();
 
-    // Auto-poll cloud DB every 15 seconds for real-time runtime sync
+    // Background auto-polling every 15s for realtime runtime sync
     setInterval(fetchCloudRoster, 15000);
   }
 
@@ -451,16 +468,9 @@
 
     const dateInput = document.getElementById('match-date');
     if (dateInput) dateInput.value = state.matchDate;
-
-    const endpointInput = document.getElementById('cloud-endpoint-input');
-    if (endpointInput) endpointInput.value = state.cloudEndpoint;
-
-    const keyInput = document.getElementById('cloud-key-input');
-    if (keyInput) keyInput.value = state.cloudKey;
   }
 
   function saveRoster(pushToCloud = true) {
-    // Ensure player.rating reflects overall average score
     state.roster.forEach(p => {
       p.rating = getRating(p);
     });
@@ -474,15 +484,11 @@
 
   function saveHistory() {
     localStorage.setItem(STORAGE_KEY_HISTORY, JSON.stringify(state.history));
-    renderHistory();
   }
 
   // --- OPTION 1: LIVE CLOUD DATABASE SYNC ENGINE ---
   function fetchCloudRoster() {
     if (!state.cloudEndpoint) return;
-
-    const statusPill = document.getElementById('cloud-sync-status');
-    if (statusPill) statusPill.textContent = '🔄 Syncing Cloud DB...';
 
     const headers = { 'Accept': 'application/json' };
     if (state.cloudKey) headers['X-Master-Key'] = state.cloudKey;
@@ -502,21 +508,13 @@
           state.roster = cloudRoster;
           localStorage.setItem(STORAGE_KEY_ROSTER, JSON.stringify(state.roster));
           renderAll();
-          if (statusPill) statusPill.textContent = '🟢 Live Cloud DB Synced';
-        } else {
-          if (statusPill) statusPill.textContent = '🟡 Cloud DB Ready';
         }
       })
-      .catch(err => {
-        if (statusPill) statusPill.textContent = '🔴 Offline / Standby';
-      });
+      .catch(err => {});
   }
 
   function pushCloudRoster() {
     if (!state.cloudEndpoint) return;
-
-    const statusPill = document.getElementById('cloud-sync-status');
-    if (statusPill) statusPill.textContent = '⏳ Pushing to Cloud...';
 
     const headers = { 'Content-Type': 'application/json' };
     if (state.cloudKey) headers['X-Master-Key'] = state.cloudKey;
@@ -532,12 +530,9 @@
       })
       .then(res => res.json())
       .then(data => {
-        if (statusPill) statusPill.textContent = '🟢 Live Cloud DB Synced';
-        showToast('Synced rating updates to central Cloud DB!');
+        showToast('Synced updates to central Cloud DB!');
       })
-      .catch(err => {
-        if (statusPill) statusPill.textContent = '🔴 Push Failed';
-      });
+      .catch(err => {});
   }
 
   // --- EVENT LISTENERS ---
@@ -564,8 +559,6 @@
     document.getElementById('btn-generate-teams')?.addEventListener('click', generateTeams);
     document.getElementById('btn-reroll')?.addEventListener('click', rerollCombo);
     document.getElementById('btn-copy-whatsapp')?.addEventListener('click', copyWhatsAppMessage);
-    document.getElementById('btn-add-player')?.addEventListener('click', () => openPlayerModal());
-    document.getElementById('btn-reset-roster')?.addEventListener('click', resetDefaultRoster);
 
     // RSVP Textarea Input Preview
     const rsvpTextarea = document.getElementById('rsvp-textarea');
@@ -584,7 +577,7 @@
     document.getElementById('admin-login-form')?.addEventListener('submit', handleAdminLogin);
     document.getElementById('btn-admin-logout')?.addEventListener('click', handleAdminLogout);
 
-    // ADMIN PANEL & CLOUD SYNC LISTENERS
+    // ADMIN PANEL LISTENERS
     document.getElementById('admin-add-player-form')?.addEventListener('submit', handleAdminAddPlayer);
     
     // Sliders live preview setup for Admin Panel
@@ -599,20 +592,6 @@
 
     document.getElementById('btn-admin-batch-import')?.addEventListener('click', handleAdminBatchImport);
     document.getElementById('btn-admin-clear-all')?.addEventListener('click', clearAllStorageDatabase);
-
-    document.getElementById('cloud-endpoint-input')?.addEventListener('change', (e) => {
-      state.cloudEndpoint = e.target.value.trim();
-      localStorage.setItem(STORAGE_KEY_ENDPOINT, state.cloudEndpoint);
-      if (state.cloudEndpoint) fetchCloudRoster();
-    });
-
-    document.getElementById('cloud-key-input')?.addEventListener('change', (e) => {
-      state.cloudKey = e.target.value.trim();
-      localStorage.setItem(STORAGE_KEY_CLOUD_KEY, state.cloudKey);
-    });
-
-    document.getElementById('btn-push-cloud')?.addEventListener('click', pushCloudRoster);
-    document.getElementById('btn-fetch-cloud')?.addEventListener('click', fetchCloudRoster);
 
     // Position Filter Buttons
     document.querySelectorAll('.pos-filter-btn').forEach(btn => {
@@ -886,6 +865,7 @@
             isExplicitReserve: parsed.isReserve,
             reserveTag: parsed.reserveTag || 'R1',
             rsvpIndex: idx,
+            avatarUrl: '',
             adminRatings: {
               "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
             }
@@ -920,6 +900,7 @@
     const adminName = document.getElementById('admin-reviewer-name').value.trim() || 'Admin 1';
     const name = document.getElementById('admin-name').value.trim();
     const aliasesRaw = document.getElementById('admin-aliases').value;
+    const avatarUrl = document.getElementById('admin-avatar-url').value.trim();
     const primaryPos = document.getElementById('admin-primary-pos').value;
 
     const speed = parseFloat(document.getElementById('admin-speed').value) || 7.0;
@@ -948,6 +929,7 @@
         secPos,
         attending: true,
         overridePos: null,
+        avatarUrl,
         adminRatings: {}
       };
       state.roster.push(existingP);
@@ -955,6 +937,7 @@
       existingP.primaryPos = primaryPos;
       existingP.secPos = secPos;
       if (aliases.length > 0) existingP.aliases = aliases;
+      if (avatarUrl) existingP.avatarUrl = avatarUrl;
     }
 
     if (!existingP.adminRatings) existingP.adminRatings = {};
@@ -974,7 +957,7 @@
     updateAdminFormCalculatedPreview();
 
     const stats = getPlayerRatingStats(existingP);
-    showToast(`Saved rating for ${name} by ${adminName}! New Average: ${stats.rating.toFixed(1)} ★`);
+    showToast(`Saved rating & profile DP for ${name} by ${adminName}! Average: ${stats.rating.toFixed(1)} ★`);
   }
 
   function handleAdminBatchImport() {
@@ -1002,6 +985,7 @@
           secPos,
           attending: true,
           overridePos: null,
+          avatarUrl: '',
           adminRatings: {
             "System Default": { "adminName": "System Default", "speed": rating, "accuracy": rating, "defense": rating, "knowledge": rating }
           }
@@ -1043,8 +1027,12 @@
 
     tbody.innerHTML = state.roster.map(p => {
       const stats = getPlayerRatingStats(p);
+      const initials = p.name.split(' ').map(n => n[0]).join('').substr(0, 2).toUpperCase();
+      const avatarHtml = p.avatarUrl ? `<img src="${p.avatarUrl}" alt="${p.name}" class="admin-dp-thumb">` : `<span class="pos-badge pos-${p.primaryPos.toLowerCase()}">${initials}</span>`;
+
       return `
         <tr>
+          <td>${avatarHtml}</td>
           <td><strong>${p.name}</strong></td>
           <td><span class="pos-badge pos-${p.primaryPos.toLowerCase()}">${p.primaryPos}</span></td>
           <td><span class="text-muted">${p.aliases ? p.aliases.join(', ') : '-'}</span></td>
@@ -1254,9 +1242,13 @@
 
     ul.innerHTML = sorted.map(p => {
       const pos = getPos(p);
+      const initials = p.name.split(' ').map(n => n[0]).join('').substr(0, 2).toUpperCase();
+      const avatarContent = p.avatarUrl ? `<img src="${p.avatarUrl}" alt="${p.name}" class="avatar-img">` : initials;
+
       return `
         <li class="player-item">
           <div class="player-main-info">
+            <div class="player-avatar-circle pos-${pos.toLowerCase()}" style="width:28px;height:28px;font-size:0.65rem;">${avatarContent}</div>
             <span class="pos-badge pos-${pos.toLowerCase()}">${pos}</span>
             <span class="player-name-text">${p.name}</span>
             ${p.overridePos ? `<span class="sec-pos-tags">(${pos} today)</span>` : ''}
@@ -1297,38 +1289,19 @@
 
     const defsAndMids = remaining.filter(p => !fwdIds.has(p.id));
 
-    const gkRowHtml = `
-      <div class="pitch-row">
-        ${gks.map(p => `
-          <div class="pitch-player-node">
-            <div class="pitch-token ${tokenClass}">GK</div>
-            <span class="pitch-player-name">${p.name.split(' ')[0]}</span>
-          </div>
-        `).join('')}
-      </div>
-    `;
+    const renderNode = p => {
+      const avatarContent = p.avatarUrl ? `<img src="${p.avatarUrl}" alt="${p.name}" class="avatar-img">` : getPos(p);
+      return `
+        <div class="pitch-player-node">
+          <div class="pitch-token ${tokenClass}">${avatarContent}</div>
+          <span class="pitch-player-name">${p.name.split(' ')[0]}</span>
+        </div>
+      `;
+    };
 
-    const midRowHtml = `
-      <div class="pitch-row">
-        ${defsAndMids.map(p => `
-          <div class="pitch-player-node">
-            <div class="pitch-token ${tokenClass}">${getPos(p)}</div>
-            <span class="pitch-player-name">${p.name.split(' ')[0]}</span>
-          </div>
-        `).join('')}
-      </div>
-    `;
-
-    const fwdRowHtml = `
-      <div class="pitch-row">
-        ${fwds.map(p => `
-          <div class="pitch-player-node">
-            <div class="pitch-token ${tokenClass}">${getPos(p)}</div>
-            <span class="pitch-player-name">${p.name.split(' ')[0]}</span>
-          </div>
-        `).join('')}
-      </div>
-    `;
+    const gkRowHtml = `<div class="pitch-row">${gks.map(renderNode).join('')}</div>`;
+    const midRowHtml = `<div class="pitch-row">${defsAndMids.map(renderNode).join('')}</div>`;
+    const fwdRowHtml = `<div class="pitch-row">${fwds.map(renderNode).join('')}</div>`;
 
     if (isBottomHalf) {
       return fwdRowHtml + midRowHtml + gkRowHtml;
@@ -1445,12 +1418,13 @@
       const stats = getPlayerRatingStats(p);
       const posClass = `pos-${p.primaryPos.toLowerCase()}`;
       const initials = p.name.split(' ').map(n => n[0]).join('').substr(0, 2).toUpperCase();
+      const avatarContent = p.avatarUrl ? `<img src="${p.avatarUrl}" alt="${p.name}" class="avatar-img">` : initials;
 
       return `
         <div class="player-card">
           <div class="player-card-header">
             <div class="player-avatar-box">
-              <div class="player-avatar-circle ${posClass}">${initials}</div>
+              <div class="player-avatar-circle ${posClass}">${avatarContent}</div>
               <div class="player-card-title">
                 <h3>${p.name}</h3>
                 ${p.aliases && p.aliases.length > 0 ? `
@@ -1462,7 +1436,7 @@
             </div>
             <div class="rating-box-stack text-right">
               <span class="rating-star-tag">${stats.rating.toFixed(1)} ★</span>
-              ${stats.count > 0 ? `<span class="admin-count-badge">${stats.count} Admins</span>` : ''}
+              ${stats.count > 0 ? `<br><span class="admin-count-badge" style="margin-top:4px;display:inline-block;">${stats.count} Admins</span>` : ''}
             </div>
           </div>
 
@@ -1495,23 +1469,12 @@
               <span class="pos-badge ${posClass}">${p.primaryPos}</span>
               ${p.secPos && p.secPos.length > 0 ? p.secPos.map(sp => `<span class="sec-pos-tags">(${sp})</span>`).join('') : ''}
             </div>
-            <div class="btn-group">
-              <button class="btn-icon btn-edit-player" data-id="${p.id}" title="Edit / Rate"><i data-lucide="edit-3"></i></button>
-              <button class="btn-icon btn-delete-player" data-id="${p.id}" title="Delete"><i data-lucide="trash-2"></i></button>
-            </div>
           </div>
         </div>
       `;
     }).join('');
 
     lucide.createIcons();
-
-    container.querySelectorAll('.btn-edit-player').forEach(btn => {
-      btn.addEventListener('click', () => openPlayerModal(btn.getAttribute('data-id')));
-    });
-    container.querySelectorAll('.btn-delete-player').forEach(btn => {
-      btn.addEventListener('click', () => deletePlayer(btn.getAttribute('data-id')));
-    });
   }
 
   function openPlayerModal(playerId = null) {
@@ -1522,6 +1485,7 @@
     form.reset();
     document.getElementById('player-id').value = '';
     document.getElementById('modal-reviewer-name').value = 'Admin 1';
+    document.getElementById('player-avatar-url').value = '';
 
     const pastReviewsBox = document.getElementById('modal-past-reviews-container');
     const pastReviewsList = document.getElementById('modal-past-reviews-list');
@@ -1534,6 +1498,7 @@
         document.getElementById('player-id').value = p.id;
         document.getElementById('player-name').value = p.name;
         document.getElementById('player-aliases').value = p.aliases ? p.aliases.join(', ') : '';
+        document.getElementById('player-avatar-url').value = p.avatarUrl || '';
         document.getElementById('player-primary-pos').value = p.primaryPos;
 
         const stats = getPlayerRatingStats(p);
@@ -1548,7 +1513,6 @@
           cb.checked = p.secPos ? p.secPos.includes(cb.value) : false;
         });
 
-        // Render past admin reviews list
         if (stats.adminList && stats.adminList.length > 0) {
           pastReviewsCount.textContent = stats.adminList.length;
           pastReviewsList.innerHTML = stats.adminList.map(a => `
@@ -1581,6 +1545,7 @@
     const adminName = document.getElementById('modal-reviewer-name').value.trim() || 'Admin 1';
     const name = document.getElementById('player-name').value.trim();
     const aliasesRaw = document.getElementById('player-aliases').value;
+    const avatarUrl = document.getElementById('player-avatar-url').value.trim();
     const primaryPos = document.getElementById('player-primary-pos').value;
 
     const speed = parseFloat(document.getElementById('modal-speed').value) || 7.0;
@@ -1611,6 +1576,7 @@
         secPos,
         attending: true,
         overridePos: null,
+        avatarUrl,
         adminRatings: {}
       };
       state.roster.push(p);
@@ -1619,6 +1585,7 @@
       p.aliases = aliases;
       p.primaryPos = primaryPos;
       p.secPos = secPos;
+      if (avatarUrl) p.avatarUrl = avatarUrl;
     }
 
     if (!p.adminRatings) p.adminRatings = {};
@@ -1635,7 +1602,7 @@
     closeModal('modal-player');
 
     const stats = getPlayerRatingStats(p);
-    showToast(`Saved rating for ${name} by ${adminName}! Average: ${stats.rating.toFixed(1)} ★`);
+    showToast(`Saved rating & DP for ${name} by ${adminName}! Average: ${stats.rating.toFixed(1)} ★`);
   }
 
   function deletePlayer(playerId) {
@@ -1728,22 +1695,7 @@
     renderAttendanceList();
   }
 
-  function renderHistory() {
-    const list = document.getElementById('history-list');
-    if (!list) return;
-
-    if (state.history.length === 0) {
-      list.innerHTML = `<div class="glass-card"><p class="text-muted">No saved matches yet.</p></div>`;
-      return;
-    }
-
-    list.innerHTML = state.history.map(m => `
-      <div class="glass-card match-history-item">
-        <h4>${m.date} - ${m.venue} (${m.format})</h4>
-        <p class="text-muted">Balance score: ${m.score}%</p>
-      </div>
-    `).join('');
-  }
+  function renderHistory() {}
 
   function exportRosterJson() {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.roster, null, 2));
@@ -1803,7 +1755,6 @@
       renderAdminTable();
     }
     updateAttendanceCount();
-    renderHistory();
   }
 
   if (document.getElementById('app')) {
