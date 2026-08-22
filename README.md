@@ -107,6 +107,26 @@ To manage squad ratings and profile pictures:
 
 ---
 
+## 🌿 Git Branching & Merge Workflow
+
+To maintain code quality and prevent direct unreviewed commits on `main`:
+
+1. **Feature Branch:** All new features or UI updates are developed on a separate branch:
+   ```bash
+   git checkout -b feature/<feature-name>
+   ```
+2. **Local Preview & Review:** Test locally on `http://localhost:8080` and obtain user review.
+3. **Push & Merge:**
+   ```bash
+   git push -u origin feature/<feature-name>
+   git checkout main
+   git merge feature/<feature-name>
+   git push origin main
+   ```
+
+---
+
 ## 📄 License
 
 Distributed under the MIT License. Built for **FC Calle Munde** ⚽.
+
