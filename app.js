@@ -269,12 +269,12 @@
       "aliases": ["Manthan"],
       "primaryPos": "DEF",
       "secPos": [],
-      "attending": false,
+      "attending": true,
       "overridePos": null,
       "isExplicitReserve": false,
       "reserveTag": null,
       "rsvpIndex": 999,
-      "avatarUrl": "",
+      "avatarUrl": "assets/manthan.jpg",
       "adminRatings": {
         "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
       }
@@ -317,8 +317,8 @@
   };
 
   // --- LOCAL STORAGE KEYS ---
-  const STORAGE_KEY_ROSTER = 'fc_calle_munde_roster_v11';
-  const STORAGE_KEY_HISTORY = 'fc_calle_munde_history_v11';
+  const STORAGE_KEY_ROSTER = 'fc_calle_munde_roster_v12';
+  const STORAGE_KEY_HISTORY = 'fc_calle_munde_history_v12';
   const STORAGE_KEY_ENDPOINT = 'fc_calle_munde_cloud_endpoint';
   const STORAGE_KEY_CLOUD_KEY = 'fc_calle_munde_cloud_key';
 
@@ -456,6 +456,12 @@
       state.roster = [...DEFAULT_ROSTER];
     }
 
+    // Ensure Manthan has his photo URL
+    const manthanP = state.roster.find(p => p.name.toLowerCase() === 'manthan');
+    if (manthanP && !manthanP.avatarUrl) {
+      manthanP.avatarUrl = 'assets/manthan.jpg';
+    }
+
     const savedHistory = localStorage.getItem(STORAGE_KEY_HISTORY);
     if (savedHistory) {
       try {
@@ -505,6 +511,11 @@
 
         if (cloudRoster && cloudRoster.length > 0) {
           state.roster = cloudRoster;
+          // Ensure Manthan DP
+          const manthanP = state.roster.find(p => p.name.toLowerCase() === 'manthan');
+          if (manthanP && !manthanP.avatarUrl) {
+            manthanP.avatarUrl = 'assets/manthan.jpg';
+          }
           localStorage.setItem(STORAGE_KEY_ROSTER, JSON.stringify(state.roster));
           renderAll();
         }
@@ -1749,6 +1760,17 @@
   }
 
   function renderAll() {
+    // Check if Manthan has a DP
+    const manthanPlayer = state.roster.find(p => p.name.toLowerCase() === 'manthan');
+    const birthdayAvatarBox = document.getElementById('birthday-manthan-avatar');
+    if (manthanPlayer && birthdayAvatarBox) {
+      if (manthanPlayer.avatarUrl) {
+        birthdayAvatarBox.innerHTML = `<img src="${manthanPlayer.avatarUrl}" alt="Manthan" class="avatar-img">`;
+      } else {
+        birthdayAvatarBox.innerHTML = `<span class="birthday-initials">M</span>`;
+      }
+    }
+
     renderRoster();
     if (state.isAdminAuth) {
       renderAdminTable();
