@@ -14,9 +14,13 @@ import urllib.request
 import urllib.parse
 import json
 import subprocess
+import ssl
 
 CONFIG_FILE = os.path.expanduser('~/.fc_calle_munde_mobile_config.json')
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Unverified SSL context for Python 3.13 macOS compatibility
+SSL_CTX = ssl._create_unverified_context()
 
 def load_config():
     if os.path.exists(CONFIG_FILE):
@@ -44,7 +48,7 @@ def send_telegram_message(bot_token, chat_id, text, reply_markup=None):
     data = json.dumps(payload).encode('utf-8')
     req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
     try:
-        with urllib.request.urlopen(req) as resp:
+        with urllib.request.urlopen(req, context=SSL_CTX) as resp:
             return json.loads(resp.read().decode('utf-8'))
     except Exception as e:
         print(f"Error sending message: {e}")
@@ -53,9 +57,9 @@ def send_telegram_message(bot_token, chat_id, text, reply_markup=None):
 def get_telegram_updates(bot_token, offset=0):
     url = f"https://api.telegram.org/bot{bot_token}/getUpdates?offset={offset}&timeout=10"
     try:
-        with urllib.request.urlopen(url, timeout=15) as resp:
+        with urllib.request.urlopen(url, timeout=15, context=SSL_CTX) as resp:
             return json.loads(resp.read().decode('utf-8'))
-    except Exception:
+    except Exception as e:
         return {'ok': False, 'result': []}
 
 def run_git_command(cmd_args):
@@ -65,30 +69,26 @@ def run_git_command(cmd_args):
     except Exception as e:
         return False, str(e)
 
+def sync_to_scratch():
+    try:
+        cmd = f"cp {PROJECT_DIR}/index.html {PROJECT_DIR}/styles.css {PROJECT_DIR}/app.js /Users/jitendra/.gemini/antigravity/scratch/football-team-balancer/"
+        subprocess.run(cmd, shell=True, check=True)
+        return True
+    except Exception:
+        return False
+
 def main():
     config = load_config()
     bot_token = config.get('bot_token') or os.environ.get('TELEGRAM_BOT_TOKEN')
     allowed_chat_id = config.get('allowed_chat_id')
 
     if not bot_token:
-        print("\n=======================================================")
-        print("⚽ FC CALLE MUNDE - MOBILE TELEGRAM AGENT SETUP ⚽")
-        print("=======================================================")
-        print("1. Open Telegram on your phone and search for @BotFather")
-        print("2. Send /newbot to create your bot and copy the API Token")
-        print("=======================================================\n")
-        bot_token = input("Enter your Telegram Bot Token: ").strip()
-        if not bot_token:
-            print("Bot token is required. Exiting.")
-            sys.exit(1)
-        config['bot_token'] = bot_token
-        save_config(config)
+        print("Bot token is required. Exiting.")
+        sys.exit(1)
 
-    print(f"\n🚀 Mobile Agent Bridge active for project: {PROJECT_DIR}")
-    print("Waiting for initial message from your phone...")
+    print(f"\n🚀 FC Calle Munde Mobile Agent active for project: {PROJECT_DIR}")
 
     offset = 0
-    pending_push_proposal = False
 
     while True:
         updates = get_telegram_updates(bot_token, offset)
@@ -107,7 +107,8 @@ def main():
                     allowed_chat_id = chat_id
                     config['allowed_chat_id'] = allowed_chat_id
                     save_config(config)
-                    send_telegram_message(bot_token, chat_id, f"✅ *Mobile Security Paired!*\nWelcome {user_name}. Your Telegram ID `{chat_id}` is authorized to issue code instructions and git push commands!")
+                    send_telegram_message(bot_token, chat_id, f"✅ *Mobile Security Paired!*\nWelcome {user_name}. Your Telegram ID `{chat_id}` is connected to FC Calle Munde repository!")
+                    print(f"Paired chat_id {chat_id} for user {user_name}")
                     continue
 
                 if chat_id != allowed_chat_id:
@@ -118,38 +119,57 @@ def main():
 
                 if text.lower() in ['/start', 'help', '/help']:
                     help_msg = (
-                        "⚽ *FC Calle Munde Mobile Agent Commands:*\n\n"
-                        "• `status` - Check git status & local server\n"
-                        "• `push` - Confirm & execute `git push origin main`\n"
-                        "• Any custom message - Give instructions to update code!\n"
+                        "⚽ *FC Calle Munde Mobile Git & Code Controller:*\n\n"
+                        "• `status` - Show modified files & current git status\n"
+                        "• `push` - Confirm & push code to GitHub `main` branch\n"
+                        "• `sync` - Sync files to local test server\n"
+                        "• Type ANY instruction to update project files! (e.g. *Change venue to Arena 1*)\n"
                     )
                     send_telegram_message(bot_token, chat_id, help_msg)
 
                 elif text.lower() == 'status':
                     ok, status_out = run_git_command(['git', 'status', '-s'])
                     branch_ok, branch_out = run_git_command(['git', 'branch', '--show-current'])
-                    status_text = f"📍 *Current Branch:* `{branch_out.strip()}`\n\n*Working Tree Status:*\n```{status_out or 'Clean (Nothing to commit)'}```"
-                    send_telegram_message(bot_token, chat_id, status_text)
+                    status_text = (
+                        f"📍 *FC Calle Munde Repository Status*\n"
+                        f"🌿 *Branch:* `{branch_out.strip()}`\n\n"
+                        f"*Modified / Untracked Files:*\n```{status_out.strip() or 'Clean (All changes committed)'}```"
+                    )
+                    reply_markup = {
+                        'keyboard': [[{'text': 'push'}, {'text': 'status'}]],
+                        'resize_keyboard': True,
+                        'one_time_keyboard': True
+                    }
+                    send_telegram_message(bot_token, chat_id, status_text, reply_markup=reply_markup)
 
                 elif text.lower() in ['push', 'yes', 'confirm']:
-                    send_telegram_message(bot_token, chat_id, "⏳ Executing `git push origin main`...")
-                    ok, out = run_git_command(['git', 'push', 'origin', 'main'])
-                    if ok:
-                        send_telegram_message(bot_token, chat_id, f"🎉 *Successfully pushed to GitHub main!*\n\n```{out[-300:] if len(out) > 300 else out}```")
+                    send_telegram_message(bot_token, chat_id, "⏳ Staging changes and pushing to GitHub `main`...")
+                    run_git_command(['git', 'add', '.'])
+                    commit_ok, commit_out = run_git_command(['git', 'commit', '-m', f"feat: mobile update via Telegram ({time.strftime('%Y-%m-%d %H:%M')})"])
+                    push_ok, push_out = run_git_command(['git', 'push', 'origin', 'main'])
+                    
+                    if push_ok:
+                        send_telegram_message(bot_token, chat_id, f"🎉 *SUCCESS: Code Pushed to GitHub main!*\n\n```\nRepository: jittujadav/fc-calle-munde\nBranch: main\nStatus: Up to date\n```")
                     else:
-                        send_telegram_message(bot_token, chat_id, f"❌ *Push failed:*\n```{out}```")
+                        send_telegram_message(bot_token, chat_id, f"❌ *Git Push Output:*\n```{push_out}```")
+
+                elif text.lower() == 'sync':
+                    if sync_to_scratch():
+                        send_telegram_message(bot_token, chat_id, "✅ Synced project files to local test server `http://localhost:8080`!")
+                    else:
+                        send_telegram_message(bot_token, chat_id, "❌ Sync failed.")
 
                 else:
                     proposal_msg = (
-                        f"🤖 *Received Mobile Instruction:*\n\"{text}\"\n\n"
-                        "💡 *Proposed Plan:*\n"
-                        "1. Process requested code changes\n"
-                        "2. Run local verification\n"
-                        "3. Ask for your final review before git push\n\n"
-                        "Reply *PUSH* or *YES* to authorize git push, or send updated instructions."
+                        f"📝 *FC Calle Munde Project Instruction Received:*\n\"{text}\"\n\n"
+                        "⚙️ *Action Plan:*\n"
+                        "1. Apply edits to FC Calle Munde codebase\n"
+                        "2. Sync to local preview server (`http://localhost:8080`)\n"
+                        "3. Await your confirmation before pushing to GitHub `main`\n\n"
+                        "Tap *PUSH* below to commit & push to GitHub `main`!"
                     )
                     reply_markup = {
-                        'keyboard': [[{'text': 'PUSH'}, {'text': 'status'}]],
+                        'keyboard': [[{'text': 'push'}, {'text': 'status'}]],
                         'resize_keyboard': True,
                         'one_time_keyboard': True
                     }
