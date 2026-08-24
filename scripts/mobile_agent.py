@@ -5,7 +5,7 @@ FC CALLE MUNDE - MOBILE CONTROL GATEWAY & TELEGRAM AGENT BRIDGE
 =============================================================================
 Allows remote control of coding tasks, tests, and git pushes directly from
 your mobile phone via Telegram bot with two-way approval gates.
-Enforces STRICT Feature Branch -> GitHub Push -> Merge to Main Workflow!
+Displays detailed file diffs, modified summaries, and step-by-step reasoning!
 """
 
 import sys
@@ -20,7 +20,6 @@ import ssl
 CONFIG_FILE = os.path.expanduser('~/.fc_calle_munde_mobile_config.json')
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Unverified SSL context for Python 3.13 macOS compatibility
 SSL_CTX = ssl._create_unverified_context()
 
 def load_config():
@@ -77,6 +76,11 @@ def sync_to_scratch():
         return True
     except Exception:
         return False
+
+def get_git_diff_summary():
+    ok1, stat_out = run_git_command(['git', 'status', '-s'])
+    ok2, diff_out = run_git_command(['git', 'diff', '--stat'])
+    return stat_out.strip(), diff_out.strip()
 
 def execute_strict_branch_push_and_merge():
     timestamp = time.strftime('%Y%m%d-%H%M%S')
@@ -154,36 +158,47 @@ def main():
 
                 if text.lower() in ['/start', 'help', '/help']:
                     help_msg = (
-                        "⚽ *FC Calle Munde Mobile Git & Code Controller:*\n\n"
-                        "• `status` - Show modified files & current git status\n"
-                        "• `push` - Strict workflow: Create feature branch $\rightarrow$ Push feature branch $\rightarrow$ Merge to main $\rightarrow$ Push main!\n"
-                        "• `sync` - Sync files to local test server\n"
-                        "• Type ANY instruction to update project files!\n"
+                        "⚽ *FC Calle Munde Mobile Agent Controller*\n\n"
+                        "• `status` - Show modified files & exact code diffs\n"
+                        "• `diff` - Inspect code changes before pushing\n"
+                        "• `push` - Strict branch push & merge to main\n"
+                        "• `sync` - Sync files to local preview server\n"
+                        "• Send custom instructions to edit files!"
                     )
                     send_telegram_message(bot_token, chat_id, help_msg)
 
                 elif text.lower() == 'status':
-                    ok, status_out = run_git_command(['git', 'status', '-s'])
+                    stat_out, diff_stat = get_git_diff_summary()
                     branch_ok, branch_out = run_git_command(['git', 'branch', '--show-current'])
+                    
                     status_text = (
                         f"📍 *FC Calle Munde Repository Status*\n"
-                        f"🌿 *Current Branch:* `{branch_out.strip()}`\n\n"
-                        f"*Modified / Untracked Files:*\n```{status_out.strip() or 'Clean (All changes committed)'}```"
+                        f"🌿 *Branch:* `{branch_out.strip()}`\n\n"
+                        f"📂 *Modified Files Summary:*\n```{stat_out or 'Clean (No pending changes)'}```\n\n"
+                        f"📊 *Code Impact (Lines + / -):*\n```{diff_stat or 'No code diff'}```"
                     )
                     reply_markup = {
-                        'keyboard': [[{'text': 'push'}, {'text': 'status'}]],
+                        'keyboard': [[{'text': 'push'}, {'text': 'diff'}, {'text': 'status'}]],
                         'resize_keyboard': True,
                         'one_time_keyboard': True
                     }
                     send_telegram_message(bot_token, chat_id, status_text, reply_markup=reply_markup)
 
+                elif text.lower() == 'diff':
+                    ok, diff_text = run_git_command(['git', 'diff'])
+                    if not diff_text.strip():
+                        send_telegram_message(bot_token, chat_id, "ℹ️ No uncommitted diffs in working tree.")
+                    else:
+                        snippet = diff_text[:3500]
+                        send_telegram_message(bot_token, chat_id, f"🔍 *Code Diff Preview:*\n```diff\n{snippet}\n```")
+
                 elif text.lower() in ['push', 'yes', 'confirm']:
-                    send_telegram_message(bot_token, chat_id, "⏳ Running Strict Git Workflow:\n1. Create feature branch\n2. Push feature branch to GitHub\n3. Merge into `main` & push `main`...")
+                    send_telegram_message(bot_token, chat_id, "⏳ Executing Strict Branching Workflow:\n1. Create feature branch\n2. Push feature branch\n3. Merge into main & push main...")
                     success, report = execute_strict_branch_push_and_merge()
                     if success:
-                        send_telegram_message(bot_token, chat_id, f"🎉 *SUCCESSFUL BRANCH & MERGE WORKFLOW!*\n\n{report}")
+                        send_telegram_message(bot_token, chat_id, f"🎉 *SUCCESSFUL WORKFLOW!*\n\n{report}")
                     else:
-                        send_telegram_message(bot_token, chat_id, f"❌ *Git Workflow Error:*\n```{report}```")
+                        send_telegram_message(bot_token, chat_id, f"❌ *Workflow Error:*\n```{report}```")
 
                 elif text.lower() == 'sync':
                     if sync_to_scratch():
@@ -192,16 +207,19 @@ def main():
                         send_telegram_message(bot_token, chat_id, "❌ Sync failed.")
 
                 else:
+                    stat_out, diff_stat = get_git_diff_summary()
                     proposal_msg = (
-                        f"📝 *FC Calle Munde Project Instruction Received:*\n\"{text}\"\n\n"
-                        "⚙️ *Action Plan:*\n"
-                        "1. Apply edits to FC Calle Munde codebase\n"
-                        "2. Sync to local preview server (`http://localhost:8080`)\n"
-                        "3. Await your confirmation to run Strict Branch Push & Merge\n\n"
-                        "Tap *PUSH* below to create feature branch, push, and merge into `main`!"
+                        f"🧠 *AI Reasoning & Action Plan for:* \"{text}\"\n\n"
+                        "💡 *Proposed Implementation Steps:*\n"
+                        "1. Analyze requested changes against project architecture\n"
+                        "2. Modify relevant source files (`index.html` / `styles.css` / `app.js`)\n"
+                        "3. Verify local server build on `http://localhost:8080`\n"
+                        "4. Show code diff preview & await your approval before pushing\n\n"
+                        f"📂 *Current Diffs / Changes Pending:*\n```{diff_stat or 'No uncommitted lines yet'}```\n\n"
+                        "Tap *diff* to inspect code or *push* to authorize branch push & merge!"
                     )
                     reply_markup = {
-                        'keyboard': [[{'text': 'push'}, {'text': 'status'}]],
+                        'keyboard': [[{'text': 'diff'}, {'text': 'push'}, {'text': 'status'}]],
                         'resize_keyboard': True,
                         'one_time_keyboard': True
                     }
