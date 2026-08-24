@@ -5,6 +5,7 @@ FC CALLE MUNDE - MOBILE CONTROL GATEWAY & TELEGRAM AGENT BRIDGE
 =============================================================================
 Allows remote control of coding tasks, tests, and git pushes directly from
 your mobile phone via Telegram bot with two-way approval gates.
+Enforces STRICT Feature Branch -> GitHub Push -> Merge to Main Workflow!
 """
 
 import sys
@@ -77,6 +78,40 @@ def sync_to_scratch():
     except Exception:
         return False
 
+def execute_strict_branch_push_and_merge():
+    timestamp = time.strftime('%Y%m%d-%H%M%S')
+    branch_name = f"feature/mobile-update-{timestamp}"
+    
+    # Step 1: Create and switch to feature branch
+    ok, out1 = run_git_command(['git', 'checkout', '-b', branch_name])
+    if not ok:
+        return False, f"Failed to create feature branch {branch_name}: {out1}"
+    
+    # Step 2: Stage and commit
+    run_git_command(['git', 'add', '.'])
+    ok, out2 = run_git_command(['git', 'commit', '-m', f"feat: mobile update via Telegram ({timestamp})"])
+    if not ok and 'nothing to commit' not in out2:
+        run_git_command(['git', 'checkout', 'main'])
+        return False, f"Commit failed: {out2}"
+
+    # Step 3: Push feature branch to GitHub
+    ok, out3 = run_git_command(['git', 'push', '-u', 'origin', branch_name])
+    if not ok:
+        run_git_command(['git', 'checkout', 'main'])
+        return False, f"Failed to push feature branch {branch_name}: {out3}"
+
+    # Step 4: Checkout main, merge feature branch, push main
+    run_git_command(['git', 'checkout', 'main'])
+    ok, out4 = run_git_command(['git', 'merge', branch_name])
+    if not ok:
+        return False, f"Failed to merge {branch_name} into main: {out4}"
+
+    ok, out5 = run_git_command(['git', 'push', 'origin', 'main'])
+    if not ok:
+        return False, f"Failed to push main branch: {out5}"
+
+    return True, f"✅ Created branch `{branch_name}`\n✅ Pushed `{branch_name}` to GitHub\n✅ Merged into `main` and pushed `main`!"
+
 def main():
     config = load_config()
     bot_token = config.get('bot_token') or os.environ.get('TELEGRAM_BOT_TOKEN')
@@ -121,9 +156,9 @@ def main():
                     help_msg = (
                         "⚽ *FC Calle Munde Mobile Git & Code Controller:*\n\n"
                         "• `status` - Show modified files & current git status\n"
-                        "• `push` - Confirm & push code to GitHub `main` branch\n"
+                        "• `push` - Strict workflow: Create feature branch $\rightarrow$ Push feature branch $\rightarrow$ Merge to main $\rightarrow$ Push main!\n"
                         "• `sync` - Sync files to local test server\n"
-                        "• Type ANY instruction to update project files! (e.g. *Change venue to Arena 1*)\n"
+                        "• Type ANY instruction to update project files!\n"
                     )
                     send_telegram_message(bot_token, chat_id, help_msg)
 
@@ -132,7 +167,7 @@ def main():
                     branch_ok, branch_out = run_git_command(['git', 'branch', '--show-current'])
                     status_text = (
                         f"📍 *FC Calle Munde Repository Status*\n"
-                        f"🌿 *Branch:* `{branch_out.strip()}`\n\n"
+                        f"🌿 *Current Branch:* `{branch_out.strip()}`\n\n"
                         f"*Modified / Untracked Files:*\n```{status_out.strip() or 'Clean (All changes committed)'}```"
                     )
                     reply_markup = {
@@ -143,15 +178,12 @@ def main():
                     send_telegram_message(bot_token, chat_id, status_text, reply_markup=reply_markup)
 
                 elif text.lower() in ['push', 'yes', 'confirm']:
-                    send_telegram_message(bot_token, chat_id, "⏳ Staging changes and pushing to GitHub `main`...")
-                    run_git_command(['git', 'add', '.'])
-                    commit_ok, commit_out = run_git_command(['git', 'commit', '-m', f"feat: mobile update via Telegram ({time.strftime('%Y-%m-%d %H:%M')})"])
-                    push_ok, push_out = run_git_command(['git', 'push', 'origin', 'main'])
-                    
-                    if push_ok:
-                        send_telegram_message(bot_token, chat_id, f"🎉 *SUCCESS: Code Pushed to GitHub main!*\n\n```\nRepository: jittujadav/fc-calle-munde\nBranch: main\nStatus: Up to date\n```")
+                    send_telegram_message(bot_token, chat_id, "⏳ Running Strict Git Workflow:\n1. Create feature branch\n2. Push feature branch to GitHub\n3. Merge into `main` & push `main`...")
+                    success, report = execute_strict_branch_push_and_merge()
+                    if success:
+                        send_telegram_message(bot_token, chat_id, f"🎉 *SUCCESSFUL BRANCH & MERGE WORKFLOW!*\n\n{report}")
                     else:
-                        send_telegram_message(bot_token, chat_id, f"❌ *Git Push Output:*\n```{push_out}```")
+                        send_telegram_message(bot_token, chat_id, f"❌ *Git Workflow Error:*\n```{report}```")
 
                 elif text.lower() == 'sync':
                     if sync_to_scratch():
@@ -165,8 +197,8 @@ def main():
                         "⚙️ *Action Plan:*\n"
                         "1. Apply edits to FC Calle Munde codebase\n"
                         "2. Sync to local preview server (`http://localhost:8080`)\n"
-                        "3. Await your confirmation before pushing to GitHub `main`\n\n"
-                        "Tap *PUSH* below to commit & push to GitHub `main`!"
+                        "3. Await your confirmation to run Strict Branch Push & Merge\n\n"
+                        "Tap *PUSH* below to create feature branch, push, and merge into `main`!"
                     )
                     reply_markup = {
                         'keyboard': [[{'text': 'push'}, {'text': 'status'}]],
