@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>FC Calle Munde - Football Team Balancer & Squad Hub</title>
-  <meta name="description" content="Automated weekly 7v7 football team generator, skill balancer, multi-admin parameterized rating system (Speed, Accuracy, Defense, Knowledge), individual player DPs, and Instagram channel hub for FC Calle Munde.">
+  <meta name="description" content="Automated weekly 7v7 football team generator, skill balancer, multi-admin parameterized rating system (Speed, Accuracy, Defense, Knowledge), individual player DPs, live FPL Fantasy Premier League standings hub, and Instagram community channel for FC Calle Munde.">
   
   <!-- Google Fonts: Outfit & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +14,7 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
   <div id="app" class="app-container">
@@ -38,11 +38,15 @@
       </div>
     </header>
 
-    <!-- Main Navigation Tabs -->
+    <!-- Desktop Navigation Tabs -->
     <nav class="nav-tabs">
       <button class="nav-tab active" data-tab="tab-balancer">
         <i data-lucide="zap"></i>
         <span>Generator</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-fpl">
+        <i data-lucide="trophy"></i>
+        <span>FPL Hub</span>
       </button>
       <button class="nav-tab" data-tab="tab-roster">
         <i data-lucide="users"></i>
@@ -62,43 +66,38 @@
       </button>
     </nav>
 
+    <!-- FLOATING MOBILE BOTTOM NAVIGATION DOCK -->
+    <div class="mobile-bottom-dock">
+      <div class="mobile-dock-items">
+        <button class="dock-item active" data-tab="tab-balancer">
+          <i data-lucide="zap"></i>
+          <span>Generator</span>
+        </button>
+        <button class="dock-item" data-tab="tab-fpl">
+          <i data-lucide="trophy"></i>
+          <span>FPL</span>
+        </button>
+        <button class="dock-item" data-tab="tab-roster">
+          <i data-lucide="users"></i>
+          <span>Squad</span>
+        </button>
+        <button class="dock-item" data-tab="tab-admin">
+          <i data-lucide="shield-alert"></i>
+          <span>Admin</span>
+        </button>
+        <button class="dock-item" data-tab="tab-instagram">
+          <i data-lucide="instagram"></i>
+          <span>Media</span>
+        </button>
+        <button class="dock-item" data-tab="tab-settings">
+          <i data-lucide="settings"></i>
+          <span>Config</span>
+        </button>
+      </div>
+    </div>
+
     <!-- App Content Area -->
     <main class="main-content">
-
-      <!-- MANTHAN'S GRAND HERO BIRTHDAY BANNER -->
-      <div class="glass-card birthday-hero-banner">
-        <div class="birthday-hero-grid">
-          
-          <!-- GRAND FEATURED PHOTO -->
-          <div class="birthday-hero-photo-container">
-            <div class="birthday-photo-frame">
-              <img src="assets/manthan.jpg" alt="Manthan Birthday Celebration" class="birthday-hero-img">
-              <span class="birthday-photo-badge">🎂 Birthday Wall 🛡️</span>
-            </div>
-          </div>
-          
-          <!-- BIRTHDAY DETAILS & PRAISE -->
-          <div class="birthday-hero-details">
-            <div class="birthday-headline-group">
-              <div class="birthday-title-row">
-                <h2>🎉 Wishing You A Happy Birthday to Manthan! 🎂🎈</h2>
-                <span class="birthday-date-pill">FC Calle Munde Special</span>
-              </div>
-            </div>
-
-            <p class="birthday-quote-large">
-              "Wishing a very Happy Birthday to FC Calle Munde's impenetrable defensive wall! Known for fearlessly anchoring the backline, rock-solid positioning, and legendary tackling. When Manthan is on defense, opposition strikers know they're up against a fortress. Here's to health, clean sheets, and victory on the turf!"
-            </p>
-
-            <div class="birthday-actions">
-              <a href="https://www.instagram.com/amac2301?igsi=MXNsNnJxZmh2M2lhdw==" target="_blank" rel="noopener" class="btn btn-instagram btn-lg">
-                <i data-lucide="instagram"></i> Follow @amac2301 on Instagram
-              </a>
-            </div>
-          </div>
-
-        </div>
-      </div>
       
       <!-- TAB 1: TEAM BALANCER & GENERATOR -->
       <section id="tab-balancer" class="tab-page active">
@@ -264,7 +263,90 @@
         </div>
       </section>
 
-      <!-- TAB 2: PLAYER ROSTER DATABASE (READ-ONLY SQUAD VIEW) -->
+      <!-- TAB 2: LIVE FPL FANTASY LEAGUE HUB -->
+      <section id="tab-fpl" class="tab-page">
+        <!-- FPL Banner Card -->
+        <div class="glass-card fpl-banner">
+          <div class="fpl-banner-main">
+            <div class="fpl-badge-icon">
+              <i data-lucide="trophy"></i>
+            </div>
+            <div>
+              <h2 id="fpl-league-title">Calle Munde Before Kickoff</h2>
+              <p class="text-muted">Official Group Fantasy Premier League Mini-League (ID: <span id="fpl-league-id-display">889829</span>)</p>
+            </div>
+          </div>
+
+          <div class="fpl-banner-actions">
+            <button id="btn-refresh-fpl" class="btn btn-secondary btn-sm">
+              <i data-lucide="refresh-cw"></i> Live Sync FPL
+            </button>
+            <a href="https://fantasy.premierleague.com/leagues/889829/standings/c" target="_blank" rel="noopener" class="btn btn-primary btn-sm">
+              <i data-lucide="external-link"></i> Open Official FPL
+            </a>
+          </div>
+        </div>
+
+        <!-- FPL Leader Spotlight Cards -->
+        <div class="fpl-spotlight-grid">
+          <div class="glass-card fpl-spotlight-card gold-border">
+            <div class="spotlight-header">
+              <span class="spotlight-badge">👑 Current Group Leaders</span>
+              <i data-lucide="crown" class="text-accent-gold"></i>
+            </div>
+            <div class="spotlight-body">
+              <h3 id="fpl-leader-name">Anurag Kakaty & Vishnu V</h3>
+              <p class="text-muted" id="fpl-leader-teams">NovocAin't / rip</p>
+              <div class="spotlight-score">
+                <span id="fpl-leader-total" class="text-accent-gold">55 pts</span>
+                <span class="text-dim">Overall Points</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card fpl-spotlight-card emerald-border">
+            <div class="spotlight-header">
+              <span class="spotlight-badge">⚡ Top Gameweek Scorer</span>
+              <i data-lucide="zap" class="text-emerald"></i>
+            </div>
+            <div class="spotlight-body">
+              <h3 id="fpl-top-gw-name">Anurag & Vishnu</h3>
+              <p class="text-muted" id="fpl-top-gw-team">NovocAin't / rip</p>
+              <div class="spotlight-score">
+                <span id="fpl-top-gw-pts" class="text-emerald">55 pts</span>
+                <span class="text-dim">Latest Gameweek</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FPL Live Standings Table Card -->
+        <div class="glass-card fpl-table-card">
+          <div class="fpl-table-header">
+            <h3><i data-lucide="list-ordered" class="text-emerald"></i> Live League Standings Table</h3>
+            <span class="text-muted" id="fpl-last-updated">Updating live...</span>
+          </div>
+
+          <div class="admin-table-wrapper">
+            <table class="admin-table fpl-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Manager Name</th>
+                  <th>FPL Team Name</th>
+                  <th>GW Points</th>
+                  <th>Total Points</th>
+                </tr>
+              </thead>
+              <tbody id="fpl-table-body">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: PLAYER ROSTER DATABASE (READ-ONLY SQUAD VIEW) -->
       <section id="tab-roster" class="tab-page">
         <!-- Squad Summary Banner -->
         <div class="glass-card roster-banner">
@@ -306,7 +388,7 @@
         </div>
       </section>
 
-      <!-- TAB 3: SQUAD ADMIN PANEL -->
+      <!-- TAB 4: SQUAD ADMIN PANEL -->
       <section id="tab-admin" class="tab-page">
         
         <!-- ADMIN LOGIN GATE CARD -->
@@ -485,7 +567,7 @@
 
       </section>
 
-      <!-- TAB 4: INSTAGRAM COMMUNITY CHANNEL -->
+      <!-- TAB 5: INSTAGRAM COMMUNITY CHANNEL -->
       <section id="tab-instagram" class="tab-page">
         <div class="glass-card instagram-banner-card">
           <div class="instagram-brand-box">
@@ -530,9 +612,22 @@
         </div>
       </section>
 
-      <!-- TAB 5: SETTINGS & BACKUP -->
+      <!-- TAB 6: SETTINGS & BACKUP -->
       <section id="tab-settings" class="tab-page">
         <div class="glass-card settings-card">
+          <h2><i data-lucide="trophy" class="text-accent-gold"></i> FPL Fantasy League Configuration</h2>
+          <p class="settings-desc">Configure your group's Fantasy Premier League Mini-League ID.</p>
+          
+          <div class="form-group" style="max-width: 380px; margin-top: 14px;">
+            <label for="fpl-league-id-input">FPL Classic League ID</label>
+            <div style="display:flex; gap:10px;">
+              <input type="text" id="fpl-league-id-input" class="form-input" value="889829" placeholder="e.g. 889829">
+              <button id="btn-save-fpl-id" class="btn btn-primary btn-sm">Save FPL ID</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card settings-card" style="margin-top: 20px;">
           <h2><i data-lucide="database"></i> Data & Squad Management</h2>
           <p class="settings-desc">Export your FC Calle Munde player ratings & settings to back them up or transfer to another device.</p>
           
@@ -548,7 +643,7 @@
           </div>
         </div>
 
-        <div class="glass-card settings-card">
+        <div class="glass-card settings-card" style="margin-top: 20px;">
           <h2><i data-lucide="sliders"></i> Balancer Algorithm Weights</h2>
           <div class="setting-item">
             <label>Skill Balance Importance</label>
@@ -733,6 +828,6 @@
     <div id="toast-container" class="toast-container"></div>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=3"></script>
 </body>
 </html>

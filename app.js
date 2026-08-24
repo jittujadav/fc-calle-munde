@@ -1,5 +1,5 @@
 /* ==========================================================================
-   FC CALLE MUNDE - MULTI-ADMIN RATINGS, PLAYER DPS & INSTAGRAM COMMUNITY HUB
+   FC CALLE MUNDE - MULTI-ADMIN RATINGS, DPS, FPL FANTASY & INSTAGRAM HUB
    ========================================================================== */
 
 (function () {
@@ -313,14 +313,22 @@
     isAdminAuth: false,
     cloudEndpoint: 'https://api.npoint.io/0819fc_calle_munde',
     cloudKey: '',
-    posFilter: 'ALL'
+    posFilter: 'ALL',
+    fplLeagueId: '889829'
+  };
+
+  let fplState = {
+    leagueId: '889829',
+    data: null,
+    loading: false
   };
 
   // --- LOCAL STORAGE KEYS ---
-  const STORAGE_KEY_ROSTER = 'fc_calle_munde_roster_v12';
-  const STORAGE_KEY_HISTORY = 'fc_calle_munde_history_v12';
+  const STORAGE_KEY_ROSTER = 'fc_calle_munde_roster_v14';
+  const STORAGE_KEY_HISTORY = 'fc_calle_munde_history_v14';
   const STORAGE_KEY_ENDPOINT = 'fc_calle_munde_cloud_endpoint';
   const STORAGE_KEY_CLOUD_KEY = 'fc_calle_munde_cloud_key';
+  const STORAGE_KEY_FPL_ID = 'fc_calle_munde_fpl_league_id';
 
   // --- MULTI-ADMIN PARAMETERIZED RATING CALCULATION ENGINE ---
   function getPlayerRatingStats(player) {
@@ -433,8 +441,9 @@
     renderAll();
     lucide.createIcons();
     fetchCloudRoster();
+    fetchFplStandings(state.fplLeagueId);
 
-    // Background auto-polling every 15s for realtime runtime sync
+    // Auto-poll cloud DB every 15s
     setInterval(fetchCloudRoster, 15000);
   }
 
@@ -444,6 +453,12 @@
 
     const savedCloudKey = localStorage.getItem(STORAGE_KEY_CLOUD_KEY);
     if (savedCloudKey) state.cloudKey = savedCloudKey;
+
+    const savedFplId = localStorage.getItem(STORAGE_KEY_FPL_ID);
+    if (savedFplId) {
+      state.fplLeagueId = savedFplId;
+      fplState.leagueId = savedFplId;
+    }
 
     const savedRoster = localStorage.getItem(STORAGE_KEY_ROSTER);
     if (savedRoster) {
@@ -456,7 +471,6 @@
       state.roster = [...DEFAULT_ROSTER];
     }
 
-    // Ensure Manthan has his photo URL
     const manthanP = state.roster.find(p => p.name.toLowerCase() === 'manthan');
     if (manthanP && !manthanP.avatarUrl) {
       manthanP.avatarUrl = 'assets/manthan.jpg';
@@ -487,8 +501,121 @@
     }
   }
 
-  function saveHistory() {
-    localStorage.setItem(STORAGE_KEY_HISTORY, JSON.stringify(state.history));
+  // --- LIVE FPL FANTASY LEAGUE HUB ENGINE ---
+  function fetchFplStandings(leagueId = '889829') {
+    fplState.loading = true;
+    const tableBody = document.getElementById('fpl-table-body');
+    if (tableBody) {
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="5" class="text-center" style="padding: 30px;">
+            <p class="text-muted">Syncing live standings from Premier League servers...</p>
+          </td>
+        </tr>
+      `;
+    }
+
+    const targetUrl = `https://fantasy.premierleague.com/api/leagues-classic/${leagueId}/standings/`;
+    const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`;
+
+    fetch(proxyUrl)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then(data => {
+        fplState.data = data;
+        fplState.loading = false;
+        renderFplHub();
+      })
+      .catch(err => {
+        // Alt Proxy Fallback
+        const altUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
+        fetch(altUrl)
+          .then(res => res.json())
+          .then(data => {
+            fplState.data = data;
+            fplState.loading = false;
+            renderFplHub();
+          })
+          .catch(e => {
+            fplState.loading = false;
+            if (tableBody) {
+              tableBody.innerHTML = `
+                <tr>
+                  <td colspan="5" class="text-center text-accent-pink" style="padding: 24px;">
+                    Failed to sync live FPL data. Click 'Live Sync FPL' to retry.
+                  </td>
+                </tr>
+              `;
+            }
+          });
+      });
+  }
+
+  function renderFplHub() {
+    const data = fplState.data;
+    if (!data || !data.standings || !data.standings.results) return;
+
+    const leagueTitle = document.getElementById('fpl-league-title');
+    const leagueIdDisplay = document.getElementById('fpl-league-id-display');
+    const tableBody = document.getElementById('fpl-table-body');
+    const lastUpdated = document.getElementById('fpl-last-updated');
+
+    if (leagueTitle && data.league) leagueTitle.textContent = data.league.name;
+    if (leagueIdDisplay && data.league) leagueIdDisplay.textContent = data.league.id;
+    if (lastUpdated) lastUpdated.textContent = `Updated: ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+
+    const results = data.standings.results;
+
+    if (results.length > 0) {
+      const topPts = results[0].total;
+      const leaders = results.filter(r => r.total === topPts);
+      const leaderNames = leaders.map(r => r.player_name).join(' & ');
+      const leaderTeams = leaders.map(r => r.entry_name).join(' / ');
+
+      const lName = document.getElementById('fpl-leader-name');
+      const lTeam = document.getElementById('fpl-leader-teams');
+      const lTotal = document.getElementById('fpl-leader-total');
+
+      if (lName) lName.textContent = leaderNames;
+      if (lTeam) lTeam.textContent = leaderTeams;
+      if (lTotal) lTotal.textContent = `${topPts} pts`;
+
+      const topGwPts = Math.max(...results.map(r => r.event_total));
+      const gwScorers = results.filter(r => r.event_total === topGwPts);
+      const gwNames = gwScorers.map(r => r.player_name).join(' & ');
+      const gwTeams = gwScorers.map(r => r.entry_name).join(' / ');
+
+      const gName = document.getElementById('fpl-top-gw-name');
+      const gTeam = document.getElementById('fpl-top-gw-team');
+      const gPts = document.getElementById('fpl-top-gw-pts');
+
+      if (gName) gName.textContent = gwNames;
+      if (gTeam) gTeam.textContent = gwTeams;
+      if (gPts) gPts.textContent = `+${topGwPts} pts`;
+    }
+
+    if (tableBody) {
+      tableBody.innerHTML = results.map(r => {
+        let rankClass = 'rank-other';
+        if (r.rank === 1) rankClass = 'rank-1';
+        else if (r.rank === 2) rankClass = 'rank-2';
+        else if (r.rank === 3) rankClass = 'rank-3';
+
+        return `
+          <tr>
+            <td><span class="fpl-rank-badge ${rankClass}">#${r.rank}</span></td>
+            <td><strong>${r.player_name}</strong></td>
+            <td><span class="text-muted">${r.entry_name}</span></td>
+            <td><span class="text-emerald font-weight-bold">+${r.event_total}</span></td>
+            <td><span class="rating-star-tag" style="font-size:0.9rem;">${r.total} pts</span></td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    lucide.createIcons();
   }
 
   // --- OPTION 1: LIVE CLOUD DATABASE SYNC ENGINE ---
@@ -511,7 +638,6 @@
 
         if (cloudRoster && cloudRoster.length > 0) {
           state.roster = cloudRoster;
-          // Ensure Manthan DP
           const manthanP = state.roster.find(p => p.name.toLowerCase() === 'manthan');
           if (manthanP && !manthanP.avatarUrl) {
             manthanP.avatarUrl = 'assets/manthan.jpg';
@@ -547,12 +673,29 @@
 
   // --- EVENT LISTENERS ---
   function setupEventListeners() {
-    // Nav Tabs
-    document.querySelectorAll('.nav-tab').forEach(tab => {
+    // Nav Tabs & Mobile Dock Sync
+    document.querySelectorAll('.nav-tab, .dock-item').forEach(tab => {
       tab.addEventListener('click', () => {
         const targetTab = tab.getAttribute('data-tab');
         switchTab(targetTab);
       });
+    });
+
+    // FPL Live Refresh Button
+    document.getElementById('btn-refresh-fpl')?.addEventListener('click', () => {
+      fetchFplStandings(state.fplLeagueId);
+      showToast('Refreshing live FPL standings...');
+    });
+
+    // Save FPL League ID Button
+    document.getElementById('btn-save-fpl-id')?.addEventListener('click', () => {
+      const newId = document.getElementById('fpl-league-id-input')?.value.trim();
+      if (newId) {
+        state.fplLeagueId = newId;
+        localStorage.setItem(STORAGE_KEY_FPL_ID, newId);
+        fetchFplStandings(newId);
+        showToast(`Saved FPL League ID: ${newId}`);
+      }
     });
 
     // Date & Venue Inputs
@@ -697,14 +840,23 @@
 
   // --- TAB SWITCHING ---
   function switchTab(tabId) {
-    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.nav-tab, .dock-item').forEach(t => {
+      if (t.getAttribute('data-tab') === tabId) {
+        t.classList.add('active');
+      } else {
+        t.classList.remove('active');
+      }
+    });
+
     document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
-
-    const activeNav = document.querySelector(`.nav-tab[data-tab="${tabId}"]`);
     const activePage = document.getElementById(tabId);
-
-    if (activeNav) activeNav.classList.add('active');
     if (activePage) activePage.classList.add('active');
+
+    if (tabId === 'tab-fpl') {
+      if (!fplState.data) {
+        fetchFplStandings(state.fplLeagueId);
+      }
+    }
 
     if (tabId === 'tab-admin') {
       if (state.isAdminAuth) {
@@ -1258,7 +1410,7 @@
       return `
         <li class="player-item">
           <div class="player-main-info">
-            <div class="player-avatar-circle pos-${pos.toLowerCase()}" style="width:28px;height:28px;font-size:0.65rem;">${avatarContent}</div>
+            <div class="player-avatar-circle pos-${pos.toLowerCase()}" style="width:30px;height:30px;font-size:0.7rem;">${avatarContent}</div>
             <span class="pos-badge pos-${pos.toLowerCase()}">${pos}</span>
             <span class="player-name-text">${p.name}</span>
             ${p.overridePos ? `<span class="sec-pos-tags">(${pos} today)</span>` : ''}
@@ -1760,17 +1912,6 @@
   }
 
   function renderAll() {
-    // Check if Manthan has a DP
-    const manthanPlayer = state.roster.find(p => p.name.toLowerCase() === 'manthan');
-    const birthdayAvatarBox = document.getElementById('birthday-manthan-avatar');
-    if (manthanPlayer && birthdayAvatarBox) {
-      if (manthanPlayer.avatarUrl) {
-        birthdayAvatarBox.innerHTML = `<img src="${manthanPlayer.avatarUrl}" alt="Manthan" class="avatar-img">`;
-      } else {
-        birthdayAvatarBox.innerHTML = `<span class="birthday-initials">M</span>`;
-      }
-    }
-
     renderRoster();
     if (state.isAdminAuth) {
       renderAdminTable();
