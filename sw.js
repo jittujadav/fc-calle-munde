@@ -1,9 +1,9 @@
-const CACHE_NAME = 'fc-calle-munde-v1';
+const CACHE_NAME = 'fc-calle-munde-v4';
 const ASSETS_TO_CACHE = [
   './',
-  './index.html',
-  './styles.css?v=3',
-  './app.js?v=3',
+  './index.html?v=4',
+  './styles.css?v=4',
+  './app.js?v=4',
   './manifest.json',
   './assets/manthan.jpg'
 ];
@@ -32,11 +32,18 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
+// Network-First strategy so users ALWAYS get live real-time code and data!
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   event.respondWith(
     fetch(event.request)
       .then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseClone);
+          });
+        }
         return networkResponse;
       })
       .catch(() => {

@@ -529,14 +529,14 @@
 
   // --- LIVE FPL FANTASY LEAGUE HUB ENGINE (INSTANT FALLBACK + MULTI PROXY) ---
   function fetchFplStandings(leagueId = '889829') {
-    // Render fallback data immediately so user NEVER sees infinite loading
     renderFplHub();
 
+    const cacheBuster = `?t=${Date.now()}`;
     const targetUrl = `https://fantasy.premierleague.com/api/leagues-classic/${leagueId}/standings/`;
     
-    // Multi-proxy endpoints
+    // Multi-proxy endpoints with cache busters
     const proxies = [
-      `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`,
+      `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl + cacheBuster)}`,
       `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`,
       `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`
     ];
