@@ -1770,3 +1770,292 @@ h1, h2, h3, h4 {
   font-weight: 800;
   font-size: 0.88rem;
 }
+
+/* --- LIVE FPL STATUS PULSE INDICATOR --- */
+.fpl-status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--primary-emerald);
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--primary-emerald);
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: livePulse 1.8s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+@keyframes livePulse {
+  to {
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+  }
+}
+
+/* --- MONTEVIDEO WEATHER & CLOTHING ADVISORY HUB STYLES --- */
+.weather-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 30px;
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.12), rgba(15, 23, 42, 0.85));
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+.weather-banner-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.weather-banner-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  background: rgba(6, 182, 212, 0.18);
+  border: 1px solid var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 25px rgba(6, 182, 212, 0.35);
+}
+
+.weather-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.weather-card {
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: var(--transition-normal);
+}
+
+.weather-card:hover {
+  transform: translateY(-3px);
+}
+
+.weather-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.weather-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.weather-pill {
+  font-size: 0.76rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+}
+
+.pill-good {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid var(--primary-emerald);
+  color: var(--primary-emerald);
+}
+
+.pill-moderate {
+  background: rgba(245, 158, 11, 0.2);
+  border: 1px solid var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+.pill-alert {
+  background: rgba(236, 72, 153, 0.2);
+  border: 1px solid var(--accent-pink);
+  color: var(--accent-pink);
+}
+
+.temp-display, .wind-display, .rain-display {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.temp-value, .wind-value, .rain-value {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+.temp-value { color: var(--accent-cyan); text-shadow: 0 0 25px rgba(6, 182, 212, 0.4); }
+.wind-value { color: var(--accent-gold); text-shadow: 0 0 25px rgba(245, 158, 11, 0.4); }
+.rain-value { color: var(--primary-emerald); text-shadow: 0 0 25px rgba(16, 185, 129, 0.4); }
+
+.temp-sub, .wind-sub, .rain-sub {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  font-size: 0.85rem;
+}
+
+/* Gear Advisory Section */
+.gear-advisory-card {
+  padding: 26px 30px;
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(15, 23, 42, 0.95));
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.gear-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.gear-title-box {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.gear-icon-main {
+  width: 32px;
+  height: 32px;
+}
+
+.gear-status-badge {
+  padding: 6px 16px;
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid var(--primary-emerald);
+  color: var(--primary-emerald);
+  border-radius: var(--radius-full);
+  font-weight: 800;
+  font-size: 0.86rem;
+}
+
+.gear-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+.gear-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+}
+
+.gear-item:hover {
+  border-color: rgba(16, 185, 129, 0.5);
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.gear-item-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-emerald);
+  flex-shrink: 0;
+}
+
+.gear-item-details h4 {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.gear-item-details p {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* 5-Day Daily Forecast Grid */
+.forecast-card {
+  padding: 24px 30px;
+}
+
+.forecast-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.daily-forecast-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 14px;
+}
+
+.daily-day-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 12px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  transition: var(--transition-fast);
+}
+
+.daily-day-card.tuesday-highlight {
+  border-color: var(--accent-gold);
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.15), rgba(15, 23, 42, 0.8));
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.25);
+}
+
+.daily-day-name {
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: var(--text-main);
+  text-transform: uppercase;
+}
+
+.daily-day-icon {
+  font-size: 1.6rem;
+  margin: 4px 0;
+}
+
+.daily-day-temps {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.daily-day-wind {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+

@@ -1,9 +1,9 @@
-const CACHE_NAME = 'fc-calle-munde-v4';
+const CACHE_NAME = 'fc-calle-munde-v5';
 const ASSETS_TO_CACHE = [
   './',
-  './index.html?v=4',
-  './styles.css?v=4',
-  './app.js?v=4',
+  './index.html?v=5',
+  './styles.css?v=5',
+  './app.js?v=5',
   './manifest.json',
   './assets/manthan.jpg'
 ];

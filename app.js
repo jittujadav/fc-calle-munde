@@ -345,7 +345,15 @@
   let fplState = {
     leagueId: '889829',
     data: FALLBACK_FPL_DATA,
-    loading: false
+    loading: false,
+    lastSyncTime: null
+  };
+
+  let weatherState = {
+    current: null,
+    daily: null,
+    loading: false,
+    lastUpdated: null
   };
 
   // --- LOCAL STORAGE KEYS ---
@@ -465,12 +473,17 @@
     setupEventListeners();
     renderAll();
     renderFplHub();
+    fetchMontevideoWeather();
     lucide.createIcons();
     fetchCloudRoster();
     fetchFplStandings(state.fplLeagueId);
 
     // Auto-poll cloud DB every 15s
     setInterval(fetchCloudRoster, 15000);
+    // Auto-poll FPL standings every 60s
+    setInterval(() => fetchFplStandings(state.fplLeagueId), 60000);
+    // Auto-poll weather every 10 mins
+    setInterval(fetchMontevideoWeather, 600000);
   }
 
   function loadState() {
@@ -527,18 +540,18 @@
     }
   }
 
-  // --- LIVE FPL FANTASY LEAGUE HUB ENGINE (INSTANT FALLBACK + MULTI PROXY) ---
+  // --- LIVE FPL FANTASY LEAGUE HUB ENGINE (FAST FAILOVER + AUTO REFRESH) ---
   function fetchFplStandings(leagueId = '889829') {
     renderFplHub();
 
     const cacheBuster = `?t=${Date.now()}`;
     const targetUrl = `https://fantasy.premierleague.com/api/leagues-classic/${leagueId}/standings/`;
     
-    // Multi-proxy endpoints with cache busters
+    // High performance CORS proxies with direct fallbacks
     const proxies = [
+      `https://corsproxy.io/?${encodeURIComponent(targetUrl + cacheBuster)}`,
       `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl + cacheBuster)}`,
-      `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`,
-      `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`
+      `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl + cacheBuster)}`
     ];
 
     let proxyIndex = 0;
@@ -548,8 +561,12 @@
       const currentUrl = proxies[proxyIndex];
       proxyIndex++;
 
-      fetch(currentUrl)
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 4000);
+
+      fetch(currentUrl, { signal: controller.signal })
         .then(res => {
+          clearTimeout(timeoutId);
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
           return res.json();
         })
@@ -567,12 +584,14 @@
 
           if (parsedData && parsedData.standings && parsedData.standings.results) {
             fplState.data = parsedData;
+            fplState.lastSyncTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
             renderFplHub();
           } else {
             tryNextProxy();
           }
         })
         .catch(err => {
+          clearTimeout(timeoutId);
           tryNextProxy();
         });
     }
@@ -589,9 +608,13 @@
     const tableBody = document.getElementById('fpl-table-body');
     const lastUpdated = document.getElementById('fpl-last-updated');
 
-    if (leagueTitle && data.league) leagueTitle.textContent = data.league.name;
-    if (leagueIdDisplay && data.league) leagueIdDisplay.textContent = data.league.id;
-    if (lastUpdated) lastUpdated.textContent = `Live Sync Active`;
+    if (lastUpdated) {
+      if (fplState.lastSyncTime) {
+        lastUpdated.textContent = `Auto-Synced at ${fplState.lastSyncTime} • Refreshing every 60s`;
+      } else {
+        lastUpdated.textContent = `Live Standings Connected`;
+      }
+    }
 
     const results = data.standings.results;
 
@@ -643,6 +666,207 @@
     }
 
     lucide.createIcons();
+  }
+
+  // --- MONTEVIDEO WEATHER & SMART MATCHDAY CLOTHING ENGINE ---
+  function fetchMontevideoWeather() {
+    weatherState.loading = true;
+    const url = 'https://api.open-meteo.com/v1/forecast?latitude=-34.9011&longitude=-56.1645&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,wind_direction_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max&timezone=America%2FMontevideo';
+
+    fetch(url)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then(data => {
+        weatherState.current = data.current;
+        weatherState.daily = data.daily;
+        weatherState.lastUpdated = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        weatherState.loading = false;
+        renderWeatherHub();
+      })
+      .catch(err => {
+        weatherState.loading = false;
+        console.warn('Weather fetch error:', err);
+      });
+  }
+
+  function getWeatherConditionDescription(code) {
+    // WMO Weather interpretation codes
+    if (code === 0) return { text: 'Clear Sky ☀️', icon: 'sun' };
+    if (code === 1 || code === 2) return { text: 'Mainly Clear / Partly Cloudy ⛅', icon: 'cloud-sun' };
+    if (code === 3) return { text: 'Overcast Clouds ☁️', icon: 'cloud' };
+    if (code >= 45 && code <= 48) return { text: 'Foggy / Mist 🌫️', icon: 'cloud-fog' };
+    if (code >= 51 && code <= 55) return { text: 'Light Drizzle 🌦️', icon: 'cloud-drizzle' };
+    if (code >= 61 && code <= 65) return { text: 'Rain Showers 🌧️', icon: 'cloud-rain' };
+    if (code >= 80 && code <= 82) return { text: 'Heavy Rain Showers 🌧️⛈️', icon: 'cloud-rain-wind' };
+    if (code >= 95) return { text: 'Thunderstorm ⛈️', icon: 'cloud-lightning' };
+    return { text: 'Breezy Weather 🌤️', icon: 'cloud' };
+  }
+
+  function getWindDirectionCardinal(degrees) {
+    const directions = ['N (North)', 'NNE', 'NE', 'ENE', 'E (East)', 'ESE', 'SE', 'SSE', 'S (South)', 'SSW', 'SW', 'WSW', 'W (West)', 'WNW', 'NW', 'NNW'];
+    const idx = Math.round((degrees % 360) / 22.5);
+    return directions[idx % 16];
+  }
+
+  function renderWeatherHub() {
+    if (!weatherState.current) return;
+    const cur = weatherState.current;
+
+    const tempVal = document.getElementById('weather-current-temp');
+    const realFeel = document.getElementById('weather-realfeel');
+    const condText = document.getElementById('weather-condition-text');
+    const timeStamp = document.getElementById('weather-time-stamp');
+
+    const windSpeed = document.getElementById('weather-wind-speed');
+    const windDir = document.getElementById('weather-wind-dir');
+    const windImpact = document.getElementById('weather-wind-impact');
+    const windRating = document.getElementById('weather-wind-rating');
+
+    const rainProb = document.getElementById('weather-rain-prob');
+    const humidity = document.getElementById('weather-humidity');
+    const turfGrip = document.getElementById('weather-turf-grip');
+    const rainRating = document.getElementById('weather-rain-rating');
+
+    const cond = getWeatherConditionDescription(cur.weather_code);
+
+    if (tempVal) tempVal.textContent = `${Math.round(cur.temperature_2m)}°C`;
+    if (realFeel) realFeel.textContent = `${Math.round(cur.apparent_temperature)}°C`;
+    if (condText) condText.textContent = cond.text;
+    if (timeStamp && weatherState.lastUpdated) timeStamp.textContent = `Live at ${weatherState.lastUpdated}`;
+
+    // Wind logic
+    const speed = cur.wind_speed_10m;
+    if (windSpeed) windSpeed.textContent = `${speed.toFixed(1)} km/h`;
+    if (windDir) windDir.textContent = getWindDirectionCardinal(cur.wind_direction_10m);
+
+    if (windRating && windImpact) {
+      if (speed < 12) {
+        windRating.textContent = 'Light Breeze';
+        windRating.className = 'weather-pill pill-good';
+        windImpact.textContent = 'Ball flight: True & Stable';
+      } else if (speed <= 24) {
+        windRating.textContent = 'Moderate Wind';
+        windRating.className = 'weather-pill pill-moderate';
+        windImpact.textContent = 'Ball flight: Slight drift on long balls';
+      } else {
+        windRating.textContent = 'Strong Gusts 💨';
+        windRating.className = 'weather-pill pill-alert';
+        windImpact.textContent = 'Ball flight: Noticeable curve on aerials';
+      }
+    }
+
+    // Rain / Humidity logic
+    const prec = cur.precipitation || 0;
+    const hum = cur.relative_humidity_2m;
+    if (humidity) humidity.textContent = `${hum}%`;
+
+    let maxRainProb = 0;
+    if (weatherState.daily && weatherState.daily.precipitation_probability_max) {
+      maxRainProb = weatherState.daily.precipitation_probability_max[0] || 0;
+    }
+    if (rainProb) rainProb.textContent = `${maxRainProb}%`;
+
+    if (rainRating && turfGrip) {
+      if (prec > 0 || maxRainProb > 50) {
+        rainRating.textContent = 'Wet Surface 🌧️';
+        rainRating.className = 'weather-pill pill-alert';
+        turfGrip.textContent = 'Traction: Slick Turf (Use AG Studs)';
+      } else if (hum > 85) {
+        rainRating.textContent = 'High Dew / Damp';
+        rainRating.className = 'weather-pill pill-moderate';
+        turfGrip.textContent = 'Traction: Damp grass, fast ball skip';
+      } else {
+        rainRating.textContent = 'Dry & Crisp';
+        rainRating.className = 'weather-pill pill-good';
+        turfGrip.textContent = 'Traction: Optimum Firm Grip';
+      }
+    }
+
+    // GENERATE INTELLIGENT CLOTHING & GEAR ADVICE
+    renderClothingAdvice(cur.temperature_2m, cur.apparent_temperature, speed, maxRainProb, hum);
+
+    // RENDER 5-DAY FORECAST GRID
+    renderDailyForecast();
+
+    lucide.createIcons();
+  }
+
+  function renderClothingAdvice(temp, feel, wind, rainProb, hum) {
+    const summaryBadge = document.getElementById('gear-summary-badge');
+    const adviceUpper = document.getElementById('gear-advice-upper');
+    const adviceLower = document.getElementById('gear-advice-lower');
+    const adviceOuter = document.getElementById('gear-advice-outer');
+    const adviceFootwear = document.getElementById('gear-advice-footwear');
+
+    if (!adviceUpper) return;
+
+    if (feel <= 11 || (feel <= 14 && wind >= 20)) {
+      // COLD / BREEZY TURF NIGHT
+      if (summaryBadge) {
+        summaryBadge.textContent = '🥶 Thermal Layer Recommended';
+        summaryBadge.className = 'gear-status-badge pill-alert';
+      }
+      adviceUpper.innerHTML = '<strong>Long-sleeve thermal base layer</strong> underneath club jersey. Keeps core warm during pauses.';
+      adviceLower.innerHTML = 'Football shorts + optional <strong>compression tights/leggings</strong>. High grip wool/cotton socks.';
+      adviceOuter.innerHTML = '<strong>Windbreaker or fleece track jacket</strong> for pre-match warm-up and post-game sideline.';
+      adviceFootwear.innerHTML = 'Standard turf / AG boots. <strong>Goalkeepers: Warm thermal gloves with latex grip!</strong>';
+    } else if (feel <= 17) {
+      // MODERATE / PLEASANT TURF NIGHT
+      if (summaryBadge) {
+        summaryBadge.textContent = '⚡ Ideal Football Weather';
+        summaryBadge.className = 'gear-status-badge pill-good';
+      }
+      adviceUpper.innerHTML = 'Standard breathable match jersey. Short sleeves are great during continuous play.';
+      adviceLower.innerHTML = 'Standard match shorts + calf-length football socks.';
+      adviceOuter.innerHTML = 'Light track zip-up jacket to stay warm before 10:00 PM kickoff and post-match.';
+      adviceFootwear.innerHTML = 'AG / Multi-ground studs for crisp acceleration and turns.';
+    } else {
+      // WARM / HUMID NIGHT
+      if (summaryBadge) {
+        summaryBadge.textContent = '🔥 Hot & Humid (Hydrate)';
+        summaryBadge.className = 'gear-status-badge pill-moderate';
+      }
+      adviceUpper.innerHTML = 'Ultra-lightweight moisture-wicking jersey. Bring 1 spare dry jersey.';
+      adviceLower.innerHTML = 'Lightweight football shorts with moisture ventilation.';
+      adviceOuter.innerHTML = 'Light towel for sweat management. 1L+ electrolyte hydration bottle.';
+      adviceFootwear.innerHTML = 'Firm turf boots. Breathable cotton grip socks to avoid blisters.';
+    }
+
+    if (rainProb >= 40) {
+      adviceOuter.innerHTML += ' <span class="text-accent-pink">🌧️ High rain chance: pack a waterproof kit bag & change of dry clothes.</span>';
+    }
+  }
+
+  function renderDailyForecast() {
+    const container = document.getElementById('weather-daily-forecast');
+    if (!container || !weatherState.daily) return;
+
+    const daily = weatherState.daily;
+    const days = daily.time || [];
+
+    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    container.innerHTML = days.slice(0, 5).map((dateStr, i) => {
+      const dateObj = new Date(dateStr + 'T12:00:00');
+      const dayName = weekdays[dateObj.getDay()];
+      const isTuesday = dateObj.getDay() === 2;
+      const maxT = Math.round(daily.temperature_2m_max[i]);
+      const minT = Math.round(daily.temperature_2m_min[i]);
+      const windM = Math.round(daily.wind_speed_10m_max[i]);
+      const code = daily.weather_code[i];
+      const cond = getWeatherConditionDescription(code);
+
+      return `
+        <div class="daily-day-card ${isTuesday ? 'tuesday-highlight' : ''}">
+          <span class="daily-day-name">${isTuesday ? '⭐ Tue (Match)' : dayName}</span>
+          <span class="daily-day-icon">${cond.text.split(' ').pop()}</span>
+          <span class="daily-day-temps">${maxT}° / <span class="text-muted">${minT}°</span></span>
+          <span class="daily-day-wind">💨 ${windM} km/h</span>
+        </div>
+      `;
+    }).join('');
   }
 
   // --- OPTION 1: LIVE CLOUD DATABASE SYNC ENGINE ---
@@ -712,6 +936,12 @@
     document.getElementById('btn-refresh-fpl')?.addEventListener('click', () => {
       fetchFplStandings(state.fplLeagueId);
       showToast('Refreshing live FPL standings...');
+    });
+
+    // Weather Live Refresh Button
+    document.getElementById('btn-refresh-weather')?.addEventListener('click', () => {
+      fetchMontevideoWeather();
+      showToast('Refreshing live Montevideo weather...');
     });
 
     // Save FPL League ID Button
@@ -882,6 +1112,11 @@
     if (tabId === 'tab-fpl') {
       renderFplHub();
       fetchFplStandings(state.fplLeagueId);
+    }
+
+    if (tabId === 'tab-weather') {
+      renderWeatherHub();
+      fetchMontevideoWeather();
     }
 
     if (tabId === 'tab-admin') {

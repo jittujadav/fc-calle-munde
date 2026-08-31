@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#10b981">
   <link rel="apple-touch-icon" href="assets/icon-192.png">
   
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
   <div id="app" class="app-container">
@@ -52,6 +52,10 @@
         <i data-lucide="trophy"></i>
         <span>FPL Hub</span>
       </button>
+      <button class="nav-tab" data-tab="tab-weather">
+        <i data-lucide="cloud-sun"></i>
+        <span>Weather & Gear</span>
+      </button>
       <button class="nav-tab" data-tab="tab-roster">
         <i data-lucide="users"></i>
         <span>Players (<span id="count-total-players">0</span>)</span>
@@ -80,6 +84,10 @@
         <button class="dock-item" data-tab="tab-fpl">
           <i data-lucide="trophy"></i>
           <span>FPL</span>
+        </button>
+        <button class="dock-item" data-tab="tab-weather">
+          <i data-lucide="cloud-sun"></i>
+          <span>Weather</span>
         </button>
         <button class="dock-item" data-tab="tab-roster">
           <i data-lucide="users"></i>
@@ -299,10 +307,10 @@
               <i data-lucide="crown" class="text-accent-gold"></i>
             </div>
             <div class="spotlight-body">
-              <h3 id="fpl-leader-name">Anurag Kakaty & Vishnu V</h3>
-              <p class="text-muted" id="fpl-leader-teams">NovocAin't / rip</p>
+              <h3 id="fpl-leader-name">Vishnu V</h3>
+              <p class="text-muted" id="fpl-leader-teams">rip</p>
               <div class="spotlight-score">
-                <span id="fpl-leader-total" class="text-accent-gold">55 pts</span>
+                <span id="fpl-leader-total" class="text-accent-gold">72 pts</span>
                 <span class="text-dim">Overall Points</span>
               </div>
             </div>
@@ -314,10 +322,10 @@
               <i data-lucide="zap" class="text-emerald"></i>
             </div>
             <div class="spotlight-body">
-              <h3 id="fpl-top-gw-name">Anurag & Vishnu</h3>
-              <p class="text-muted" id="fpl-top-gw-team">NovocAin't / rip</p>
+              <h3 id="fpl-top-gw-name">Vishnu V</h3>
+              <p class="text-muted" id="fpl-top-gw-team">rip</p>
               <div class="spotlight-score">
-                <span id="fpl-top-gw-pts" class="text-emerald">55 pts</span>
+                <span id="fpl-top-gw-pts" class="text-emerald">72 pts</span>
                 <span class="text-dim">Latest Gameweek</span>
               </div>
             </div>
@@ -328,7 +336,10 @@
         <div class="glass-card fpl-table-card">
           <div class="fpl-table-header">
             <h3><i data-lucide="list-ordered" class="text-emerald"></i> Live League Standings Table</h3>
-            <span class="text-muted" id="fpl-last-updated">Updating live...</span>
+            <div class="fpl-status-indicator">
+              <span class="pulse-dot"></span>
+              <span class="text-muted" id="fpl-last-updated">Auto-Sync Active (Every 60s)</span>
+            </div>
           </div>
 
           <div class="admin-table-wrapper">
@@ -346,6 +357,139 @@
                 <!-- Injected via JS -->
               </tbody>
             </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2.5: MONTEVIDEO MATCHDAY WEATHER & CLOTHING ASSISTANT -->
+      <section id="tab-weather" class="tab-page">
+        <!-- Weather Hero Banner -->
+        <div class="glass-card weather-banner">
+          <div class="weather-banner-info">
+            <div class="weather-banner-icon">
+              <i data-lucide="cloud-lightning" class="text-accent-cyan"></i>
+            </div>
+            <div>
+              <h2>Montevideo Matchday Weather & Gear Advisory</h2>
+              <p class="text-muted">Live pitch conditions for Montevideo, Uruguay (`-34.90°, -56.16°`) • Updated Real-Time</p>
+            </div>
+          </div>
+
+          <div class="weather-banner-actions">
+            <button id="btn-refresh-weather" class="btn btn-secondary btn-sm">
+              <i data-lucide="refresh-cw"></i> Refresh Weather
+            </button>
+          </div>
+        </div>
+
+        <!-- Weather Metrics Grid -->
+        <div class="weather-grid">
+          <!-- Live Current Temperature Card -->
+          <div class="glass-card weather-card temp-card">
+            <div class="weather-card-header">
+              <span class="weather-badge"><i data-lucide="thermometer"></i> Temperature</span>
+              <span id="weather-time-stamp" class="text-dim text-xs">Live</span>
+            </div>
+            <div class="weather-card-body">
+              <div class="temp-display">
+                <span id="weather-current-temp" class="temp-value">--°C</span>
+                <div class="temp-sub">
+                  <span class="text-muted">RealFeel: <strong id="weather-realfeel" class="text-cyan">--°C</strong></span>
+                  <span class="text-dim" id="weather-condition-text">Loading conditions...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Wind Speed & Direction Card -->
+          <div class="glass-card weather-card wind-card">
+            <div class="weather-card-header">
+              <span class="weather-badge"><i data-lucide="wind"></i> Wind & Breeze</span>
+              <span id="weather-wind-rating" class="weather-pill pill-moderate">Moderate</span>
+            </div>
+            <div class="weather-card-body">
+              <div class="wind-display">
+                <span id="weather-wind-speed" class="wind-value">-- km/h</span>
+                <div class="wind-sub">
+                  <span class="text-muted">Direction: <strong id="weather-wind-dir">--</strong></span>
+                  <span class="text-dim" id="weather-wind-impact">Ball flight: Normal</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Humidity & Rain Risk Card -->
+          <div class="glass-card weather-card rain-card">
+            <div class="weather-card-header">
+              <span class="weather-badge"><i data-lucide="droplets"></i> Rain & Pitch Moisture</span>
+              <span id="weather-rain-rating" class="weather-pill pill-good">Dry Pitch</span>
+            </div>
+            <div class="weather-card-body">
+              <div class="rain-display">
+                <span id="weather-rain-prob" class="rain-value">0%</span>
+                <div class="rain-sub">
+                  <span class="text-muted">Humidity: <strong id="weather-humidity">--%</strong></span>
+                  <span class="text-dim" id="weather-turf-grip">Traction: Firm Turf</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI CLOTHING & MATCHDAY GEAR ADVISORY CARD -->
+        <div class="glass-card gear-advisory-card">
+          <div class="gear-card-header">
+            <div class="gear-title-box">
+              <i data-lucide="shirt" class="text-emerald gear-icon-main"></i>
+              <div>
+                <h3>Recommended Matchday Kit & Clothing Advisory</h3>
+                <span class="text-muted">Personalized gear recommendations for Tuesday night 10:00 PM turf conditions</span>
+              </div>
+            </div>
+            <span id="gear-summary-badge" class="gear-status-badge">Standard Match Kit</span>
+          </div>
+
+          <div id="gear-recommendations-container" class="gear-items-grid">
+            <!-- Injected dynamically via JS -->
+            <div class="gear-item">
+              <div class="gear-item-icon"><i data-lucide="shield"></i></div>
+              <div class="gear-item-details">
+                <h4>Upper Body</h4>
+                <p id="gear-advice-upper">Standard lightweight moisture-wicking jersey.</p>
+              </div>
+            </div>
+            <div class="gear-item">
+              <div class="gear-item-icon"><i data-lucide="activity"></i></div>
+              <div class="gear-item-details">
+                <h4>Lower Body & Layers</h4>
+                <p id="gear-advice-lower">Football shorts + standard grip socks.</p>
+              </div>
+            </div>
+            <div class="gear-item">
+              <div class="gear-item-icon"><i data-lucide="feather"></i></div>
+              <div class="gear-item-details">
+                <h4>Warm-Up & Outerwear</h4>
+                <p id="gear-advice-outer">Track jacket for pre-match warm-up and post-game cool-down.</p>
+              </div>
+            </div>
+            <div class="gear-item">
+              <div class="gear-item-icon"><i data-lucide="crosshair"></i></div>
+              <div class="gear-item-details">
+                <h4>Goalkeeper & Pitch Footwear</h4>
+                <p id="gear-advice-footwear">AG / Turf studs. Keepers: full grip latex palms.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5-DAY WEATHER & TUESDAY MATCHDAY FORECAST -->
+        <div class="glass-card forecast-card">
+          <div class="forecast-header">
+            <h3><i data-lucide="calendar" class="text-accent-gold"></i> Montevideo 5-Day Matchday Forecast</h3>
+            <span class="text-muted">Check weather ahead of Tuesday 10:00 PM kickoff</span>
+          </div>
+          <div id="weather-daily-forecast" class="daily-forecast-grid">
+            <!-- Injected via JS -->
           </div>
         </div>
       </section>
@@ -832,6 +976,6 @@
     <div id="toast-container" class="toast-container"></div>
   </div>
 
-  <script src="app.js?v=4"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>
