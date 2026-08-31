@@ -304,20 +304,20 @@
       "has_next": false,
       "page": 1,
       "results": [
-        { "rank": 1, "player_name": "vishnu v", "entry_name": "rip", "event_total": 72, "total": 72 },
-        { "rank": 2, "player_name": "himanshu pundhir", "entry_name": "baz", "event_total": 67, "total": 67 },
-        { "rank": 3, "player_name": "Anurag Kakaty", "entry_name": "NovocAin't", "event_total": 66, "total": 66 },
-        { "rank": 4, "player_name": "Arpit Sharma", "entry_name": "ARS", "event_total": 65, "total": 65 },
-        { "rank": 5, "player_name": "Karan K", "entry_name": "Tukde Tukde Gang", "event_total": 60, "total": 60 },
-        { "rank": 6, "player_name": "Jitendra Singh Jadav", "entry_name": "Bhadvengers", "event_total": 52, "total": 52 },
-        { "rank": 7, "player_name": "Manthan Arora", "entry_name": "ModiShah United", "event_total": 48, "total": 48 },
-        { "rank": 8, "player_name": "ANAS SULAIMAN", "entry_name": "Kerala Blasters", "event_total": 45, "total": 45 },
-        { "rank": 8, "player_name": "Bharath Kumar", "entry_name": "Seven Thirty", "event_total": 45, "total": 45 },
-        { "rank": 10, "player_name": "Srijan Bhattacharyya", "entry_name": "Everytime Loser", "event_total": 39, "total": 39 },
-        { "rank": 11, "player_name": "Vishal Singh", "entry_name": "VSR", "event_total": 37, "total": 37 },
-        { "rank": 12, "player_name": "Vinay Mobharkar", "entry_name": "Vinay's 11", "event_total": 36, "total": 36 },
-        { "rank": 13, "player_name": "Pulkit Agarwal", "entry_name": "Hadippa", "event_total": 31, "total": 31 },
-        { "rank": 14, "player_name": "Pranjul Purwar", "entry_name": "black mambaa", "event_total": 22, "total": 22 }
+        { "rank": 1, "player_name": "Jitendra Singh Jadav", "entry_name": "Bhadvengers.AI", "event_total": 106, "total": 158 },
+        { "rank": 2, "player_name": "Anurag Kakaty", "entry_name": "NovocAin't", "event_total": 87, "total": 153 },
+        { "rank": 3, "player_name": "Bharath Kumar", "entry_name": "Seven Thirty", "event_total": 88, "total": 145 },
+        { "rank": 4, "player_name": "Manthan Arora", "entry_name": "ModiShah United", "event_total": 90, "total": 138 },
+        { "rank": 5, "player_name": "ANAS SULAIMAN", "entry_name": "Kerala Blasters", "event_total": 75, "total": 137 },
+        { "rank": 6, "player_name": "vishnu v", "entry_name": "rip", "event_total": 62, "total": 134 },
+        { "rank": 7, "player_name": "Srijan Bhattacharyya", "entry_name": "Everytime Loser", "event_total": 88, "total": 127 },
+        { "rank": 8, "player_name": "Karan K", "entry_name": "Tukde Tukde Gang", "event_total": 62, "total": 122 },
+        { "rank": 9, "player_name": "himanshu pundhir", "entry_name": "baz", "event_total": 54, "total": 121 },
+        { "rank": 10, "player_name": "Arpit Sharma", "entry_name": "ARS", "event_total": 51, "total": 118 },
+        { "rank": 11, "player_name": "Vinay Mobharkar", "entry_name": "Vinay's 11", "event_total": 78, "total": 116 },
+        { "rank": 12, "player_name": "Pulkit Agarwal", "entry_name": "Hadippa", "event_total": 55, "total": 94 },
+        { "rank": 13, "player_name": "Pranjul Purwar", "entry_name": "black mambaa", "event_total": 61, "total": 84 },
+        { "rank": 14, "player_name": "Vishal Singh", "entry_name": "VSR", "event_total": 58, "total": 80 }
       ]
     }
   };
@@ -547,19 +547,19 @@
     const cacheBuster = `?t=${Date.now()}`;
     const targetUrl = `https://fantasy.premierleague.com/api/leagues-classic/${leagueId}/standings/`;
     
-    // High performance CORS proxies with direct fallbacks
-    const proxies = [
+    // First try fetching latest local snapshot, then proxies
+    const endpoints = [
+      `./fpl_standings.json${cacheBuster}`,
       `https://corsproxy.io/?${encodeURIComponent(targetUrl + cacheBuster)}`,
-      `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl + cacheBuster)}`,
-      `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl + cacheBuster)}`
+      `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl + cacheBuster)}`
     ];
 
-    let proxyIndex = 0;
+    let epIndex = 0;
 
-    function tryNextProxy() {
-      if (proxyIndex >= proxies.length) return;
-      const currentUrl = proxies[proxyIndex];
-      proxyIndex++;
+    function tryNextEndpoint() {
+      if (epIndex >= endpoints.length) return;
+      const currentUrl = endpoints[epIndex];
+      epIndex++;
 
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 4000);
@@ -587,16 +587,16 @@
             fplState.lastSyncTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
             renderFplHub();
           } else {
-            tryNextProxy();
+            tryNextEndpoint();
           }
         })
         .catch(err => {
           clearTimeout(timeoutId);
-          tryNextProxy();
+          tryNextEndpoint();
         });
     }
 
-    tryNextProxy();
+    tryNextEndpoint();
   }
 
   function renderFplHub() {
