@@ -474,6 +474,7 @@
     renderAll();
     renderFplHub();
     fetchMontevideoWeather();
+    initAntigravityParticles();
     lucide.createIcons();
     fetchCloudRoster();
     fetchFplStandings(state.fplLeagueId);
@@ -2171,12 +2172,104 @@
     updateAttendanceCount();
   }
 
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('PWA ServiceWorker ready'))
-        .catch(err => {});
+  // --- ANTIGRAVITY AMBIENT PARTICLE & GLOW MESH ENGINE ---
+  function initAntigravityParticles() {
+    const canvas = document.getElementById('antigravity-particles');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
     });
+
+    const particleCount = Math.min(width < 768 ? 35 : 70, 85);
+    const particles = [];
+
+    const colors = [
+      'rgba(16, 185, 129, 0.45)', // Emerald glow
+      'rgba(56, 189, 248, 0.35)', // Cyan glow
+      'rgba(245, 158, 11, 0.3)'   // Gold subtle
+    ];
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        radius: Math.random() * 2 + 1,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        baseAlpha: Math.random() * 0.5 + 0.2
+      });
+    }
+
+    let mouse = { x: -1000, y: -1000 };
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+
+      // Connect nearby particles with delicate Antigravity constellation lines
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 110) {
+            const alpha = (1 - dist / 110) * 0.12;
+            ctx.strokeStyle = `rgba(16, 185, 129, ${alpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw and move particles
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+
+        // Soft mouse evasion / attraction
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          const force = (120 - dist) / 120;
+          p.x -= (dx / dist) * force * 1.5;
+          p.y -= (dy / dist) * force * 1.5;
+        }
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        if (p.y > height) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = p.color;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
   }
 
   if (document.getElementById('app')) {
