@@ -788,10 +788,90 @@
     // GENERATE INTELLIGENT CLOTHING & GEAR ADVICE
     renderClothingAdvice(cur.temperature_2m, cur.apparent_temperature, speed, maxRainProb, hum);
 
-    // RENDER 5-DAY FORECAST GRID
+    // RENDER 5-DAY FORECAST GRID (IF PRESENT)
     renderDailyForecast();
 
+    // RENDER FRONT SCREEN EXPECTED TUESDAY WEATHER STRIP
+    renderTuesdayFrontScreenWeather();
+
     lucide.createIcons();
+  }
+
+  function renderTuesdayFrontScreenWeather() {
+    const summaryEl = document.getElementById('tuesday-weather-summary');
+    const tempEl = document.getElementById('tuesday-temp-val');
+    const windEl = document.getElementById('tuesday-wind-val');
+    const flightEl = document.getElementById('tuesday-flight-val');
+    const iconEl = document.getElementById('tuesday-weather-icon');
+
+    if (!summaryEl || !weatherState.daily) return;
+
+    const daily = weatherState.daily;
+    const days = daily.time || [];
+
+    // Find next Tuesday in forecast
+    let tueIndex = -1;
+    for (let i = 0; i < days.length; i++) {
+      const d = new Date(days[i] + 'T12:00:00');
+      if (d.getDay() === 2) {
+        tueIndex = i;
+        break;
+      }
+    }
+
+    if (tueIndex !== -1) {
+      const maxT = Math.round(daily.temperature_2m_max[tueIndex]);
+      const minT = Math.round(daily.temperature_2m_min[tueIndex]);
+      const windMax = Math.round(daily.wind_speed_10m_max[tueIndex]);
+      const rainProb = daily.precipitation_probability_max ? daily.precipitation_probability_max[tueIndex] : 0;
+      const code = daily.weather_code[tueIndex];
+      const cond = getWeatherConditionDescription(code);
+
+      // Nighttime matches around 10:00 PM are closer to the daily minimum / late evening temp
+      const matchEstTemp = Math.round(minT + (maxT - minT) * 0.35);
+
+      if (tempEl) tempEl.textContent = `~${matchEstTemp}°C`;
+      if (windEl) windEl.textContent = `${windMax} km/h`;
+
+      let flightText = 'Stable';
+      let flightColor = 'text-emerald';
+      let clothingAdvice = 'Ideal matchday weather: standard match kit.';
+
+      if (windMax >= 25) {
+        flightText = 'Gusty';
+        flightColor = 'text-accent-pink';
+        clothingAdvice = 'Windy turf: wear a windbreaker/track jacket for warm-up. Curve on aerials!';
+      } else if (windMax >= 15) {
+        flightText = 'Breezy';
+        flightColor = 'text-accent-gold';
+        clothingAdvice = 'Breezy night: light zip-up jacket recommended before kickoff.';
+      }
+
+      if (matchEstTemp <= 12) {
+        clothingAdvice = 'Chilly night: thermal long-sleeve base layer recommended.';
+      }
+
+      if (rainProb >= 40) {
+        clothingAdvice += ` 🌧️ Rain risk (${rainProb}%): bring AG studs and dry spare clothes.`;
+      }
+
+      if (flightEl) {
+        flightEl.textContent = flightText;
+        flightEl.className = `mini-val ${flightColor}`;
+      }
+
+      if (summaryEl) {
+        summaryEl.innerHTML = `<strong>${cond.text}</strong> (~${matchEstTemp}°C at 10 PM, High: ${maxT}°C). ${clothingAdvice}`;
+      }
+    } else if (weatherState.current) {
+      // Fallback to current conditions if Tuesday is out of range
+      const cur = weatherState.current;
+      const t = Math.round(cur.temperature_2m);
+      const w = Math.round(cur.wind_speed_10m);
+      if (tempEl) tempEl.textContent = `${t}°C`;
+      if (windEl) windEl.textContent = `${w} km/h`;
+      if (summaryEl) summaryEl.textContent = `Current Montevideo weather: ${t}°C, Wind ${w} km/h.`;
+    }
   }
 
   function renderClothingAdvice(temp, feel, wind, rainProb, hum) {

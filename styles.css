@@ -2155,3 +2155,115 @@ h1, h2, h3, h4 {
   color: var(--text-muted);
 }
 
+/* ==========================================================================
+   FRONT SCREEN: TUESDAY MONTEVIDEO WEATHER STRIP
+   ========================================================================== */
+.tuesday-weather-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 24px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(13, 19, 33, 0.85));
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: var(--transition-smooth);
+}
+
+.tuesday-weather-strip:hover {
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow: 0 14px 38px rgba(56, 189, 248, 0.15);
+}
+
+.tuesday-weather-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  min-width: 280px;
+}
+
+.tuesday-weather-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  background: rgba(56, 189, 248, 0.18);
+  border: 1px solid var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.tuesday-weather-badge i {
+  width: 22px;
+  height: 22px;
+}
+
+.tuesday-weather-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 2px;
+}
+
+.tuesday-weather-header h4 {
+  font-family: var(--font-heading);
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.live-pill-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.tuesday-weather-summary {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.tuesday-weather-metrics {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.weather-mini-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 14px;
+  background: rgba(13, 19, 33, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  min-width: 85px;
+}
+
+.mini-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  margin-bottom: 2px;
+}
+
+.mini-val {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
