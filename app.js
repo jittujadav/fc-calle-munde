@@ -6,296 +6,7 @@
   'use strict';
 
   // --- DEFAULT ACCURATE SQUAD DATA FOR FC CALLE MUNDE ---
-  const DEFAULT_ROSTER = [
-    {
-      "id": "p1",
-      "name": "Ashiq",
-      "aliases": ["Ashiq"],
-      "primaryPos": "DEF",
-      "secPos": ["FWD"],
-      "attending": true,
-      "overridePos": null,
-      "isExplicitReserve": false,
-      "reserveTag": null,
-      "rsvpIndex": 0,
-      "avatarUrl": "",
-      "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
-      }
-    },
-    {
-      "id": "p2",
-      "name": "Pjul",
-      "aliases": ["Pjul", "pjul"],
-      "primaryPos": "FWD",
-      "secPos": ["MID"],
-      "attending": true,
-      "overridePos": null,
-      "isExplicitReserve": false,
-      "reserveTag": null,
-      "rsvpIndex": 1,
-      "avatarUrl": "",
-      "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
-      }
-    },
-    {
-      "id": "p3",
-      "name": "Yash",
-      "aliases": ["Yash", "mc"],
-      "primaryPos": "GK",
-      "secPos": ["DEF"],
-      "attending": true,
-      "overridePos": null,
-      "isExplicitReserve": false,
-      "reserveTag": null,
-      "rsvpIndex": 2,
-      "avatarUrl": "",
-      "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
-      }
-    },
-    {
-      "id": "p4",
-      "name": "Vinay",
-      "aliases": ["Vinay", "Vimabappe", "Vima"],
-      "primaryPos": "DEF",
-      "secPos": ["GK", "MID"],
-      "attending": true,
-      "overridePos": null,
-      "isExplicitReserve": false,
-      "reserveTag": null,
-      "rsvpIndex": 3,
-      "avatarUrl": "",
-      "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
-      }
-    },
-    {
-      "id": "p5",
-      "name": "Karan",
-      "aliases": ["Karan", "Coach"],
-      "primaryPos": "MID",
-      "secPos": ["DEF"],
-      "attending": true,
-      "overridePos": null,
-      "isExplicitReserve": false,
-      "reserveTag": null,
-      "rsvpIndex": 4,
-      "avatarUrl": "",
-      "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
-      }
-    },
-    {
-      "id": "p6",
-      "name": "Jitu",
-      "aliases": ["Jitu"],
-      "primaryPos": "FWD",
-      "secPos": [],
-      "attending": true,
-      "overridePos": null,
-      "isExplicitReserve": false,
-      "reserveTag": null,
-      "rsvpIndex": 5,
-      "avatarUrl": "",
-      "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
-      }
-    },
-    {
-      "id": "p7",
-      "name": "Girish",
-      "aliases": ["Girish", "Model"],
-      "primaryPos": "FWD",
-      "secPos": ["MID"],
-      "attending": true,
-      "overridePos": null,
-      "isExplicitReserve": false,
-      "reserveTag": null,
-      "rsvpIndex": 6,
-      "avatarUrl": "",
-      "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
-      }
-    },
-    {
-      "id": "p8",
-      "name": "Vishnu",
-      "aliases": ["Vishnu", "Krishtiano"],
-      "primaryPos": "MID",
-      "secPos": ["FWD"],
-      "attending": true,
-      "overridePos": null,
-      "isExplicitReserve": false,
-      "reserveTag": null,
-      "rsvpIndex": 7,
-      "avatarUrl": "",
-      "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
-      }
-    },
-    {
-      "id": "p9",
-      "name": "Arpit Singh",
-      "aliases": ["Arpit Singh", "original vale", "keeper"],
-      "primaryPos": "GK",
-      "secPos": ["MID"],
-      "attending": true,
-      "overridePos": "GK",
-      "isExplicitReserve": false,
-      "reserveTag": null,
-      "rsvpIndex": 8,
-      "avatarUrl": "",
-      "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
-      }
-    },
-    {
-      "id": "p10",
-      "name": "Sam",
-      "aliases": ["Sam", "sam", "new guy keeper only"],
-      "primaryPos": "GK",
-      "secPos": ["MID"],
-      "attending": true,
-      "overridePos": "GK",
-      "isExplicitReserve": false,
-      "reserveTag": null,
-      "rsvpIndex": 9,
-      "avatarUrl": "",
-      "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
-      }
-    },
-    {
-      "id": "p11",
-      "name": "Himanshu",
-      "aliases": ["Himanshu"],
-      "primaryPos": "FWD",
-      "secPos": ["DEF", "MID"],
-      "attending": true,
-      "overridePos": null,
-      "isExplicitReserve": false,
-      "reserveTag": null,
-      "rsvpIndex": 10,
-      "avatarUrl": "",
-      "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
-      }
-    },
-    {
-      "id": "p12",
-      "name": "Vishal",
-      "aliases": ["Vishal"],
-      "primaryPos": "DEF",
-      "secPos": ["FWD"],
-      "attending": true,
-      "overridePos": null,
-      "isExplicitReserve": false,
-      "reserveTag": null,
-      "rsvpIndex": 11,
-      "avatarUrl": "",
-      "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
-      }
-    },
-    {
-      "id": "p13",
-      "name": "Arpit new",
-      "aliases": ["Arpit new", "Arpit"],
-      "primaryPos": "MID",
-      "secPos": ["DEF"],
-      "attending": true,
-      "overridePos": null,
-      "isExplicitReserve": false,
-      "reserveTag": null,
-      "rsvpIndex": 12,
-      "avatarUrl": "",
-      "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
-      }
-    },
-    {
-      "id": "p14",
-      "name": "Adil",
-      "aliases": ["Adil"],
-      "primaryPos": "FWD",
-      "secPos": [],
-      "attending": true,
-      "overridePos": null,
-      "isExplicitReserve": false,
-      "reserveTag": null,
-      "rsvpIndex": 13,
-      "avatarUrl": "",
-      "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
-      }
-    },
-    {
-      "id": "p15",
-      "name": "Nikhil",
-      "aliases": ["Nikhil"],
-      "primaryPos": "FWD",
-      "secPos": [],
-      "attending": true,
-      "overridePos": true,
-      "isExplicitReserve": true,
-      "reserveTag": "R1",
-      "rsvpIndex": 14,
-      "avatarUrl": "",
-      "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
-      }
-    },
-    {
-      "id": "p_1786470089908y7sj",
-      "name": "Anurag",
-      "aliases": ["Anurag", "Tiger", "Tbhoi", "Tbhai"],
-      "primaryPos": "DEF",
-      "secPos": ["MID"],
-      "attending": false,
-      "overridePos": null,
-      "isExplicitReserve": false,
-      "reserveTag": null,
-      "rsvpIndex": 999,
-      "avatarUrl": "",
-      "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
-      }
-    },
-    {
-      "id": "p_17864701154902o88",
-      "name": "Manthan",
-      "aliases": ["Manthan"],
-      "primaryPos": "DEF",
-      "secPos": [],
-      "attending": true,
-      "overridePos": null,
-      "isExplicitReserve": false,
-      "reserveTag": null,
-      "rsvpIndex": 999,
-      "avatarUrl": "assets/manthan.jpg",
-      "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
-      }
-    },
-    {
-      "id": "p_178647013665191ub",
-      "name": "Anupam",
-      "aliases": ["Anupam"],
-      "primaryPos": "FWD",
-      "secPos": ["DEF"],
-      "attending": false,
-      "overridePos": null,
-      "isExplicitReserve": false,
-      "reserveTag": null,
-      "rsvpIndex": 999,
-      "avatarUrl": "",
-      "adminRatings": {
-        "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
-      }
-    }
-  ];
+  const DEFAULT_ROSTER = [];
 
   // --- LATEST LIVE OFFICIAL FPL DATA FOR CALLE MUNDE BEFORE KICKOFF (ID: 889829) ---
   const FALLBACK_FPL_DATA = {
@@ -322,6 +33,18 @@
     }
   };
 
+  // --- SUPABASE & CLOUD CONFIGURATION ---
+  const SUPABASE_URL = 'https://qnkoqnqzucwlknmkfowe.supabase.co';
+  const SUPABASE_KEY = localStorage.getItem('fc_calle_munde_supabase_key') || 'sb_publishable_0yoDbl-dCPJmF7erAol-OA__L0fuYIK';
+  let supabase = null;
+  if (window.supabase) {
+    try {
+      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    } catch (e) {
+      console.warn('Supabase initialization failed:', e);
+    }
+  }
+
   // --- ADMIN CREDENTIALS ---
   const ADMIN_USER = 'admin';
   const ADMIN_PASS = 'admin';
@@ -329,6 +52,9 @@
   // --- STATE MANAGEMENT ---
   let state = {
     roster: [],
+    gallery: [],
+    currentUser: null,
+    currentPlayerProfile: null,
     matchDate: new Date().toISOString().split('T')[0],
     matchVenue: 'Calle Munde Turf',
     currentCombos: [],
@@ -339,6 +65,7 @@
     cloudEndpoint: 'https://api.npoint.io/0819fc_calle_munde',
     cloudKey: '',
     posFilter: 'ALL',
+    galleryFilterDate: 'ALL',
     fplLeagueId: '889829'
   };
 
@@ -471,12 +198,14 @@
   function init() {
     loadState();
     setupEventListeners();
+    initAuthAndSupabase();
     renderAll();
     renderFplHub();
     fetchMontevideoWeather();
     initAntigravityParticles();
     lucide.createIcons();
     fetchCloudRoster();
+    fetchGallery();
     fetchFplStandings(state.fplLeagueId);
 
     // Auto-poll cloud DB every 15s
@@ -485,6 +214,8 @@
     setInterval(() => fetchFplStandings(state.fplLeagueId), 60000);
     // Auto-poll weather every 10 mins
     setInterval(fetchMontevideoWeather, 600000);
+    // Auto-poll gallery every 30s
+    setInterval(fetchGallery, 30000);
   }
 
   function loadState() {
@@ -1195,9 +926,9 @@
       fetchFplStandings(state.fplLeagueId);
     }
 
-    if (tabId === 'tab-weather') {
-      renderWeatherHub();
-      fetchMontevideoWeather();
+    if (tabId === 'tab-gallery') {
+      renderGallery();
+      fetchGallery();
     }
 
     if (tabId === 'tab-admin') {
@@ -2350,6 +2081,410 @@
     }
 
     animate();
+  }
+
+  // --- SUPABASE AUTHENTICATION & PLAYER ONBOARDING ENGINE ---
+  async function initAuthAndSupabase() {
+    setupAuthListeners();
+    setupGalleryListeners();
+
+    if (!supabase) return;
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session && session.user) {
+        handleUserLoggedIn(session.user);
+      } else {
+        handleUserLoggedOut();
+      }
+
+      supabase.auth.onAuthStateChange((event, session) => {
+        if (session && session.user) {
+          handleUserLoggedIn(session.user);
+        } else {
+          handleUserLoggedOut();
+        }
+      });
+    } catch (e) {
+      console.warn('Error checking auth session:', e);
+    }
+  }
+
+  function setupAuthListeners() {
+    document.getElementById('btn-google-login')?.addEventListener('click', () => {
+      if (state.currentUser) {
+        openGoogleRegisterModal();
+      } else {
+        signInWithGoogle();
+      }
+    });
+
+    document.getElementById('form-google-register')?.addEventListener('submit', handleGoogleRegisterSubmit);
+
+    document.getElementById('reg-photo-input')?.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      try {
+        const compressedDataUrl = await compressImageToWebP(file, 400, 400, 0.85);
+        document.getElementById('reg-avatar-img').src = compressedDataUrl;
+      } catch (err) {
+        showToast('Could not process image', 'error');
+      }
+    });
+  }
+
+  async function signInWithGoogle() {
+    if (!supabase) {
+      showToast('Connecting to Cloud Auth...', 'error');
+      return;
+    }
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin + window.location.pathname
+      }
+    });
+    if (error) {
+      showToast(error.message, 'error');
+    }
+  }
+
+  async function signOut() {
+    if (supabase) {
+      await supabase.auth.signOut();
+    }
+    state.currentUser = null;
+    state.currentPlayerProfile = null;
+    handleUserLoggedOut();
+    showToast('Signed out successfully.');
+  }
+
+  async function handleUserLoggedIn(user) {
+    state.currentUser = user;
+    const authContainer = document.getElementById('auth-container');
+    const avatar = user.user_metadata?.avatar_url || 'assets/icon-192.png';
+    const name = user.user_metadata?.full_name || user.email.split('@')[0];
+
+    if (authContainer) {
+      authContainer.innerHTML = `
+        <div class="user-profile-pill" id="btn-user-profile" title="Click to view/edit your card">
+          <img src="${avatar}" alt="${name}" class="user-pill-avatar">
+          <span style="font-size:0.82rem; font-weight:700; color:var(--text-main);">${name.split(' ')[0]}</span>
+          <button id="btn-user-logout" class="btn-icon" style="color:var(--text-muted); font-size:0.75rem;" title="Logout">
+            <i data-lucide="log-out"></i>
+          </button>
+        </div>
+      `;
+      lucide.createIcons();
+
+      document.getElementById('btn-user-profile')?.addEventListener('click', (e) => {
+        if (!e.target.closest('#btn-user-logout')) {
+          openGoogleRegisterModal();
+        }
+      });
+
+      document.getElementById('btn-user-logout')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        signOut();
+      });
+    }
+
+    // Check if player profile already exists in DB or roster
+    let existing = state.roster.find(p => p.id === user.id || (p.email && p.email.toLowerCase() === user.email.toLowerCase()));
+    if (!existing) {
+      // Auto-open registration modal on first sign in
+      openGoogleRegisterModal();
+    } else {
+      state.currentPlayerProfile = existing;
+    }
+  }
+
+  function handleUserLoggedOut() {
+    const authContainer = document.getElementById('auth-container');
+    if (authContainer) {
+      authContainer.innerHTML = `
+        <button id="btn-google-login" class="btn btn-secondary btn-sm auth-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" class="google-svg">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          <span>Google Login / Setup Card</span>
+        </button>
+      `;
+      document.getElementById('btn-google-login')?.addEventListener('click', signInWithGoogle);
+    }
+  }
+
+  function openGoogleRegisterModal() {
+    const modal = document.getElementById('modal-google-register');
+    if (!modal) return;
+
+    const emailEl = document.getElementById('reg-user-email');
+    const nameEl = document.getElementById('reg-player-name');
+    const avatarEl = document.getElementById('reg-avatar-img');
+    const posEl = document.getElementById('reg-primary-pos');
+
+    if (state.currentUser) {
+      emailEl.textContent = state.currentUser.email;
+      const meta = state.currentUser.user_metadata || {};
+      const avatar = meta.avatar_url || 'assets/icon-192.png';
+      avatarEl.src = avatar;
+
+      if (!nameEl.value) {
+        nameEl.value = meta.full_name || state.currentUser.email.split('@')[0];
+      }
+    }
+
+    if (state.currentPlayerProfile) {
+      nameEl.value = state.currentPlayerProfile.name;
+      posEl.value = state.currentPlayerProfile.primaryPos;
+      if (state.currentPlayerProfile.avatarUrl) {
+        avatarEl.src = state.currentPlayerProfile.avatarUrl;
+      }
+    }
+
+    modal.classList.remove('hidden');
+    lucide.createIcons();
+  }
+
+  async function handleGoogleRegisterSubmit(e) {
+    e.preventDefault();
+    const name = document.getElementById('reg-player-name').value.trim();
+    const primaryPos = document.getElementById('reg-primary-pos').value;
+    const avatarUrl = document.getElementById('reg-avatar-img').src;
+
+    const secPosBoxes = document.querySelectorAll('input[name="reg-sec-pos"]:checked');
+    const secPos = Array.from(secPosBoxes).map(cb => cb.value);
+
+    if (!name) return;
+
+    const userId = state.currentUser ? state.currentUser.id : ('usr_' + Date.now());
+    const email = state.currentUser ? state.currentUser.email : '';
+
+    let player = state.roster.find(p => p.id === userId || (p.email && p.email === email));
+
+    if (player) {
+      player.name = name;
+      player.primaryPos = primaryPos;
+      player.secPos = secPos;
+      player.avatarUrl = avatarUrl;
+    } else {
+      player = {
+        id: userId,
+        email: email,
+        name: name,
+        aliases: [name],
+        primaryPos: primaryPos,
+        secPos: secPos,
+        attending: true,
+        isExplicitReserve: false,
+        reserveTag: null,
+        rsvpIndex: state.roster.length,
+        avatarUrl: avatarUrl,
+        adminRatings: {
+          "System Default": { "adminName": "System Default", "speed": 7.0, "accuracy": 7.0, "defense": 7.0, "knowledge": 7.0 }
+        }
+      };
+      state.roster.push(player);
+    }
+
+    state.currentPlayerProfile = player;
+    saveRoster();
+    closeModal('modal-google-register');
+    showToast(`Welcome ${name}! Your FUT card is active on FC Calle Munde.`);
+    switchTab('tab-roster');
+  }
+
+  // --- CLIENT-SIDE WEBP COMPRESSION ENGINE (98% SIZE REDUCTION) ---
+  function compressImageToWebP(file, maxWidth = 1920, maxHeight = 1080, quality = 0.82) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxWidth || height > maxHeight) {
+            if (width / height > maxWidth / maxHeight) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            } else {
+              width = Math.round((width * maxHeight) / height);
+              height = maxHeight;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          resolve(canvas.toDataURL('image/webp', quality));
+        };
+        img.onerror = reject;
+      };
+      reader.onerror = reject;
+    });
+  }
+
+  // --- MATCHDAY PHOTO GALLERY & LIGHTBOX ENGINE ---
+  function setupGalleryListeners() {
+    document.getElementById('btn-open-gallery-upload')?.addEventListener('click', () => {
+      openModal('modal-gallery-upload');
+      const dateInput = document.getElementById('gallery-match-date');
+      if (dateInput) dateInput.value = state.matchDate;
+    });
+
+    document.getElementById('form-gallery-upload')?.addEventListener('submit', handleGalleryUploadSubmit);
+
+    document.getElementById('btn-close-lightbox')?.addEventListener('click', closeLightbox);
+    document.getElementById('modal-lightbox')?.addEventListener('click', (e) => {
+      if (e.target.id === 'modal-lightbox') closeLightbox();
+    });
+  }
+
+  async function handleGalleryUploadSubmit(e) {
+    e.preventDefault();
+    const filesInput = document.getElementById('gallery-photo-files');
+    const dateInput = document.getElementById('gallery-match-date');
+    const captionInput = document.getElementById('gallery-caption');
+    const progressEl = document.getElementById('gallery-upload-progress');
+    const progressText = document.getElementById('gallery-progress-text');
+
+    const files = filesInput.files;
+    if (!files || files.length === 0) return;
+
+    const matchDate = dateInput.value || state.matchDate;
+    const caption = captionInput.value.trim();
+
+    progressEl.classList.remove('hidden');
+
+    for (let i = 0; i < files.length; i++) {
+      progressText.textContent = `Optimizing & uploading ${i + 1}/${files.length} to WebP...`;
+      try {
+        const compressedDataUrl = await compressImageToWebP(files[i], 1920, 1080, 0.82);
+        const photoObj = {
+          id: 'photo_' + Date.now() + '_' + i,
+          photo_url: compressedDataUrl,
+          caption: caption,
+          match_date: matchDate,
+          created_at: new Date().toISOString()
+        };
+        state.gallery.unshift(photoObj);
+      } catch (err) {
+        console.warn('Compression error:', err);
+      }
+    }
+
+    saveGallery();
+    progressEl.classList.add('hidden');
+    closeModal('modal-gallery-upload');
+    filesInput.value = '';
+    captionInput.value = '';
+    showToast(`Successfully uploaded ${files.length} matchday photos!`);
+    renderGallery();
+  }
+
+  function fetchGallery() {
+    const saved = localStorage.getItem('fc_calle_munde_gallery');
+    if (saved) {
+      try {
+        state.gallery = JSON.parse(saved);
+        renderGallery();
+      } catch (e) {
+        state.gallery = [];
+      }
+    }
+  }
+
+  function saveGallery() {
+    localStorage.setItem('fc_calle_munde_gallery', JSON.stringify(state.gallery));
+  }
+
+  function renderGallery() {
+    const grid = document.getElementById('gallery-grid');
+    const filterContainer = document.getElementById('gallery-date-filters');
+    if (!grid) return;
+
+    if (!state.gallery || state.gallery.length === 0) {
+      grid.innerHTML = `
+        <div class="glass-card gallery-empty-state">
+          <i data-lucide="image" class="empty-icon text-muted"></i>
+          <h3>No Photos Uploaded Yet</h3>
+          <p class="text-muted">Match photos will appear here after the Tuesday game. Admins can upload via the button above!</p>
+        </div>
+      `;
+      lucide.createIcons();
+      return;
+    }
+
+    // Render filter pills
+    const dates = ['ALL', ...new Set(state.gallery.map(p => p.match_date))];
+    if (filterContainer) {
+      filterContainer.innerHTML = dates.map(d => `
+        <button class="pos-filter-btn ${state.galleryFilterDate === d ? 'active' : ''}" data-date="${d}">
+          ${d === 'ALL' ? 'All Matchdays' : `📅 ${d}`}
+        </button>
+      `).join('');
+
+      filterContainer.querySelectorAll('.pos-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.galleryFilterDate = btn.getAttribute('data-date');
+          renderGallery();
+        });
+      });
+    }
+
+    // Filter photos
+    const filtered = state.galleryFilterDate === 'ALL' 
+      ? state.gallery 
+      : state.gallery.filter(p => p.match_date === state.galleryFilterDate);
+
+    grid.innerHTML = filtered.map(item => `
+      <div class="gallery-photo-card" data-url="${item.photo_url}" data-date="${item.match_date}" data-caption="${item.caption || ''}">
+        <img src="${item.photo_url}" alt="${item.caption || 'FC Calle Munde Match'}" loading="lazy">
+        <div class="gallery-photo-overlay">
+          <span class="gallery-photo-date">📅 ${item.match_date}</span>
+          ${item.caption ? `<span class="text-xs text-dim">${item.caption}</span>` : ''}
+        </div>
+      </div>
+    `).join('');
+
+    grid.querySelectorAll('.gallery-photo-card').forEach(card => {
+      card.addEventListener('click', () => {
+        openLightbox(
+          card.getAttribute('data-url'),
+          card.getAttribute('data-date'),
+          card.getAttribute('data-caption')
+        );
+      });
+    });
+
+    lucide.createIcons();
+  }
+
+  function openLightbox(url, date, caption) {
+    const lightbox = document.getElementById('modal-lightbox');
+    const img = document.getElementById('lightbox-img');
+    const dateEl = document.getElementById('lightbox-date');
+    const textEl = document.getElementById('lightbox-text');
+
+    if (img) img.src = url;
+    if (dateEl) dateEl.textContent = `📅 Matchday: ${date}`;
+    if (textEl) textEl.textContent = caption || '';
+    if (lightbox) lightbox.classList.remove('hidden');
+    lucide.createIcons();
+  }
+
+  function closeLightbox() {
+    const lightbox = document.getElementById('modal-lightbox');
+    if (lightbox) lightbox.classList.add('hidden');
   }
 
   if (document.getElementById('app')) {

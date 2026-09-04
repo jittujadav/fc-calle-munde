@@ -14,11 +14,14 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   
+  <!-- Supabase Client SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#10b981">
   <link rel="apple-touch-icon" href="assets/icon-192.png">
   
-  <link rel="stylesheet" href="styles.css?v=8">
+  <link rel="stylesheet" href="styles.css?v=9">
 </head>
 <body>
   <!-- Ambient Particle Canvas from Google Antigravity design system -->
@@ -38,6 +41,19 @@
       </div>
       
       <div class="header-actions">
+        <!-- Google Authentication Button / User Profile Pill -->
+        <div id="auth-container">
+          <button id="btn-google-login" class="btn btn-secondary btn-sm auth-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" class="google-svg">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            <span>Google Login / Setup Card</span>
+          </button>
+        </div>
+
         <button id="btn-quick-rsvp" class="btn btn-primary btn-sm">
           <i data-lucide="clipboard-paste"></i>
           <span>Paste WhatsApp RSVP</span>
@@ -58,6 +74,10 @@
       <button class="nav-tab" data-tab="tab-roster">
         <i data-lucide="users"></i>
         <span>Players (<span id="count-total-players">0</span>)</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-gallery">
+        <i data-lucide="camera"></i>
+        <span>Gallery</span>
       </button>
       <button class="nav-tab" data-tab="tab-admin">
         <i data-lucide="shield-alert"></i>
@@ -88,6 +108,10 @@
           <i data-lucide="users"></i>
           <span>Squad</span>
         </button>
+        <button class="dock-item" data-tab="tab-gallery">
+          <i data-lucide="camera"></i>
+          <span>Gallery</span>
+        </button>
         <button class="dock-item" data-tab="tab-admin">
           <i data-lucide="shield-alert"></i>
           <span>Admin</span>
@@ -95,10 +119,6 @@
         <button class="dock-item" data-tab="tab-instagram">
           <i data-lucide="instagram"></i>
           <span>Media</span>
-        </button>
-        <button class="dock-item" data-tab="tab-settings">
-          <i data-lucide="settings"></i>
-          <span>Config</span>
         </button>
       </div>
     </div>
@@ -598,16 +618,44 @@
                   </tr>
                 </thead>
                 <tbody id="admin-table-body">
-                  <!-- Injected via JS -->
-                </tbody>
-              </table>
+      <!-- TAB: MATCHDAY PHOTO GALLERY -->
+      <section id="tab-gallery" class="tab-page">
+        <div class="glass-card gallery-banner">
+          <div class="gallery-banner-info">
+            <div class="gallery-banner-icon">
+              <i data-lucide="camera" class="text-accent-cyan"></i>
             </div>
+            <div>
+              <h2>FC Calle Munde Matchday Gallery</h2>
+              <p class="text-muted">High-res match photos, goal celebrations, and squad moments in Montevideo.</p>
+            </div>
+          </div>
+          <div class="gallery-banner-actions">
+            <button id="btn-open-gallery-upload" class="btn btn-primary btn-sm">
+              <i data-lucide="upload-cloud"></i>
+              <span>Upload Photos (Admin)</span>
+            </button>
           </div>
         </div>
 
+        <!-- Matchday Filter Pills -->
+        <div class="gallery-filter-bar">
+          <div class="filter-pills-list" id="gallery-date-filters">
+            <button class="pos-filter-btn active" data-date="ALL">All Matchdays</button>
+          </div>
+        </div>
+
+        <!-- Gallery Masonry Grid -->
+        <div id="gallery-grid" class="gallery-grid">
+          <div class="glass-card gallery-empty-state">
+            <i data-lucide="image" class="empty-icon text-muted"></i>
+            <h3>No Photos Uploaded Yet</h3>
+            <p class="text-muted">Match photos will appear here after the Tuesday game. Admins can upload via the button above!</p>
+          </div>
+        </div>
       </section>
 
-      <!-- TAB 5: INSTAGRAM COMMUNITY CHANNEL -->
+      <!-- TAB 4: SQUAD ADMIN MANAGEMENT CONSOLE -->
       <section id="tab-instagram" class="tab-page">
         <div class="glass-card instagram-banner-card">
           <div class="instagram-brand-box">
@@ -864,10 +912,125 @@
       </div>
     </div>
 
+    <!-- MODAL 4: GOOGLE REGISTRATION / PLAYER ONBOARDING MODAL -->
+    <div id="modal-google-register" class="modal-overlay hidden">
+      <div class="glass-card modal-content modal-md">
+        <div class="modal-header">
+          <div class="modal-title">
+            <i data-lucide="user-check" class="text-emerald"></i>
+            <h3>Setup Your FUT Player Card</h3>
+          </div>
+          <button class="modal-close btn-icon" data-close="modal-google-register"><i data-lucide="x"></i></button>
+        </div>
+
+        <form id="form-google-register" class="modal-form">
+          <div class="user-auth-preview">
+            <div class="avatar-preview-box">
+              <img id="reg-avatar-img" src="assets/icon-192.png" alt="Player Photo" class="reg-avatar">
+              <label for="reg-photo-input" class="btn-avatar-edit" title="Upload Custom Photo">
+                <i data-lucide="camera"></i>
+                <input type="file" id="reg-photo-input" accept="image/*" class="hidden">
+              </label>
+            </div>
+            <div class="auth-info-text">
+              <span id="reg-user-email" class="text-dim text-xs">user@gmail.com</span>
+              <span class="text-muted text-xs">Signed in with Google</span>
+            </div>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="reg-player-name">Player Name / Display Name *</label>
+            <input type="text" id="reg-player-name" class="form-input" required placeholder="Your Match Name (e.g. Leo Messi)">
+          </div>
+
+          <div class="form-group">
+            <label for="reg-primary-pos">Primary Position *</label>
+            <select id="reg-primary-pos" class="form-select" required>
+              <option value="MID" selected>Midfielder ⚙️</option>
+              <option value="DEF">Defender 🛡️</option>
+              <option value="FWD">Forward ⚡</option>
+              <option value="GK">Goalkeeper 🧤</option>
+            </select>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Secondary Positions (Can also play as)</label>
+            <div class="checkbox-group">
+              <label class="checkbox-pill"><input type="checkbox" name="reg-sec-pos" value="GK"> GK 🧤</label>
+              <label class="checkbox-pill"><input type="checkbox" name="reg-sec-pos" value="DEF"> DEF 🛡️</label>
+              <label class="checkbox-pill"><input type="checkbox" name="reg-sec-pos" value="MID"> MID ⚙️</label>
+              <label class="checkbox-pill"><input type="checkbox" name="reg-sec-pos" value="FWD"> FWD ⚡</label>
+            </div>
+          </div>
+
+          <div class="form-footer full-width">
+            <button type="button" class="btn btn-ghost modal-close" data-close="modal-google-register">Cancel</button>
+            <button type="submit" id="btn-save-player-card" class="btn btn-primary">
+              <i data-lucide="check"></i> Save & Join Squad Roster
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL 5: ADMIN GALLERY PHOTO UPLOAD MODAL -->
+    <div id="modal-gallery-upload" class="modal-overlay hidden">
+      <div class="glass-card modal-content modal-md">
+        <div class="modal-header">
+          <div class="modal-title">
+            <i data-lucide="camera" class="text-accent-cyan"></i>
+            <h3>Upload Matchday Photos</h3>
+          </div>
+          <button class="modal-close btn-icon" data-close="modal-gallery-upload"><i data-lucide="x"></i></button>
+        </div>
+
+        <form id="form-gallery-upload" class="modal-form">
+          <div class="form-group full-width">
+            <label for="gallery-photo-files">Select Photos (Multi-Upload supported)</label>
+            <input type="file" id="gallery-photo-files" accept="image/*" multiple class="form-input" required>
+            <span class="text-dim text-xs">Auto-compressed to WebP before upload to save space.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="gallery-match-date">Match Date</label>
+            <input type="date" id="gallery-match-date" class="form-input">
+          </div>
+
+          <div class="form-group full-width">
+            <label for="gallery-caption">Caption / Highlights Tag</label>
+            <input type="text" id="gallery-caption" class="form-input" placeholder="e.g. Tuesday Night 7v7 Thriller!">
+          </div>
+
+          <div id="gallery-upload-progress" class="form-group full-width hidden">
+            <span class="text-emerald text-xs font-weight-bold" id="gallery-progress-text">Compressing and uploading...</span>
+          </div>
+
+          <div class="form-footer full-width">
+            <button type="button" class="btn btn-ghost modal-close" data-close="modal-gallery-upload">Cancel</button>
+            <button type="submit" id="btn-submit-gallery-upload" class="btn btn-primary">
+              <i data-lucide="upload-cloud"></i> Upload to Gallery
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- LIGHTBOX MODAL FOR FULLSCREEN PHOTO VIEW -->
+    <div id="modal-lightbox" class="lightbox-overlay hidden">
+      <button class="lightbox-close" id="btn-close-lightbox"><i data-lucide="x"></i></button>
+      <div class="lightbox-content">
+        <img id="lightbox-img" src="" alt="Enlarged Match Photo">
+        <div class="lightbox-caption">
+          <span id="lightbox-date" class="text-accent-gold"></span>
+          <p id="lightbox-text"></p>
+        </div>
+      </div>
+    </div>
+
     <!-- TOAST NOTIFICATION CONTAINER -->
     <div id="toast-container" class="toast-container"></div>
   </div>
 
-  <script src="app.js?v=8"></script>
+  <script src="app.js?v=9"></script>
 </body>
 </html>
